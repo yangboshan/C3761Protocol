@@ -16,9 +16,6 @@
 #include "XLUtility.h"
 
 
-
-FRAME *_frame;
-
 void RecursiveParse();
 
 void F49();
