@@ -40,26 +40,26 @@ enum typelist {
     A26,
     A27,
     A28,
-    BIN1,
-    BIN2,
-    BIN3,
-    BIN4,
+    BIN1_29,
+    BIN2_30,
+    BIN3_31,
+    BIN4_32,
 }DATATYPE;
 
 //终端日统计数据
 const int terminal_day_sta[] =
 {
     A20,
-    BIN2,
-    BIN2
+    BIN2_30,
+    BIN2_30
 };
 
 //终端日统计数据
 const int terminal_month_sta[] =
 {
     A21,
-    BIN2,
-    BIN2
+    BIN2_30,
+    BIN2_30
 };
 
 

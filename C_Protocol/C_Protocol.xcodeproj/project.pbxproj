@@ -29,6 +29,7 @@
 		C9B38F791884EB06001BC9AB /* XLUtility.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38F781884EB06001BC9AB /* XLUtility.c */; };
 		C9B38F7A1884EB06001BC9AB /* XLUtility.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38F781884EB06001BC9AB /* XLUtility.c */; };
 		C9B38F7D18850606001BC9AB /* XLCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38F7C18850606001BC9AB /* XLCommon.c */; };
+		C9B38FAD1885123D001BC9AB /* XL3761AFNE.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38FAC1885123D001BC9AB /* XL3761AFNE.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,8 @@
 		C9B38F781884EB06001BC9AB /* XLUtility.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XLUtility.c; sourceTree = "<group>"; };
 		C9B38F7B18850586001BC9AB /* XLCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLCommon.h; sourceTree = "<group>"; };
 		C9B38F7C18850606001BC9AB /* XLCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XLCommon.c; sourceTree = "<group>"; };
+		C9B38FAB18851221001BC9AB /* XL3761AFNE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XL3761AFNE.h; sourceTree = "<group>"; };
+		C9B38FAC1885123D001BC9AB /* XL3761AFNE.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XL3761AFNE.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,14 +138,14 @@
 			isa = PBXGroup;
 			children = (
 				C999CF7C187A9B9B00AD65D5 /* Protocol */,
-				C999CF56187A9B7B00AD65D5 /* XLAppDelegate.h */,
-				C999CF57187A9B7B00AD65D5 /* XLAppDelegate.m */,
-				C999CF59187A9B7B00AD65D5 /* Main.storyboard */,
 				C9B38F6F1884BF92001BC9AB /* XLParser.h */,
 				C9B38F701884BF92001BC9AB /* XLParser.m */,
 				C999CF5C187A9B7B00AD65D5 /* XLViewController.h */,
 				C999CF5D187A9B7B00AD65D5 /* XLViewController.m */,
 				C999CF5F187A9B7B00AD65D5 /* Images.xcassets */,
+				C999CF59187A9B7B00AD65D5 /* Main.storyboard */,
+				C999CF56187A9B7B00AD65D5 /* XLAppDelegate.h */,
+				C999CF57187A9B7B00AD65D5 /* XLAppDelegate.m */,
 				C999CF4E187A9B7B00AD65D5 /* Supporting Files */,
 			);
 			path = C_Protocol;
@@ -185,6 +188,7 @@
 				C9B38F7C18850606001BC9AB /* XLCommon.c */,
 				C999CF80187A9BAB00AD65D5 /* XL3761UnPack.c */,
 				C999CF82187A9BAB00AD65D5 /* XL3761AFND.c */,
+				C9B38FAC1885123D001BC9AB /* XL3761AFNE.c */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -200,6 +204,7 @@
 				C999D02B187BB66600AD65D5 /* XLFrame.h */,
 				C999CF7F187A9BAB00AD65D5 /* XL3761UnPack.h */,
 				C999CF81187A9BAB00AD65D5 /* XL3761AFND.h */,
+				C9B38FAB18851221001BC9AB /* XL3761AFNE.h */,
 			);
 			name = Head;
 			sourceTree = "<group>";
@@ -305,6 +310,7 @@
 				C9B38F7D18850606001BC9AB /* XLCommon.c in Sources */,
 				C999CF87187A9BAB00AD65D5 /* XL3761AFND.c in Sources */,
 				C9B38F711884BF92001BC9AB /* XLParser.m in Sources */,
+				C9B38FAD1885123D001BC9AB /* XL3761AFNE.c in Sources */,
 				C9B38F791884EB06001BC9AB /* XLUtility.c in Sources */,
 				C999CF58187A9B7B00AD65D5 /* XLAppDelegate.m in Sources */,
 				C999CF54187A9B7B00AD65D5 /* main.m in Sources */,

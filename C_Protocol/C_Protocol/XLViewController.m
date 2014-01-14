@@ -12,14 +12,23 @@
 
 @interface XLViewController ()
 
+@property (nonatomic,strong) NSMutableData *recvdata;
+
 @end
 
 @implementation XLViewController
+
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    self.recvdata = [NSMutableData data];
+    [self didReceiveBytes];
+
+}
+
+-(void)didReceiveBytes{
     //测试报文 AFND F49
     Byte revbytes[] = {0x68,0x56,0x00,0x56,0x00,0x68,
         0xA8,
@@ -42,17 +51,13 @@
     Byte *outbuff = NULL;
     int  multiFrameFlag = 0;    //多帧标志
     
-    NSMutableData *recvdata = [NSMutableData data];
-    
     if(UnPackFrame(&type,inlen, revbytes, &outlen, &outbuff,&multiFrameFlag)){
         
-        recvdata = [NSMutableData dataWithBytes: outbuff length: outlen];
-
+        [self.recvdata appendBytes:outbuff length:outlen];
+        
         if (!multiFrameFlag) {
             XLParser *parser = [[XLParser alloc] init];
-            [parser initWithNSData:recvdata];
-        } else {
-            [recvdata appendBytes:outbuff length:outlen];
+            [parser initWithNSData:self.recvdata];
         }
     }
 }

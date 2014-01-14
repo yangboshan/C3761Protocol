@@ -10,6 +10,9 @@
 #import "XLDataTypeDic.h"
 
 
+@interface XLParser()
+
+@end
 
 
 @implementation XLParser
@@ -19,6 +22,12 @@ NSInteger len;
 NSInteger _offset;
 NSInteger begin;
 NSInteger end;
+
+NSInteger _type;
+NSInteger _identifier;
+
+
+NSMutableDictionary *_subdic;
 
 -(void)initWithNSData:(NSData*)data{
     
@@ -42,6 +51,8 @@ NSInteger end;
         NSString *key = [NSString stringWithFormat:@"%@%@",pStr,fStr];
         [dic setObject:subdic forKey:key];
         
+        _subdic = subdic;
+        
         NSInteger sublen = *(unsigned short*)(bytes + _offset);_offset += 2;
         begin = _offset;
         
@@ -52,9 +63,9 @@ NSInteger end;
             end = _offset;
         }
     }
-    
     NSLog(@"字典完成");
 }
+
 
 -(void)setKeyForDic:(NSInteger)type :(NSInteger)identifer : (NSMutableDictionary*)subdic{
     
@@ -70,23 +81,34 @@ NSInteger end;
             break;
     }
     
-    switch (dtype) {
-        case A20:{
-            NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
-            NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
-            NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
-            NSString *tdd = [NSString stringWithFormat:@"%@年%@月%@日",year,month,day];
-            
-            [subdic setObject:tdd forKey:[NSString stringWithFormat:@"%d",identifer]];
-        }
-            break;
-        case BIN2:{
-            NSInteger ivalue = *(unsigned short*)(bytes + _offset);  _offset+=2;
-            [subdic setObject:[NSNumber numberWithInteger:ivalue] forKey:[NSString stringWithFormat:@"%d",identifer]];
-        }
-            break;
-        default:
-            break;
-    }
+    _type = type;
+    _identifier = identifer;
+    
+    NSString *method = [NSString stringWithFormat:@"parse%d",dtype];
+    SEL selecter = NSSelectorFromString(method);
+    
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored  "-Warc-performSelector-leaks"
+    [self performSelector:selecter withObject:nil];
+#pragma clang diagnostic pop
 }
+
+-(void)parse19{
+    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+    NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+    NSString *tdd = [NSString stringWithFormat:@"%@年%@月%@日",year,month,day];
+    
+    [_subdic setObject:tdd
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+}
+
+
+-(void)parse29{
+    NSInteger ivalue = *(unsigned short*)(bytes + _offset);  _offset+=2;
+    
+    [_subdic setObject:[NSNumber numberWithInteger:ivalue]
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+}
+
 @end
