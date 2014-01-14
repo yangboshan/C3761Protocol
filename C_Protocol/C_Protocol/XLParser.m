@@ -49,6 +49,7 @@ NSMutableDictionary *_subdic;
         NSString *pStr = [NSString stringWithFormat:@"P%d",bytes[_offset++]];
         NSString *fStr = [NSString stringWithFormat:@"F%d",bytes[_offset++]];
         NSString *key = [NSString stringWithFormat:@"%@%@",pStr,fStr];
+        _type = bytes[_offset];_offset++;
         [dic setObject:subdic forKey:key];
         
         _subdic = subdic;
@@ -57,9 +58,9 @@ NSMutableDictionary *_subdic;
         begin = _offset;
         
         while (sublen>(end - begin)) {
-            NSInteger type = bytes[_offset];_offset++;
-            NSInteger identifer = *(unsigned short*)(bytes + _offset);_offset += 2;
-            [self setKeyForDic:type :identifer :subdic];
+//            NSInteger type = bytes[_offset];_offset++;
+            _identifier = *(unsigned short*)(bytes + _offset);_offset += 2;
+            [self setKeyForDic];
             end = _offset;
         }
     }
@@ -67,22 +68,19 @@ NSMutableDictionary *_subdic;
 }
 
 
--(void)setKeyForDic:(NSInteger)type :(NSInteger)identifer : (NSMutableDictionary*)subdic{
+-(void)setKeyForDic{
     
     NSInteger dtype=0;
     
-    switch (type) {
+    switch (_type) {
         case 0:{
-            dtype = terminal_day_sta[identifer];
+            dtype = terminal_day_sta[_identifier];
         }
             break;
             
         default:
             break;
     }
-    
-    _type = type;
-    _identifier = identifer;
     
     NSString *method = [NSString stringWithFormat:@"parse%d",dtype + 1];
     SEL selecter = NSSelectorFromString(method);

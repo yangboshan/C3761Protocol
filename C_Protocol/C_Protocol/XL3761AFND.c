@@ -36,8 +36,8 @@ void initUserDataForAfnd(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** ou
     
     userdata = _frame->frameData;
     
-    buff = malloc(_frame->userlen*4 + 40);
-    memset(buff,0,_frame->userlen*4 + 40);
+    buff = malloc(_frame->userlen*3 + 50);
+    memset(buff,0,_frame->userlen*3 + 50);
     *_outbuf = buff;
 
     RecursiveParse();
@@ -89,6 +89,8 @@ void F49(){
     printf("执行F49\n");
     
     //两个字节长度
+    buff[outoffset] = terminal_day_sta; outoffset++;
+    
     outoffset+=2;
     
     XL_UINT16 begin;
@@ -96,7 +98,7 @@ void F49(){
     
     begin = outoffset;
     
-    buff[outoffset] = terminal_day_sta; outoffset++;
+//    buff[outoffset] = terminal_day_sta; outoffset++;
     
     XL_UINT16 identifier;
     identifier = hdDataTime;
@@ -107,13 +109,13 @@ void F49(){
     buff[outoffset] = (*(Byte*)(userdata + offset)>>4 &0x0f) * 10 + (*(Byte*)(userdata + offset)&0x0f);offset++;outoffset++;
     buff[outoffset] = (*(Byte*)(userdata + offset)>>4 &0x0f) * 10 + (*(Byte*)(userdata + offset)&0x0f);offset++;outoffset++;
 
-    buff[outoffset] = terminal_day_sta; outoffset++;
+//    buff[outoffset] = terminal_day_sta; outoffset++;
     identifier = hdPowerOnAccTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     memcpy(buff + outoffset, (XL_UINT16*)(userdata + offset), 2);offset += 2;outoffset+=2;
     
     
-    buff[outoffset] = terminal_day_sta; outoffset++;
+//    buff[outoffset] = terminal_day_sta; outoffset++;
     identifier = hdResetAccCnt;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     memcpy(buff + outoffset, (XL_UINT16*)(userdata + offset), 2);offset += 2;outoffset+=2;

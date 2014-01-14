@@ -30,6 +30,7 @@
 		C9B38F7A1884EB06001BC9AB /* XLUtility.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38F781884EB06001BC9AB /* XLUtility.c */; };
 		C9B38F7D18850606001BC9AB /* XLCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38F7C18850606001BC9AB /* XLCommon.c */; };
 		C9B38FAD1885123D001BC9AB /* XL3761AFNE.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38FAC1885123D001BC9AB /* XL3761AFNE.c */; };
+		C9B38FB218851F27001BC9AB /* XL3761PackFrame.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38FB118851F27001BC9AB /* XL3761PackFrame.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,8 @@
 		C9B38F7C18850606001BC9AB /* XLCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XLCommon.c; sourceTree = "<group>"; };
 		C9B38FAB18851221001BC9AB /* XL3761AFNE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XL3761AFNE.h; sourceTree = "<group>"; };
 		C9B38FAC1885123D001BC9AB /* XL3761AFNE.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XL3761AFNE.c; sourceTree = "<group>"; };
+		C9B38FB018851F15001BC9AB /* XL3761PackFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XL3761PackFrame.h; sourceTree = "<group>"; };
+		C9B38FB118851F27001BC9AB /* XL3761PackFrame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XL3761PackFrame.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +192,7 @@
 				C999CF80187A9BAB00AD65D5 /* XL3761UnPack.c */,
 				C999CF82187A9BAB00AD65D5 /* XL3761AFND.c */,
 				C9B38FAC1885123D001BC9AB /* XL3761AFNE.c */,
+				C9B38FB118851F27001BC9AB /* XL3761PackFrame.c */,
 			);
 			name = Protocol;
 			sourceTree = "<group>";
@@ -205,6 +209,7 @@
 				C999CF7F187A9BAB00AD65D5 /* XL3761UnPack.h */,
 				C999CF81187A9BAB00AD65D5 /* XL3761AFND.h */,
 				C9B38FAB18851221001BC9AB /* XL3761AFNE.h */,
+				C9B38FB018851F15001BC9AB /* XL3761PackFrame.h */,
 			);
 			name = Head;
 			sourceTree = "<group>";
@@ -316,6 +321,7 @@
 				C999CF54187A9B7B00AD65D5 /* main.m in Sources */,
 				C999CF5E187A9B7B00AD65D5 /* XLViewController.m in Sources */,
 				C999CF85187A9BAB00AD65D5 /* XL3761UnPack.c in Sources */,
+				C9B38FB218851F27001BC9AB /* XL3761PackFrame.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
