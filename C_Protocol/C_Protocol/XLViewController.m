@@ -7,10 +7,6 @@
 //
 #import "XLViewController.h"
 #import "XL3761UnPack.h"
-
-
-#import "XLStructList.h"
-#import "XLStructType.h"
 #import "XLParser.h"
 
 

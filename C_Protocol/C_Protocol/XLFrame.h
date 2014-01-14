@@ -8,8 +8,6 @@
 
 #ifndef C_Protocol_XLFrame_h
 #define C_Protocol_XLFrame_h
-#endif
-
 #include "XLDataType.h"
 
 #pragma pack(1)
@@ -83,3 +81,9 @@ typedef struct {
     Byte *frameData;                //用户数据
     
 }FRAME;
+
+
+
+#endif
+
+

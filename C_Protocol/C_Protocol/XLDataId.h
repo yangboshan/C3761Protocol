@@ -8,10 +8,6 @@
 
 #ifndef C_Protocol_XLDataId_h
 #define C_Protocol_XLDataId_h
-
-
-#endif
-
 //类型枚举
 enum frame_type{
     
@@ -54,5 +50,9 @@ enum terminal_month_sta {
     //终端与主站月通信流量
     hmCommFlow
 }TERMINAL_MONTH_STA;
+
+#endif
+
+
 
 

@@ -25,8 +25,10 @@
 		C999CF86187A9BAB00AD65D5 /* XL3761UnPack.c in Sources */ = {isa = PBXBuildFile; fileRef = C999CF80187A9BAB00AD65D5 /* XL3761UnPack.c */; };
 		C999CF87187A9BAB00AD65D5 /* XL3761AFND.c in Sources */ = {isa = PBXBuildFile; fileRef = C999CF82187A9BAB00AD65D5 /* XL3761AFND.c */; };
 		C999CF88187A9BAB00AD65D5 /* XL3761AFND.c in Sources */ = {isa = PBXBuildFile; fileRef = C999CF82187A9BAB00AD65D5 /* XL3761AFND.c */; };
-		C9B38F6E1883C858001BC9AB /* XLStructType.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38F6D1883C858001BC9AB /* XLStructType.c */; };
 		C9B38F711884BF92001BC9AB /* XLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C9B38F701884BF92001BC9AB /* XLParser.m */; };
+		C9B38F791884EB06001BC9AB /* XLUtility.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38F781884EB06001BC9AB /* XLUtility.c */; };
+		C9B38F7A1884EB06001BC9AB /* XLUtility.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38F781884EB06001BC9AB /* XLUtility.c */; };
+		C9B38F7D18850606001BC9AB /* XLCommon.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38F7C18850606001BC9AB /* XLCommon.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,11 +69,12 @@
 		C999D02B187BB66600AD65D5 /* XLFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLFrame.h; sourceTree = "<group>"; };
 		C999D039187D21FB00AD65D5 /* XLDataId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLDataId.h; sourceTree = "<group>"; };
 		C999D03A187D221D00AD65D5 /* XLDataTypeDic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLDataTypeDic.h; sourceTree = "<group>"; };
-		C9B38F6A1883B56B001BC9AB /* XLStructList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLStructList.h; sourceTree = "<group>"; };
-		C9B38F6C1883C80F001BC9AB /* XLStructType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLStructType.h; sourceTree = "<group>"; };
-		C9B38F6D1883C858001BC9AB /* XLStructType.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XLStructType.c; sourceTree = "<group>"; };
 		C9B38F6F1884BF92001BC9AB /* XLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLParser.h; sourceTree = "<group>"; };
 		C9B38F701884BF92001BC9AB /* XLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLParser.m; sourceTree = "<group>"; };
+		C9B38F771884EAF1001BC9AB /* XLUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLUtility.h; sourceTree = "<group>"; };
+		C9B38F781884EB06001BC9AB /* XLUtility.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XLUtility.c; sourceTree = "<group>"; };
+		C9B38F7B18850586001BC9AB /* XLCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLCommon.h; sourceTree = "<group>"; };
+		C9B38F7C18850606001BC9AB /* XLCommon.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XLCommon.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,12 +180,13 @@
 		C999CF7C187A9B9B00AD65D5 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				C9B38F6C1883C80F001BC9AB /* XLStructType.h */,
-				C9B38F6D1883C858001BC9AB /* XLStructType.c */,
-				C9B38F6A1883B56B001BC9AB /* XLStructList.h */,
+				C9B38F771884EAF1001BC9AB /* XLUtility.h */,
+				C9B38F781884EB06001BC9AB /* XLUtility.c */,
 				C999D039187D21FB00AD65D5 /* XLDataId.h */,
 				C999D03A187D221D00AD65D5 /* XLDataTypeDic.h */,
 				C999CF8B187AB77D00AD65D5 /* XLDataType.h */,
+				C9B38F7B18850586001BC9AB /* XLCommon.h */,
+				C9B38F7C18850606001BC9AB /* XLCommon.c */,
 				C999D02B187BB66600AD65D5 /* XLFrame.h */,
 				C999CF7F187A9BAB00AD65D5 /* XL3761UnPack.h */,
 				C999CF80187A9BAB00AD65D5 /* XL3761UnPack.c */,
@@ -290,12 +294,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9B38F7D18850606001BC9AB /* XLCommon.c in Sources */,
 				C999CF87187A9BAB00AD65D5 /* XL3761AFND.c in Sources */,
 				C9B38F711884BF92001BC9AB /* XLParser.m in Sources */,
+				C9B38F791884EB06001BC9AB /* XLUtility.c in Sources */,
 				C999CF58187A9B7B00AD65D5 /* XLAppDelegate.m in Sources */,
 				C999CF54187A9B7B00AD65D5 /* main.m in Sources */,
 				C999CF5E187A9B7B00AD65D5 /* XLViewController.m in Sources */,
-				C9B38F6E1883C858001BC9AB /* XLStructType.c in Sources */,
 				C999CF85187A9BAB00AD65D5 /* XL3761UnPack.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -304,6 +309,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9B38F7A1884EB06001BC9AB /* XLUtility.c in Sources */,
 				C999CF86187A9BAB00AD65D5 /* XL3761UnPack.c in Sources */,
 				C999CF73187A9B7B00AD65D5 /* C_ProtocolTests.m in Sources */,
 				C999CF88187A9BAB00AD65D5 /* XL3761AFND.c in Sources */,

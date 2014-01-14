@@ -16,7 +16,7 @@
 
 Byte *bytes;
 NSInteger len;
-NSInteger offset;
+NSInteger _offset;
 NSInteger begin;
 NSInteger end;
 
@@ -31,25 +31,25 @@ NSInteger end;
         NSLog(@"%2x",bytes[i]);
     }
     
-    offset = 0;
+    _offset = 0;
     
     
-    while (offset<len) {
+    while (_offset<len) {
         NSMutableDictionary *subdic = [NSMutableDictionary dictionary];
         
-        NSString *pStr = [NSString stringWithFormat:@"P%d",bytes[offset++]];
-        NSString *fStr = [NSString stringWithFormat:@"F%d",bytes[offset++]];
+        NSString *pStr = [NSString stringWithFormat:@"P%d",bytes[_offset++]];
+        NSString *fStr = [NSString stringWithFormat:@"F%d",bytes[_offset++]];
         NSString *key = [NSString stringWithFormat:@"%@%@",pStr,fStr];
         [dic setObject:subdic forKey:key];
         
-        NSInteger sublen = *(unsigned short*)(bytes + offset);offset += 2;
-        begin = offset;
+        NSInteger sublen = *(unsigned short*)(bytes + _offset);_offset += 2;
+        begin = _offset;
         
         while (sublen>(end - begin)) {
-            NSInteger type = bytes[offset];offset++;
-            NSInteger identifer = *(unsigned short*)(bytes + offset);offset += 2;
+            NSInteger type = bytes[_offset];_offset++;
+            NSInteger identifer = *(unsigned short*)(bytes + _offset);_offset += 2;
             [self setKeyForDic:type :identifer :subdic];
-            end = offset;
+            end = _offset;
         }
     }
     
@@ -72,16 +72,16 @@ NSInteger end;
     
     switch (dtype) {
         case A20:{
-            NSString *day =[NSString stringWithFormat:@"%d",bytes[offset]];  offset++;
-            NSString *month =[NSString stringWithFormat:@"%d",bytes[offset]];  offset++;
-            NSString *year =[NSString stringWithFormat:@"%d",bytes[offset]];  offset++;
+            NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+            NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+            NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
             NSString *tdd = [NSString stringWithFormat:@"%@年%@月%@日",year,month,day];
             
             [subdic setObject:tdd forKey:[NSString stringWithFormat:@"%d",identifer]];
         }
             break;
         case BIN2:{
-            NSInteger ivalue = *(unsigned short*)(bytes + offset);  offset+=2;
+            NSInteger ivalue = *(unsigned short*)(bytes + _offset);  _offset+=2;
             [subdic setObject:[NSNumber numberWithInteger:ivalue] forKey:[NSString stringWithFormat:@"%d",identifer]];
         }
             break;

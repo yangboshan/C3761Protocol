@@ -8,11 +8,6 @@
 
 #ifndef C_Protocol_XLDataTypeDic_h
 #define C_Protocol_XLDataTypeDic_h
-
-
-
-#endif
-
 #include "XLDataType.h"
 
 //类型列表
@@ -66,3 +61,8 @@ const int terminal_month_sta[] =
     BIN2,
     BIN2
 };
+
+
+#endif
+
+

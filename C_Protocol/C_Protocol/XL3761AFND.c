@@ -6,60 +6,30 @@
 //  Copyright (c) 2014年 XLDZ. All rights reserved.
 //
 
-
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include "XL3761AFND.h"
-#include "XLFrame.h"
 #include "XLDataId.h"
+#include "XLCommon.h"
+#include "XLUtility.h"
 
-//#include "XLStructList.h"
 
-Byte *userdata;
+
 FRAME *_frame;
-XL_UINT16 offset=0;
-XL_UINT16 outoffset = 0;
-
-Byte* buff;
-XL_UINT16* _type;
-XL_UINT16* _outlen;
-Byte** _outbuf;
 
 void RecursiveParse();
 
 void F49();
 void F51();
 
-//解析DADT
-XL_UINT16 parseFnwithGroup(XL_UINT16 group,XL_UINT16 number){
-    
-    XL_UINT16 tNumber = 0;
-    
-    for (int i = 7; i >= 0;i--)
-    {
-        Byte mask;
-        
-        if (i>=4) {
-            mask = ((Byte)pow(2, i-4))<<4 & 0xf0;
-            
-        } else {
-            mask = (Byte)pow(2, i) & 0x0f;
-        }
-        
-        if((number & mask) >> i)
-        {
-            tNumber = group * 8 + 1 + i;
-        }
-    }
-    return tNumber;
-}
-
 void initUserDataForAfnd(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** outbuf){
     
     printf("解析文件AFND\n");
+    
+    offset=0;
+    outoffset = 0;
     
     _type = type;
     _outlen = outlen;

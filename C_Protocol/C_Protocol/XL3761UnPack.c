@@ -115,25 +115,25 @@ Byte CheckSum(Byte *data,XL_UINT16 len){
 //解析基本结构
 void ParseStructure(int* multiFrameFlag){
     
-    XL_UINT16 offset = 6;
+    XL_UINT16 _offset = 6;
     
     //解析控制域
-    frame->control.c = FrameData[offset++];
+    frame->control.c = FrameData[_offset++];
 
     //解析地址
-    frame->districtCode = (XL_UINT16)(FrameData + offset);
-    offset+=2;
+    frame->districtCode = (XL_UINT16)(FrameData + _offset);
+    _offset+=2;
     
-    frame->terminalAddr = (XL_UINT16)(FrameData + offset);
-    offset+=2;
+    frame->terminalAddr = (XL_UINT16)(FrameData + _offset);
+    _offset+=2;
     
-    frame->masterAddr =  (Byte)(FrameData + offset++);
+    frame->masterAddr =  (Byte)(FrameData + _offset++);
     
     //解析功能码
-    frame->afn = FrameData[offset++];
+    frame->afn = FrameData[_offset++];
     
     //解析SEQ
-    frame->seq.seq =     FrameData[offset++];
+    frame->seq.seq =     FrameData[_offset++];
     
     //判断是否多帧以及后续有无后续帧
     if(!frame->seq.bit.fir&&!frame->seq.bit.fin)
@@ -168,7 +168,7 @@ void ParseStructure(int* multiFrameFlag){
 
     //SEQ后用户数据区
     Byte* userdata = malloc(frame->userlen - 3);
-    memcpy(userdata, FrameData+offset,frame->userlen - 3);
+    memcpy(userdata, FrameData+_offset,frame->userlen - 3);
     frame->frameData = userdata;
     
     free(FrameData);

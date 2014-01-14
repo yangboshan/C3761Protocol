@@ -9,10 +9,6 @@
 #ifndef C_Protocol_XLDataType_h
 #define C_Protocol_XLDataType_h
 
-
-
-#endif
-
 typedef char                    XL_CHAR;
 typedef unsigned char 			Byte;		/*无符号单字节*/
 typedef unsigned char 			XL_UINT8;		/*无符号单字节*/
@@ -75,3 +71,6 @@ typedef signed long  long       XL_SINT64_4;//8字节 有符号 四位小数×10
 
 #define XL_ERROR -1
 #define XL_NORMAL 1;
+
+#endif
+
