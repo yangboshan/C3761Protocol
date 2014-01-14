@@ -61,8 +61,6 @@ const int terminal_month_sta[] =
     BIN2_30,
     BIN2_30
 };
-
-
 #endif
 
 

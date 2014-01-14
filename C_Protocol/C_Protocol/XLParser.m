@@ -84,7 +84,7 @@ NSMutableDictionary *_subdic;
     _type = type;
     _identifier = identifer;
     
-    NSString *method = [NSString stringWithFormat:@"parse%d",dtype];
+    NSString *method = [NSString stringWithFormat:@"parse%d",dtype + 1];
     SEL selecter = NSSelectorFromString(method);
     
 #pragma clang diagnostic push
@@ -93,18 +93,17 @@ NSMutableDictionary *_subdic;
 #pragma clang diagnostic pop
 }
 
--(void)parse19{
-    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+-(void)parse20{
+    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
     NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
-    NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+    NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
     NSString *tdd = [NSString stringWithFormat:@"%@年%@月%@日",year,month,day];
     
     [_subdic setObject:tdd
                 forKey:[NSString stringWithFormat:@"%d",_identifier]];
 }
 
-
--(void)parse29{
+-(void)parse30{
     NSInteger ivalue = *(unsigned short*)(bytes + _offset);  _offset+=2;
     
     [_subdic setObject:[NSNumber numberWithInteger:ivalue]
