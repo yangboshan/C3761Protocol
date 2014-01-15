@@ -7,3 +7,9 @@
 //
 
 #include <stdio.h>
+#include "XL3761PackFrame.h"
+
+Byte* PackFrame(Byte afn,ITEM* array[]){
+
+    return 0;
+}

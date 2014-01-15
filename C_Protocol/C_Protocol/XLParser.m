@@ -37,7 +37,7 @@ NSMutableDictionary *_subdic;
     len = [data length];
     
     for(int i =0;i<len;i++){
-        NSLog(@"%2x",bytes[i]);
+        NSLog(@"%02x",bytes[i]);
     }
     
     _offset = 0;
@@ -46,10 +46,13 @@ NSMutableDictionary *_subdic;
     while (_offset<len) {
         NSMutableDictionary *subdic = [NSMutableDictionary dictionary];
         
-        NSString *pStr = [NSString stringWithFormat:@"P%d",bytes[_offset++]];
-        NSString *fStr = [NSString stringWithFormat:@"F%d",bytes[_offset++]];
-        NSString *key = [NSString stringWithFormat:@"%@%@",pStr,fStr];
+        NSString *pStr = [NSString stringWithFormat:@"测量点%d",bytes[_offset++]];
+        NSString *fStr = [NSString stringWithFormat:@"F项%d",bytes[_offset++]];
+
         _type = bytes[_offset];_offset++;
+        
+        NSString *typeStr = [NSString stringWithUTF8String:type_desc[_type]];
+        NSString *key =  [NSString stringWithFormat:@"%@ %@ %@",typeStr,pStr,fStr];
         [dic setObject:subdic forKey:key];
         
         _subdic = subdic;
@@ -77,7 +80,11 @@ NSMutableDictionary *_subdic;
             dtype = terminal_day_sta[_identifier];
         }
             break;
-            
+        case 1:{
+            dtype = terminal_month_sta[_identifier];
+        }
+            break;
+   
         default:
             break;
     }
@@ -91,6 +98,7 @@ NSMutableDictionary *_subdic;
 #pragma clang diagnostic pop
 }
 
+//日月年
 -(void)parse20{
     NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
     NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
@@ -101,6 +109,17 @@ NSMutableDictionary *_subdic;
                 forKey:[NSString stringWithFormat:@"%d",_identifier]];
 }
 
+//月年
+-(void)parse21{
+    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+    NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
+    NSString *tdd = [NSString stringWithFormat:@"%@年%@月",year,month];
+    
+    [_subdic setObject:tdd
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+}
+
+//BIN 2字节
 -(void)parse30{
     NSInteger ivalue = *(unsigned short*)(bytes + _offset);  _offset+=2;
     

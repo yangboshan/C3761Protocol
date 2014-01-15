@@ -26,7 +26,6 @@ typedef struct
     
 }AUX_INFO;
 
-
 //序号seq
 typedef union
 {
@@ -39,7 +38,6 @@ typedef union
 	}bit;
 	Byte seq;
 }FRAME_SEQ;
-
 
 //控制码
 //D7	        D6  	    D5	       D4             D3~D0
@@ -56,7 +54,6 @@ typedef union
 	}bit;
 	Byte c;
 }FRAME_CONTROL;
-
 
 typedef struct {
     
@@ -81,9 +78,6 @@ typedef struct {
     Byte *frameData;                //用户数据
     
 }FRAME;
-
-
-
 #endif
 
 

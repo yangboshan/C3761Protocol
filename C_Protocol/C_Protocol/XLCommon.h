@@ -15,8 +15,8 @@
 
 Byte *userdata;
 FRAME *_frame;
-XL_UINT16 offset=0;
-XL_UINT16 outoffset = 0;
+XL_UINT16 offset;
+XL_UINT16 outoffset;
 
 Byte* buff;
 XL_UINT16* _type;

@@ -61,6 +61,11 @@ const int terminal_month_sta[] =
     BIN2_30,
     BIN2_30
 };
+
+char* type_desc[] = {
+    "终端日统计数据","终端月统计数据"
+};
+
 #endif
 
 

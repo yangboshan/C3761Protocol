@@ -16,10 +16,10 @@
 #include "XLUtility.h"
 
 
-void RecursiveParse();
+void AFND_RecursiveParse();
 
-void F49();
-void F51();
+void AFND_F49();
+void AFND_F51();
 
 void initUserDataForAfnd(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** outbuf){
     
@@ -40,14 +40,14 @@ void initUserDataForAfnd(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** ou
     memset(buff,0,_frame->userlen*3 + 50);
     *_outbuf = buff;
 
-    RecursiveParse();
+    AFND_RecursiveParse();
     *outlen = outoffset;
     
     free(userdata);
     free(_frame);
 }
 
-void RecursiveParse(){
+void AFND_RecursiveParse(){
     
     XL_UINT16 fn = parseFnwithGroup((XL_UINT16)userdata[offset + 3],
                                     (XL_UINT16)userdata[offset + 2]);
@@ -59,11 +59,11 @@ void RecursiveParse(){
 
     switch (fn) {
         case 49:
-            F49();
+            AFND_F49();
             break;
             
         case 51:
-            F51();
+            AFND_F51();
             break;
             
         default:
@@ -79,18 +79,18 @@ void RecursiveParse(){
     }
     
     if (_frame->userlen - 8 > offset + auxlen) {
-        RecursiveParse();
+        AFND_RecursiveParse();
     }
 }
 
 //日冻结终端月供电时间
 //日复位累计次数
-void F49(){
+void AFND_F49(){
     printf("执行F49\n");
     
-    //两个字节长度
     buff[outoffset] = terminal_day_sta; outoffset++;
     
+    //两个字节长度
     outoffset+=2;
     
     XL_UINT16 begin;
@@ -128,8 +128,37 @@ void F49(){
  
 //月冻结终端月供电时间
 //月复位累计次数
-void F51(){
+void AFND_F51(){
+    
     printf("执行F51\n");
+    
+    buff[outoffset] = terminal_month_sta; outoffset++;
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    
+    begin = outoffset;
+    
+    XL_UINT16 identifier;
+    identifier = hmDataTime;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    
+    buff[outoffset] = (*(Byte*)(userdata + offset)>>4 & 0x0f) * 10 + (*(Byte*)(userdata + offset)&0x0f); outoffset++; offset++;
+    buff[outoffset] = (*(Byte*)(userdata + offset)>>4 & 0x0f) * 10 + (*(Byte*)(userdata + offset)&0x0f); outoffset++; offset++;
+    
+    identifier = hmPowerOnAccTm;
+    memcpy(buff+outoffset, &identifier, 2);outoffset+=2;
+    memcpy(buff+outoffset, (XL_UINT16*)(userdata+offset), 2);offset+=2;outoffset+=2;
+    
+    identifier = hmResetAccCnt;
+    memcpy(buff+outoffset, &identifier, 2);outoffset+=2;
+    memcpy(buff+outoffset, (XL_UINT16*)(userdata+offset), 2);offset+=2;outoffset+=2;
+    
+    end = outoffset;
+    
+    XL_UINT16 len = end -begin;
+    memcpy(buff + begin -2, &len, 2);
 }
 
 
