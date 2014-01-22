@@ -82,10 +82,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(XLSocketManager)
         int  multiFrameFlag = 0;    //多帧标志
         
         if(UnPackFrame(&type,inlen, (Byte*)[data bytes], &outlen, &outbuff,&multiFrameFlag)){
-            
-            XLParser *parser = [[XLParser alloc] init];
-            NSData *revData = [NSData dataWithBytes:outbuff length:outlen];
-            [parser initWithNSData:revData];
+            if (type == 2){
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"afn0"
+                                                                    object:Nil
+                                                                  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"1", @"key",nil]];
+            } else if (type == 3){
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"afn0"
+                                                                    object:Nil
+                                                                  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"2",@"key", nil]];
+            } else {
+                XLParser *parser = [[XLParser alloc] init];
+                NSData *revData = [NSData dataWithBytes:outbuff length:outlen];
+                [parser initWithNSData:revData];
+            }
         }
     });
     

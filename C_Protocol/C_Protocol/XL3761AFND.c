@@ -125,6 +125,10 @@ void initUserDataForAfnd(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** ou
     
     free(userdata);
     free(_frame);
+    
+    //用完之后,将outoffset置位初值0
+	outoffset = 0;
+    offset = 0;
 }
 
 void RecursiveParse(){
@@ -2561,6 +2565,10 @@ void AFND_F34()
     //数据
     temp=bcdtouint(userdata+offset, 3, 4);
     memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    
+    //时间标志
+    identifier = hmADMaxZTm;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //总有功最大需量发生时间  3个字节 分时日
     //分
     buff[outoffset]=bcdToTime(userdata+offset);
@@ -2581,6 +2589,12 @@ void AFND_F34()
     //数据
     temp=bcdtouint(userdata+offset, 3, 4);
     memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    
+    
+    
+    //时间标志
+    identifier = hmADMaxATm;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //A相有功最大需量发生时间  3个字节 分时日
     //分
     buff[outoffset]=bcdToTime(userdata+offset);
@@ -2600,6 +2614,10 @@ void AFND_F34()
     //数据
     temp=bcdtouint(userdata+offset, 3, 4);
     memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    
+    //时间标志
+    identifier = hmADMaxBTm;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //B相有功最大需量发生时间  3个字节 分时日
     //分
     buff[outoffset]=bcdToTime(userdata+offset);
@@ -2620,7 +2638,13 @@ void AFND_F34()
     //数据
     temp=bcdtouint(userdata+offset, 3, 4);
     memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
-    //B相有功最大需量发生时间  3个字节 分时日
+    
+    
+    
+    //时间标志
+    identifier = hmADMaxCTm;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //C相有功最大需量发生时间  3个字节 分时日
     //分
     buff[outoffset]=bcdToTime(userdata+offset);
     outoffset++;offset++;
@@ -2645,7 +2669,7 @@ void AFND_F35()
     printf("执行F35\n");
     
     //1个字节长度  数据类型
-    buff[outoffset] = history_month_powerneeds; outoffset++;
+    buff[outoffset] = measure_month_sta; outoffset++;
     
     outoffset+=2;
     
@@ -3518,9 +3542,6 @@ void AFND_F44()
     identifier = hmDataTime_mms;// 数据时标
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //内容  3个字节 日月年
-    //日
-    buff[outoffset]=bcdToTime(userdata+offset);
-    outoffset++;offset++;
     //月
     buff[outoffset]=bcdToTime(userdata+offset);
     outoffset++;offset++;
@@ -3609,15 +3630,22 @@ void AFND_F49(){
     buff[outoffset] = (*(Byte*)(userdata + offset)>>4 &0x0f) * 10 + (*(Byte*)(userdata + offset)&0x0f);offset++;outoffset++;
     
     //    buff[outoffset] = terminal_day_sta; outoffset++;
+    
+    XL_UINT16 tempvalue = 0;
+    
     identifier = hdPowerOnAccTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    memcpy(buff + outoffset, (XL_UINT16*)(userdata + offset), 2);offset += 2;outoffset+=2;
+    
+    tempvalue = *(XL_UINT16*)(userdata + offset);offset += 2;
+    
+    memcpy(buff + outoffset, &tempvalue, 2);outoffset+=2;
     
     
     //    buff[outoffset] = terminal_day_sta; outoffset++;
     identifier = hdResetAccCnt;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    memcpy(buff + outoffset, (XL_UINT16*)(userdata + offset), 2);offset += 2;outoffset+=2;
+    tempvalue = *(XL_UINT16*)(userdata + offset);offset += 2;
+    memcpy(buff + outoffset, (XL_UINT16*)(userdata + offset), 2);outoffset+=2;
     
     end = outoffset;
     
@@ -3678,18 +3706,21 @@ void AFND_F51(){
     
     buff[outoffset] = (*(Byte*)(userdata + offset)>>4 &0x0f) * 10 + (*(Byte*)(userdata + offset)&0x0f);offset++;outoffset++;
     buff[outoffset] = (*(Byte*)(userdata + offset)>>4 &0x0f) * 10 + (*(Byte*)(userdata + offset)&0x0f);offset++;outoffset++;
-    buff[outoffset] = (*(Byte*)(userdata + offset)>>4 &0x0f) * 10 + (*(Byte*)(userdata + offset)&0x0f);offset++;outoffset++;
     
+    XL_UINT16 tempvalue = 0;
     //    buff[outoffset] = terminal_day_sta; outoffset++;
     identifier = hmPowerOnAccTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    memcpy(buff + outoffset, (XL_UINT16*)(userdata + offset), 2);offset += 2;outoffset+=2;
+    
+    tempvalue = *(XL_UINT16*)(userdata + offset);offset += 2;
+    memcpy(buff + outoffset, &tempvalue, 2);outoffset+=2;
     
     
     //    buff[outoffset] = terminal_day_sta; outoffset++;
     identifier = hmResetAccCnt;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    memcpy(buff + outoffset, (XL_UINT16*)(userdata + offset), 2);offset += 2;outoffset+=2;
+    tempvalue = *(XL_UINT16*)(userdata + offset);offset += 2;
+    memcpy(buff + outoffset, &tempvalue, 2);outoffset+=2;
     
     end = outoffset;
     XL_UINT16 len = end - begin;
@@ -3957,6 +3988,9 @@ void AFND_F81()
     XL_UINT16 end;
     XL_UINT16 len=0;
     XL_SINT64 temp =0;
+    Byte curCount=0;
+    
+    
     begin = outoffset;
     int i =0;
     
@@ -3989,11 +4023,13 @@ void AFND_F81()
     //数据点数
     identifier = cvCurveCount;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    buff[outoffset]=*(userdata+offset);
+    curCount =*(userdata+offset);
+    outoffset++;offset++;
     
     
     //具体曲线数据   根据数据点数进行绘制
-    for(i=0;i<cvCurveCount;i++)
+    for(i=0;i<curCount;i++)
     {
         //数据内容
         //数据格式  A.9   有符号的数据 精确到万分位   4个字节
@@ -4087,6 +4123,7 @@ void AFND_F89()
     XL_UINT16 end;
     XL_UINT16 len=0;
     XL_SINT64 temp =0;
+    Byte curCount=0;
     begin = outoffset;
     int i =0;
     
@@ -4119,14 +4156,15 @@ void AFND_F89()
     //数据点数
     identifier = cvCurveCount;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    curCount=*(userdata+offset);
     buff[outoffset]=*(userdata+offset);outoffset++;offset++;
     
     
     //具体曲线数据   根据数据点数进行绘制
-    for(i=0;i<cvCurveCount;i++)
+    for(i=0;i<curCount;i++)
     {
         //数据内容
-        //数据格式  A.9   无符号的数据 精确到十分位   2个字节
+        //数据格式  A.7   无符号的数据 精确到十分位   2个字节
         //置数据标志 2个字节
         identifier = cvCurveVolt;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
@@ -4171,6 +4209,7 @@ void AFND_F92()
     XL_UINT16 end;
     XL_UINT16 len=0;
     XL_SINT64 temp =0;
+    Byte curCount =0;
     begin = outoffset;
     int i =0;
     
@@ -4203,14 +4242,15 @@ void AFND_F92()
     //数据点数
     identifier = cvCurveCount;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    curCount=*(userdata+offset);
     buff[outoffset]=*(userdata+offset);outoffset++;offset++;
     
     
     //具体曲线数据   根据数据点数进行绘制
-    for(i=0;i<cvCurveCount;i++)
+    for(i=0;i<curCount;i++)
     {
         //数据内容
-        //数据格式  A.9   有符号的数据 精确到千分位   3个字节
+        //数据格式  A.25   有符号的数据 精确到千分位   3个字节
         //置数据标志 2个字节
         identifier = cvCurveCur;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
@@ -4228,7 +4268,7 @@ void AFND_F92()
 void AFND_F93()
 {
     /**********A25格式  3个字节有符号数据 3位小数点***************/
-    printf("执行F92\n");
+    printf("执行F93\n");
     AFND_F92();
     
 }
@@ -4237,15 +4277,15 @@ void AFND_F94()
 {
     /**********A25格式  3个字节有符号数据 3位小数点***************/
     printf("执行F94\n");
-    AFND_F94();
+    AFND_F92();
     
 }
 //测量点零序电流曲线
 void AFND_F95()
 {
     /**********A25格式  3个字节有符号数据 3位小数点***************/
-    printf("执行F94\n");
-    AFND_F95();
+    printf("执行F95\n");
+    AFND_F92();
     
 }
 //void AFND_F96()
@@ -4317,6 +4357,7 @@ void AFND_F105()
     XL_UINT16 end;
     XL_UINT16 len=0;
     XL_SINT64 temp =0;
+    Byte curCount =0;
     begin = outoffset;
     int i =0;
     
@@ -4349,14 +4390,15 @@ void AFND_F105()
     //数据点数
     identifier = cvCurveCount;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    curCount=*(userdata+offset);
     buff[outoffset]=*(userdata+offset);outoffset++;offset++;
     
     
     //具体曲线数据   根据数据点数进行绘制
-    for(i=0;i<cvCurveCount;i++)
+    for(i=0;i<curCount;i++)
     {
         //数据内容
-        //数据格式  A.9   有符号的数据 精确到十分位   2个字节
+        //数据格式  A.5   有符号的数据 精确到十分位   2个字节
         //置数据标志 2个字节
         identifier = cvCurvePowerFactor;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;

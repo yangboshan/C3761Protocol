@@ -1563,9 +1563,9 @@ void AFNC_F58()
 
     int i=0;
     //A相电压谐波含有率
-    for(i=0;i<harmoCnt-1;i++)
+    for(i=0;i<harmoCnt;i++)
     {
-        identifier = rtVoltA2HarmoRate+i;
+        identifier = rtVoltAHarmoRateZ+i;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
         printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
@@ -1573,9 +1573,9 @@ void AFNC_F58()
         outoffset+= sizeof(XL_SINT64);
     }
     //B相电压谐波含有率
-    for(i=0;i<harmoCnt-1;i++)
+    for(i=0;i<harmoCnt;i++)
     {
-        identifier = rtVoltB2HarmoRate+i;
+        identifier = rtVoltBHarmoRateZ+i;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
         printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
@@ -1583,9 +1583,9 @@ void AFNC_F58()
         outoffset+= sizeof(XL_SINT64);
     }
     //C相电压谐波含有率
-    for(i=0;i<harmoCnt-1;i++)
+    for(i=0;i<harmoCnt;i++)
     {
-        identifier = rtVoltC2HarmoRate+i;
+        identifier = rtVoltCHarmoRateZ+i;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
         printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
@@ -1594,9 +1594,9 @@ void AFNC_F58()
     }
 
     //A相电流谐波含有率
-    for(i=0;i<harmoCnt-1;i++)
+    for(i=0;i<harmoCnt;i++)
     {
-        identifier = rtCurrentA2HarmoRate+i;
+        identifier = rtCurrentAHarmoRateZ+i;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
         printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
@@ -1604,9 +1604,9 @@ void AFNC_F58()
         outoffset+= sizeof(XL_SINT64);
     }
     //B相电流谐波含有率
-    for(i=0;i<harmoCnt-1;i++)
+    for(i=0;i<harmoCnt;i++)
     {
-        identifier = rtCurrentB2HarmoRate+i;
+        identifier = rtCurrentBHarmoRateZ+i;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
         printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
@@ -1614,9 +1614,9 @@ void AFNC_F58()
         outoffset+= sizeof(XL_SINT64);
     }
     //C相电流谐波含有率
-    for(i=0;i<harmoCnt-1;i++)
+    for(i=0;i<harmoCnt;i++)
     {
-        identifier = rtCurrentC2HarmoRate+i;
+        identifier = rtCurrentCHarmoRateZ+i;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
         printf("%lld\n",*(XL_SINT64*)(buff+outoffset));

@@ -13,6 +13,7 @@
 #include "XLFrame.h"
 #include "XL3761UnPack.h"
 
+#include "XL3761AFN0.h"
 #include "XL3761AFNC.h"
 #include "XL3761AFND.h"
 #include "XL3761AFNE.h"
@@ -185,7 +186,7 @@ void HandOutFrame(XL_UINT16 *type,XL_UINT16* outlen,Byte** outbuf){
             
         //确认否认
         case AFN00:
- 
+            initUserDataForAfn0(type,frame,outlen,outbuf);
             break;
             
         case AFN04:

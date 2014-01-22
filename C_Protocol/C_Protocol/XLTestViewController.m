@@ -32,10 +32,28 @@
 {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(response:) name:@"test" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(afn0:) name:@"afn0" object:nil];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touch)];
     [tap setNumberOfTouchesRequired:1];
     [self.view addGestureRecognizer:tap];
+}
+
+-(void)afn0:(NSNotification*)notify{
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSDictionary* dcs = notify.userInfo;
+        NSString *value = [dcs valueForKey:@"key"];
+        
+        if ([value isEqualToString:@"2"]) {
+            self.textView.text = @"确认帧";
+        }
+ 
+        if ([value isEqualToString:@"3"]) {
+            self.textView.text = @"否认帧";
+        }
+ 
+    });
 }
 
 -(void) touch{
@@ -75,7 +93,8 @@
         
     }else if(type == 2){
         self.frame = PackFrameWithTdd(afn, pn, fn, year, month, day,&_outlen);
-        
+    }else if(type == 3){
+        self.frame = PackFrameWithTdc(afn, pn, fn, year, month, day, 0, 0, 1, 60, &_outlen);
     } else {
         self.frame = PackFrameForEvent(afn, pn, fn, 0, 5, &_outlen);
         

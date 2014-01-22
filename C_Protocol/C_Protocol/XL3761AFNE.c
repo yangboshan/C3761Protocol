@@ -121,6 +121,10 @@ void initUserDataForAfne(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** ou
     
     free(userdata);
     free(_frame);
+    
+    //用完之后,将outoffset置位初值0
+	outoffset = 0;
+    offset = 0;
 }
 
 void AFNE_RecursiveParse(){

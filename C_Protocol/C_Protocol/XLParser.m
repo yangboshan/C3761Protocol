@@ -26,6 +26,9 @@ NSInteger end;
 NSInteger _type;
 NSInteger _identifier;
 
+NSInteger curveIdentifier;
+bool isCurve = NO;
+
 
 NSMutableDictionary *_subdic;
 
@@ -33,6 +36,8 @@ NSMutableDictionary *_subdic;
     
     end = 0;
     begin = 0;
+    curveIdentifier = 0;
+    isCurve = NO;
     
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
  
@@ -116,6 +121,8 @@ NSMutableDictionary *_subdic;
             break;
         case 8:{
             dtype = measure_curve_data[_identifier];
+            isCurve = YES;
+            curveIdentifier++;
         }
             break;
         case 9:{
@@ -196,9 +203,13 @@ NSMutableDictionary *_subdic;
     
     NSString *results = [NSString stringWithFormat:@"%.1f",result];
     
+    if (isCurve) {
+        [_subdic setObject:results
+                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
+    }else{
     [_subdic setObject:results
                 forKey:[NSString stringWithFormat:@"%d",_identifier]];
-    
+    }
 }
 
 //2字节 2位小数 带符号
@@ -220,21 +231,31 @@ NSMutableDictionary *_subdic;
     
     NSString *results = [NSString stringWithFormat:@"%.1f",result];
     
+    if (isCurve) {
+        [_subdic setObject:results
+                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
+    }else{
     [_subdic setObject:results
                 forKey:[NSString stringWithFormat:@"%d",_identifier]];
-    
+    }
 }
 
 //3字节 4位小数
+
 -(void)parse9{
+    
     long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
     double result = ivalue/10000.0;
     
     NSString *results = [NSString stringWithFormat:@"%.4f",result];
     
-    [_subdic setObject:results
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
-    
+    if (isCurve) {
+        [_subdic setObject:results
+                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
+    }else {
+        [_subdic setObject:results
+                    forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    }
 }
 
 
@@ -347,9 +368,13 @@ NSMutableDictionary *_subdic;
     
     NSString *results = [NSString stringWithFormat:@"%.3f",result];
     
+    if (isCurve) {
+        [_subdic setObject:results
+                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
+    }else{
     [_subdic setObject:results
                 forKey:[NSString stringWithFormat:@"%d",_identifier]];
-    
+    }
 }
 
 

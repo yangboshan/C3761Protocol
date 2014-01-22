@@ -779,6 +779,9 @@ enum mtr_rt_harmonic
     //C相电流19次谐波有效值
     rtHarmoCurrentC19EffecValue,
     
+    //当前A相电压总谐波含有率
+    rtVoltAHarmoRateZ,
+    
     //当前A相电压2次谐波含有率
     rtVoltA2HarmoRate,
     
@@ -832,6 +835,9 @@ enum mtr_rt_harmonic
     
     //当前A相电压19次谐波含有率
     rtVoltA19HarmoRate,
+    
+    //当前B相电压总谐波含有率
+    rtVoltBHarmoRateZ,
     
     //当前B相电压2次谐波含有率
     rtVoltB2HarmoRate,
@@ -887,6 +893,9 @@ enum mtr_rt_harmonic
     //当前B相电压19次谐波含有率
     rtVoltB19HarmoRate,
     
+    //当前C相电压总谐波含有率
+    rtVoltCHarmoRateZ,
+    
     //当前C相电压2次谐波含有率
     rtVoltC2HarmoRate,
     
@@ -940,6 +949,9 @@ enum mtr_rt_harmonic
     
     //当前C相电压19次谐波含有率
     rtVoltC19HarmoRate,
+    
+    //当前A相电流总谐波含有率
+    rtCurrentAHarmoRateZ,
     
     //当前A相电流2次谐波含有率
     rtCurrentA2HarmoRate,
@@ -995,6 +1007,9 @@ enum mtr_rt_harmonic
     //当前A相电流19次谐波含有率
     rtCurrentA19HarmoRate,
     
+    //当前B相电流总谐波含有率
+    rtCurrentBHarmoRateZ,
+    
     //当前B相电流2次谐波含有率
     rtCurrentB2HarmoRate,
     
@@ -1049,6 +1064,8 @@ enum mtr_rt_harmonic
     //当前B相电流19次谐波含有率
     rtCurrentB19HarmoRate,
     
+    //当前C相电流总谐波含有率
+    rtCurrentCHarmoRateZ,
     
     //当前C相电流2次谐波含有率
     rtCurrentC2HarmoRate,
