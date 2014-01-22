@@ -10,6 +10,16 @@
 #define C_Protocol_XLUtility_h
 #include "XLDataType.h"
 
-XL_UINT16 parseFnwithGroup(XL_UINT16 group,XL_UINT16 number);
+XL_UINT16 parsedadt(XL_UINT16 group,XL_UINT16 number,XL_UINT8 ispn);
+
+XL_UINT64 bcdtouint(Byte* value,XL_UINT8 byteslen,XL_UINT8 digitlen);
+
+XL_SINT64 bcdtosint(Byte* value,XL_UINT8 byteslen,XL_UINT8 digitlen);
+
+Byte bcdToTime(Byte* value);
+
+XL_SINT16 a22intwithparam(Byte* value);
+
+XL_CHAR a2powvaluewithparam(Byte* value);
 
 #endif

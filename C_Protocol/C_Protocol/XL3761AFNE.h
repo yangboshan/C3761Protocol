@@ -9,6 +9,8 @@
 #ifndef C_Protocol_XL3761AFNE_h
 #define C_Protocol_XL3761AFNE_h
 
+#include "XLDataType.h"
 
+void initUserDataForAfne(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** outbuf);
 
 #endif

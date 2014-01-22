@@ -51,8 +51,8 @@ NSMutableDictionary *_subdic;
 
         _type = bytes[_offset];_offset++;
         
-        NSString *typeStr = [NSString stringWithUTF8String:type_desc[_type]];
-        NSString *key =  [NSString stringWithFormat:@"%@ %@ %@",typeStr,pStr,fStr];
+//        NSString *typeStr = [NSString stringWithUTF8String:type_desc[_type]];
+        NSString *key =  [NSString stringWithFormat:@"%@ %@",pStr,fStr];
         [dic setObject:subdic forKey:key];
         
         _subdic = subdic;
@@ -61,13 +61,16 @@ NSMutableDictionary *_subdic;
         begin = _offset;
         
         while (sublen>(end - begin)) {
-//            NSInteger type = bytes[_offset];_offset++;
-            _identifier = *(unsigned short*)(bytes + _offset);_offset += 2;
+            
+            _identifier = *(unsigned short*)(bytes + _offset); _offset += 2;
             [self setKeyForDic];
             end = _offset;
         }
     }
     NSLog(@"字典完成");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"test"
+                                                        object:Nil
+                                                      userInfo:dic];
 }
 
 
@@ -84,10 +87,83 @@ NSMutableDictionary *_subdic;
             dtype = terminal_month_sta[_identifier];
         }
             break;
-   
+        case 2:{
+            dtype = measure_day_powervalue[_identifier];
+        }
+            break;
+        case 3:{
+            dtype = measure_month_powervalue[_identifier];
+        }
+            break;
+        case 4:{
+            dtype = history_day_powerneeds[_identifier];
+        }
+            break;
+        case 5:{
+            dtype = history_month_powerneeds[_identifier];
+        }
+            break;
+        case 6:{
+            dtype = measure_day_sta[_identifier];
+        }
+            break;
+        case 7:{
+            dtype = measure_month_sta[_identifier];
+        }
+            break;
+        case 8:{
+            dtype = measure_curve_data[_identifier];
+        }
+            break;
+        case 9:{
+            dtype = daily_data_charmonic[_identifier];
+        }
+            break;
+        case 10:{
+            dtype = daily_data_vharmonic[_identifier];
+        }
+            break;
+        case 11:{
+            dtype = dcanalog_day_data[_identifier];
+        }
+            break;
+        case 12:{
+            dtype = dcanalog_month_data[_identifier];
+        }
+            break;
+        case 13:{
+            dtype = terminal_rt_basic_sta[_identifier];
+        }
+            break;
+        case 14:{
+            dtype = mtr_rt_basic_sta[_identifier];
+        }
+            break;
+        case 15:{
+            dtype = rt_power_value_sta[_identifier];
+        }
+            break;
+        case 16:{
+            dtype = rt_power_needs_sta[_identifier];
+        }
+            break;
+        case 17:{
+            dtype = rt_dc_analog[_identifier];
+        }
+            break;
+        case 18:{
+            dtype = mtr_rt_harmonic[_identifier];
+        }
+            break;
+        case 19:{
+            dtype = eventlist[_identifier];
+        }
+            break;
         default:
             break;
     }
+    
+    NSLog(@"-----------执行方法前offset:%d",_offset);
     
     NSString *method = [NSString stringWithFormat:@"parse%d",dtype + 1];
     SEL selecter = NSSelectorFromString(method);
@@ -97,6 +173,133 @@ NSMutableDictionary *_subdic;
     [self performSelector:selecter withObject:nil];
 #pragma clang diagnostic pop
 }
+
+//
+-(void)parse2{
+    NSInteger mi = *(XL_SINT8*)(bytes+_offset); _offset+=1;
+    NSInteger dishu = *(XL_UINT16*)(bytes+_offset); _offset+=2;
+    
+    NSString *results = [NSString stringWithFormat:@"%.3f",pow(dishu, mi)];
+    
+    [_subdic setObject:results
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+}
+
+
+//2字节 1位小数 带符号
+-(void)parse5{
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/10.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.1f",result];
+    
+    [_subdic setObject:results
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+}
+
+//2字节 2位小数 带符号
+-(void)parse6{
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/100.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.2f",result];
+    
+    [_subdic setObject:results
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+}
+
+//2字节 1位小数
+-(void)parse7{
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/10.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.1f",result];
+    
+    [_subdic setObject:results
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+}
+
+//3字节 4位小数
+-(void)parse9{
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/10000.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.4f",result];
+    
+    [_subdic setObject:results
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+}
+
+
+//4字节 2位小数
+-(void)parse11{
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/100.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.2f",result];
+
+    [_subdic setObject:results
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+}
+
+//5字节 4位小数
+-(void)parse14{
+    
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/10000.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.4f",result];
+
+    [_subdic setObject:results
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+}
+
+//5字节 分时日月年
+-(void)parse15{
+    
+    NSString *minute =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
+    NSString *hour =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
+    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+    NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
+    NSString *tdd = [NSString stringWithFormat:@"%@年%@月%@日%@时%@分",year,month,day,hour,minute];
+    
+    [_subdic setObject:tdd
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+}
+
+//分时日月
+-(void)parse17{
+    
+    NSString *minute =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
+    NSString *hour =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
+    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+    NSString *tdd = [NSString stringWithFormat:@"%@月%@日%@时%@分",month,day,hour,minute];
+    
+    [_subdic setObject:tdd
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+}
+
+//分时日
+-(void)parse18{
+    NSString *minute =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
+    NSString *hour =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
+    NSString *tdd = [NSString stringWithFormat:@"%@日%@时%@分",day,hour,minute];
+    
+    [_subdic setObject:tdd
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+}
+
 
 //日月年
 -(void)parse20{
@@ -119,12 +322,88 @@ NSMutableDictionary *_subdic;
                 forKey:[NSString stringWithFormat:@"%d",_identifier]];
 }
 
-//BIN 2字节
--(void)parse30{
-    NSInteger ivalue = *(unsigned short*)(bytes + _offset);  _offset+=2;
+//3字节 4位小数
+-(void)parse23{
+    
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/10000.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.4f",result];
+    
+    [_subdic setObject:results
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+}
+
+
+//3字节 3位小数
+-(void)parse25{
+    
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/1000.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.3f",result];
+    
+    [_subdic setObject:results
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+}
+
+
+//BIN 1字节
+-(void)parse29{
+    NSInteger ivalue = *(Byte*)(bytes + _offset);  _offset+=1;
     
     [_subdic setObject:[NSNumber numberWithInteger:ivalue]
                 forKey:[NSString stringWithFormat:@"%d",_identifier]];
+}
+
+
+//BIN 2字节
+-(void)parse30{
+    NSInteger ivalue = *(XL_UINT16*)(bytes + _offset);  _offset+=2;
+    
+    [_subdic setObject:[NSNumber numberWithInteger:ivalue]
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+}
+
+//BIN 4字节
+-(void)parse32{
+    NSInteger ivalue = *(XL_UINT32*)(bytes + _offset);  _offset+=4;
+    
+    [_subdic setObject:[NSNumber numberWithInteger:ivalue]
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+}
+
+//31字节 状态量
+-(void)parse33{
+    _offset+=31;
+}
+
+//1字节状态量
+-(void)parse34{
+    _offset+=1;
+}
+
+//事件字符串
+-(void)parse35{
+    
+    NSInteger len = *(Byte*)(bytes + _offset);  _offset+=1;
+    //    NSLog(@"%d",len);
+    
+    NSString *eventDesc = [NSString stringWithUTF8String:(const char*)(bytes + _offset)];
+    
+    
+    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_2312_80);
+    NSData   *data = [NSData dataWithBytes:(bytes + _offset) length:len];
+    NSString *desc = [[NSString alloc] initWithData: data encoding:enc];
+    NSLog(@"%@",desc);
+    
+    [_subdic setObject:eventDesc
+                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+    NSLog(@"%@",eventDesc);
+    _offset += len;
 }
 
 @end

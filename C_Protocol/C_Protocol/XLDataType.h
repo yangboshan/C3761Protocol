@@ -72,12 +72,17 @@ typedef signed long  long       XL_SINT64_4;//8字节 有符号 四位小数×10
 #define XL_ERROR -1
 #define XL_NORMAL 1;
 
+#pragma pack(1)
 typedef struct{
-    XL_UINT16 PN;
-    XL_UINT16 PGROUP;
-    XL_UINT16 FN;
-    XL_UINT16 FGROUP;
-}ITEM;
+    
+    XL_UINT16 pn;
+    XL_UINT16 fn;
+    XL_UINT8  data[50];
+    XL_UINT8  datalen;
+    XL_UINT8  digitlen;
+    XL_UINT8  shouldUseByte;
+}PACKITEM;
+
 
 #endif
 

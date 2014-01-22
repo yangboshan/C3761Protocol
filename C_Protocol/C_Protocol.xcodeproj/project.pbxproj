@@ -32,6 +32,13 @@
 		C9B38FAD1885123D001BC9AB /* XL3761AFNE.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38FAC1885123D001BC9AB /* XL3761AFNE.c */; };
 		C9B38FB218851F27001BC9AB /* XL3761PackFrame.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38FB118851F27001BC9AB /* XL3761PackFrame.c */; };
 		C9C88AD0188657C100F4D245 /* XL3761AFNC.c in Sources */ = {isa = PBXBuildFile; fileRef = C9C88ACF188657C100F4D245 /* XL3761AFNC.c */; };
+		C9C88AD21886805600F4D245 /* XL3761AFNE.c in Sources */ = {isa = PBXBuildFile; fileRef = C9B38FAC1885123D001BC9AB /* XL3761AFNE.c */; };
+		C9C88AE0188E4EA900F4D245 /* XLSocketManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C88ADF188E4EA900F4D245 /* XLSocketManager.m */; };
+		C9C88AE5188E4F1800F4D245 /* GCDAsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C88AE4188E4F1800F4D245 /* GCDAsyncSocket.m */; };
+		C9C88AE8188E4F4F00F4D245 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9C88AE7188E4F4F00F4D245 /* Security.framework */; };
+		C9C88AEA188E4F5400F4D245 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9C88AE9188E4F5400F4D245 /* CFNetwork.framework */; };
+		C9C88AEF188E53E900F4D245 /* XLTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C88AED188E53E900F4D245 /* XLTestViewController.m */; };
+		C9C88AF5188F4BB700F4D245 /* UIView+UIView___FindAndResignFirstResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C9C88AF4188F4BB700F4D245 /* UIView+UIView___FindAndResignFirstResponder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +91,18 @@
 		C9B38FB118851F27001BC9AB /* XL3761PackFrame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XL3761PackFrame.c; sourceTree = "<group>"; };
 		C9C88ACE188657AA00F4D245 /* XL3761AFNC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XL3761AFNC.h; sourceTree = "<group>"; };
 		C9C88ACF188657C100F4D245 /* XL3761AFNC.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XL3761AFNC.c; sourceTree = "<group>"; };
+		C9C88ADE188E4EA900F4D245 /* XLSocketManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLSocketManager.h; sourceTree = "<group>"; };
+		C9C88ADF188E4EA900F4D245 /* XLSocketManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLSocketManager.m; sourceTree = "<group>"; };
+		C9C88AE1188E4ECD00F4D245 /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
+		C9C88AE3188E4F1800F4D245 /* GCDAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncSocket.h; sourceTree = "<group>"; };
+		C9C88AE4188E4F1800F4D245 /* GCDAsyncSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncSocket.m; sourceTree = "<group>"; };
+		C9C88AE7188E4F4F00F4D245 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C9C88AE9188E4F5400F4D245 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		C9C88AEB188E4F7600F4D245 /* XLExternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLExternals.h; sourceTree = "<group>"; };
+		C9C88AEC188E53E900F4D245 /* XLTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLTestViewController.h; sourceTree = "<group>"; };
+		C9C88AED188E53E900F4D245 /* XLTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLTestViewController.m; sourceTree = "<group>"; };
+		C9C88AF3188F4BB700F4D245 /* UIView+UIView___FindAndResignFirstResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+UIView___FindAndResignFirstResponder.h"; sourceTree = "<group>"; };
+		C9C88AF4188F4BB700F4D245 /* UIView+UIView___FindAndResignFirstResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+UIView___FindAndResignFirstResponder.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +110,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9C88AEA188E4F5400F4D245 /* CFNetwork.framework in Frameworks */,
+				C9C88AE8188E4F4F00F4D245 /* Security.framework in Frameworks */,
 				C999CF4A187A9B7B00AD65D5 /* CoreGraphics.framework in Frameworks */,
 				C999CF4C187A9B7B00AD65D5 /* UIKit.framework in Frameworks */,
 				C999CF48187A9B7B00AD65D5 /* Foundation.framework in Frameworks */,
@@ -132,6 +153,8 @@
 		C999CF46187A9B7B00AD65D5 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9C88AE9188E4F5400F4D245 /* CFNetwork.framework */,
+				C9C88AE7188E4F4F00F4D245 /* Security.framework */,
 				C999CF47187A9B7B00AD65D5 /* Foundation.framework */,
 				C999CF66187A9B7B00AD65D5 /* XCTest.framework */,
 				C999CF49187A9B7B00AD65D5 /* CoreGraphics.framework */,
@@ -143,15 +166,19 @@
 		C999CF4D187A9B7B00AD65D5 /* C_Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				C9C88AE2188E4F0900F4D245 /* External */,
+				C9C88ADD188E4E8A00F4D245 /* Communication */,
 				C999CF7C187A9B9B00AD65D5 /* Protocol */,
-				C9B38F6F1884BF92001BC9AB /* XLParser.h */,
-				C9B38F701884BF92001BC9AB /* XLParser.m */,
+				C999CF56187A9B7B00AD65D5 /* XLAppDelegate.h */,
+				C999CF57187A9B7B00AD65D5 /* XLAppDelegate.m */,
+				C9C88AEC188E53E900F4D245 /* XLTestViewController.h */,
+				C9C88AED188E53E900F4D245 /* XLTestViewController.m */,
+				C9C88AF3188F4BB700F4D245 /* UIView+UIView___FindAndResignFirstResponder.h */,
+				C9C88AF4188F4BB700F4D245 /* UIView+UIView___FindAndResignFirstResponder.m */,
 				C999CF5C187A9B7B00AD65D5 /* XLViewController.h */,
 				C999CF5D187A9B7B00AD65D5 /* XLViewController.m */,
 				C999CF5F187A9B7B00AD65D5 /* Images.xcassets */,
 				C999CF59187A9B7B00AD65D5 /* Main.storyboard */,
-				C999CF56187A9B7B00AD65D5 /* XLAppDelegate.h */,
-				C999CF57187A9B7B00AD65D5 /* XLAppDelegate.m */,
 				C999CF4E187A9B7B00AD65D5 /* Supporting Files */,
 			);
 			path = C_Protocol;
@@ -211,12 +238,42 @@
 				C999CF8B187AB77D00AD65D5 /* XLDataType.h */,
 				C999D02B187BB66600AD65D5 /* XLFrame.h */,
 				C999CF7F187A9BAB00AD65D5 /* XL3761UnPack.h */,
+				C9B38FB018851F15001BC9AB /* XL3761PackFrame.h */,
 				C9C88ACE188657AA00F4D245 /* XL3761AFNC.h */,
 				C999CF81187A9BAB00AD65D5 /* XL3761AFND.h */,
 				C9B38FAB18851221001BC9AB /* XL3761AFNE.h */,
-				C9B38FB018851F15001BC9AB /* XL3761PackFrame.h */,
 			);
 			name = Head;
+			sourceTree = "<group>";
+		};
+		C9C88ADD188E4E8A00F4D245 /* Communication */ = {
+			isa = PBXGroup;
+			children = (
+				C9C88AEB188E4F7600F4D245 /* XLExternals.h */,
+				C9C88AE1188E4ECD00F4D245 /* SynthesizeSingleton.h */,
+				C9B38F6F1884BF92001BC9AB /* XLParser.h */,
+				C9B38F701884BF92001BC9AB /* XLParser.m */,
+				C9C88ADE188E4EA900F4D245 /* XLSocketManager.h */,
+				C9C88ADF188E4EA900F4D245 /* XLSocketManager.m */,
+			);
+			name = Communication;
+			sourceTree = "<group>";
+		};
+		C9C88AE2188E4F0900F4D245 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				C9C88AE6188E4F1E00F4D245 /* Socket */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
+		C9C88AE6188E4F1E00F4D245 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				C9C88AE3188E4F1800F4D245 /* GCDAsyncSocket.h */,
+				C9C88AE4188E4F1800F4D245 /* GCDAsyncSocket.m */,
+			);
+			name = Socket;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -317,13 +374,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9C88AE0188E4EA900F4D245 /* XLSocketManager.m in Sources */,
+				C9C88AE5188E4F1800F4D245 /* GCDAsyncSocket.m in Sources */,
 				C9B38F7D18850606001BC9AB /* XLCommon.c in Sources */,
 				C999CF87187A9BAB00AD65D5 /* XL3761AFND.c in Sources */,
+				C9C88AEF188E53E900F4D245 /* XLTestViewController.m in Sources */,
 				C9B38F711884BF92001BC9AB /* XLParser.m in Sources */,
 				C9B38FAD1885123D001BC9AB /* XL3761AFNE.c in Sources */,
 				C9B38F791884EB06001BC9AB /* XLUtility.c in Sources */,
 				C999CF58187A9B7B00AD65D5 /* XLAppDelegate.m in Sources */,
 				C999CF54187A9B7B00AD65D5 /* main.m in Sources */,
+				C9C88AF5188F4BB700F4D245 /* UIView+UIView___FindAndResignFirstResponder.m in Sources */,
 				C9C88AD0188657C100F4D245 /* XL3761AFNC.c in Sources */,
 				C999CF5E187A9B7B00AD65D5 /* XLViewController.m in Sources */,
 				C999CF85187A9BAB00AD65D5 /* XL3761UnPack.c in Sources */,
@@ -339,6 +400,7 @@
 				C999CF86187A9BAB00AD65D5 /* XL3761UnPack.c in Sources */,
 				C999CF73187A9B7B00AD65D5 /* C_ProtocolTests.m in Sources */,
 				C999CF88187A9BAB00AD65D5 /* XL3761AFND.c in Sources */,
+				C9C88AD21886805600F4D245 /* XL3761AFNE.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

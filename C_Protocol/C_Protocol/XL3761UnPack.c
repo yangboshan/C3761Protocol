@@ -12,10 +12,14 @@
 
 #include "XLFrame.h"
 #include "XL3761UnPack.h"
+
+#include "XL3761AFNC.h"
 #include "XL3761AFND.h"
+#include "XL3761AFNE.h"
 
 
-Byte* FrameData;
+
+Byte* framedata;
 
 FRAME *frame;
 
@@ -46,8 +50,8 @@ XL_SINT32 UnPackFrame(XL_UINT16 *type, XL_UINT16 inlen,Byte *inbuf,XL_UINT16* ou
     memset(frame, 0, sizeof(FRAME));
     
     //拷贝报文到FrameData
-    FrameData = (XL_UINT8*)malloc(inlen);
-    memcpy(FrameData,inbuf,inlen);
+    framedata = (XL_UINT8*)malloc(inlen);
+    memcpy(framedata,inbuf,inlen);
     
     //报文长度
     frame->framelen = inlen;
@@ -71,9 +75,9 @@ XL_SINT32 UnPackFrame(XL_UINT16 *type, XL_UINT16 inlen,Byte *inbuf,XL_UINT16* ou
 XL_SINT32 FrameCheck(){
     
     //检查帧头帧尾
-    if (FrameData[0]!=0x68
-     || FrameData[5]!=0x68
-     || FrameData[frame->framelen-1]!=0x16) {
+    if (framedata[0]!=0x68
+     || framedata[5]!=0x68
+     || framedata[frame->framelen-1]!=0x16) {
         
         return XL_ERROR;
     }
@@ -82,8 +86,8 @@ XL_SINT32 FrameCheck(){
     frame->userlen = ParseUserDataLength();
     
     //检查校验和
-    if (FrameData[frame->framelen -2]!=
-        CheckSum(&FrameData[6], frame->userlen)) {
+    if (framedata[frame->framelen -2]!=
+        CheckSum(&framedata[6], frame->userlen)) {
         return XL_ERROR;
     }
     return XL_NORMAL;
@@ -92,7 +96,7 @@ XL_SINT32 FrameCheck(){
 
 //检测协议类型 解析用户数据长度
 XL_SINT32 ParseUserDataLength(){
-    XL_UINT16 length = (XL_UINT16)FrameData[1];
+    XL_UINT16 length = *(XL_UINT16*)(framedata + 1);
     if ((length & 0x0003) != 0x2) {
         return XL_ERROR;
     }
@@ -118,22 +122,22 @@ void ParseStructure(int* multiFrameFlag){
     XL_UINT16 _offset = 6;
     
     //解析控制域
-    frame->control.c = FrameData[_offset++];
+    frame->control.c = framedata[_offset++];
 
     //解析地址
-    frame->districtCode = (XL_UINT16)(FrameData + _offset);
+    frame->districtCode = (XL_UINT16)(framedata + _offset);
     _offset+=2;
     
-    frame->terminalAddr = (XL_UINT16)(FrameData + _offset);
+    frame->terminalAddr = (XL_UINT16)(framedata + _offset);
     _offset+=2;
     
-    frame->masterAddr =  (Byte)(FrameData + _offset++);
+    frame->masterAddr =  (Byte)(framedata + _offset++);
     
     //解析功能码
-    frame->afn = FrameData[_offset++];
+    frame->afn = framedata[_offset++];
     
     //解析SEQ
-    frame->seq.seq =     FrameData[_offset++];
+    frame->seq.seq =     framedata[_offset++];
     
     //判断是否多帧以及后续有无后续帧
     if(!frame->seq.bit.fir&&!frame->seq.bit.fin)
@@ -168,10 +172,10 @@ void ParseStructure(int* multiFrameFlag){
 
     //SEQ后用户数据区
     Byte* userdata = malloc(frame->userlen - 3);
-    memcpy(userdata, FrameData+_offset,frame->userlen - 3);
+    memcpy(userdata, framedata+_offset,frame->userlen - 3);
     frame->frameData = userdata;
     
-    free(FrameData);
+    free(framedata);
 }
 
 //分发处理报文
@@ -192,7 +196,7 @@ void HandOutFrame(XL_UINT16 *type,XL_UINT16* outlen,Byte** outbuf){
             
         //一类数据
         case AFN0C:
- 
+            initUserDataForAfnc(type,frame,outlen,outbuf);
             break;
          
         //二类数据
@@ -201,6 +205,7 @@ void HandOutFrame(XL_UINT16 *type,XL_UINT16* outlen,Byte** outbuf){
             break;
         //事件
         case AFN0E:
+            initUserDataForAfne(type,frame,outlen,outbuf);
             break;
             
         default:
