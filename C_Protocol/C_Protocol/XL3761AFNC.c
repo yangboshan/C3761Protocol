@@ -294,7 +294,6 @@ void AFNC_F25()
 
     identifier = rtAActivePower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    outoffset +=sizeof(float);
     //float A相有功功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
@@ -324,7 +323,6 @@ void AFNC_F25()
 
     identifier = rtAReactivePower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    outoffset +=sizeof(float);
     //float A相无功功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
@@ -431,7 +429,6 @@ void AFNC_F25()
 
     identifier = rtAApparentPower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    outoffset +=sizeof(float);
     //float A相视在功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
