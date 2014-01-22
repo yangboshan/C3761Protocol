@@ -13,6 +13,9 @@
 
 @interface XLTestViewController ()
 
+@property(nonatomic,assign) Byte* frame;
+@property(nonatomic,strong) NSData *data;
+@property(nonatomic,assign) XL_UINT16 outlen;
 @end
 
 @implementation XLTestViewController
@@ -56,13 +59,33 @@
     [super didReceiveMemoryWarning];
 }
 
+-(void)getframedata:(NSInteger)type
+                    :(Byte)afn
+                    :(NSInteger)fn
+                    :(NSInteger)pn
+                    :(NSInteger)year
+                    :(NSInteger)month
+                    :(NSInteger)day
+{
+    if (type == 0) {
+        self.frame = PackFrameWithDadt(afn, pn, fn, &_outlen);
+        
+    }else if(type == 1){
+        self.frame = PackFrameWithTdm(afn, pn, fn, year, month, &_outlen);
+        
+    }else if(type == 2){
+        self.frame = PackFrameWithTdd(afn, pn, fn, year, month, day,&_outlen);
+        
+    } else {
+        self.frame = PackFrameForEvent(afn, pn, fn, 0, 5, &_outlen);
+        
+    }
+}
+
 - (IBAction)sendData:(id)sender {
     
     self.textView.text = @"";
-    
-    XL_UINT16 outlen = 0;
-    
-    Byte* frame;
+ 
     Byte afn;
     XL_UINT8 fn;
     XL_UINT8 pn;
@@ -88,25 +111,34 @@
     
     NSInteger type = self.dataType.selectedSegmentIndex;
     
-    if (type == 0) {
-        frame = PackFrameWithDadt(afn, pn, fn, &outlen);
-        
-    }else if(type == 1){
-        frame = PackFrameWithTdm(afn, pn, fn, year, month, &outlen);
-        
-    }else if(type == 2){
-        frame = PackFrameWithTdd(afn, pn, fn, year, month, day,&outlen);
-        
-    } else {
-        frame = PackFrameForEvent(afn, pn, fn, 0, 5, &outlen);
-        
-    }
+//    if (type == 0) {
+//        self.frame = PackFrameWithDadt(afn, pn, fn, &_outlen);
+//        
+//    }else if(type == 1){
+//        self.frame = PackFrameWithTdm(afn, pn, fn, year, month, &_outlen);
+//        
+//    }else if(type == 2){
+//        self.frame = PackFrameWithTdd(afn, pn, fn, year, month, day,&_outlen);
+//        
+//    } else {
+//        self.frame = PackFrameForEvent(afn, pn, fn, 0, 5, &_outlen);
+//        
+//    }
     
-    NSData *data = [NSData dataWithBytes:frame length:outlen];
-    NSLog(@"%@",[data description]);
-    free(frame);
+//    Byte temp[self.outlen];
+//    memset(temp, 0, self.outlen);
+//    memcpy(temp, self.frame, self.outlen);
     
-    [[XLSocketManager sharedXLSocketManager] packRequestFrame:data];
+    [self getframedata:type :afn :fn :pn :year :month :day];
+    
+  
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+ 
+    
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
 }
 - (IBAction)clear:(id)sender {
     self.textView.text = @"";

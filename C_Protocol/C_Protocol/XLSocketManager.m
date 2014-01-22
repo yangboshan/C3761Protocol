@@ -110,18 +110,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(XLSocketManager)
  
     self.frameData = userData;
     
-//    if (self.frameData) {
-//        [self connection];
-//    }
-    
-    
     if (self.frameData) {
-        if (self.socket.isConnected) {
-            [self.socket writeData:self.frameData withTimeout:-1 tag:0];
-            [self.socket readDataWithTimeout:-1 tag:0];
-        } else{
-            [self connection];
-        }
+        [self connection];
     }
+    
+    
+//    if (self.frameData) {
+//        if (self.socket.isConnected) {
+//            [self.socket writeData:self.frameData withTimeout:-1 tag:0];
+//            [self.socket readDataWithTimeout:-1 tag:0];
+//        } else{
+//            [self connection];
+//        }
+//    }
 }
 @end

@@ -31,6 +31,9 @@ NSMutableDictionary *_subdic;
 
 -(void)initWithNSData:(NSData*)data{
     
+    end = 0;
+    begin = 0;
+    
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
  
     bytes = (Byte*)[data bytes];
@@ -48,7 +51,7 @@ NSMutableDictionary *_subdic;
         
         NSString *pStr = [NSString stringWithFormat:@"测量点%d",bytes[_offset++]];
         NSString *fStr = [NSString stringWithFormat:@"F项%d",bytes[_offset++]];
-
+        
         _type = bytes[_offset];_offset++;
         
 //        NSString *typeStr = [NSString stringWithUTF8String:type_desc[_type]];
