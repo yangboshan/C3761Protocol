@@ -34,13 +34,13 @@ void AFNC_F29();
 void AFNC_F49();
 void AFNC_F25();
 
-void initUserDataForAfnc(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** outbuf){
+void initUserDataForAfnc(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** outbuf){
     
     
     offset=0;
     outoffset = 0;
     
-    _type = type;
+    _output = output;
     _outlen = outlen;
     _outbuf = outbuf;
     
@@ -74,52 +74,65 @@ void AFNC_RecursiveParse(){
     printf("fn=%d\n",fn);
 
     switch (fn) {
-        case 49:
-            AFNC_F49();
-            break;
-        case 25:
-            AFNC_F25();
-            break;
         case 3:
+            //终端参数状态
             AFNC_F3();
             break;
         case 7:
+            //终端事件计数器当前值
             AFNC_F7();
             break;
         case 9:
+            //终端状态量及变位标志
             AFNC_F9();
             break;
         case 10:
+            //终端与主站当日，月通信流量
             AFNC_F10();
             break;
+        case 25:
+            //当前三相及总有功无功功率功率因数电压电流
+            AFNC_F25();
+            break;
         case 29:
+            //当前铜损铁损有功总电能示值
             AFNC_F29();
             break;
         case 33:
-            printf("into AFNC_F33\n");
+            //当前正向有无功电能示值一四象限无功电能示值(1~M)
             AFNC_F33();
             break;
         case 34:
+            //当前反向有无功电能示值二三象限无功电能示值(1~M)
             AFNC_F34();
             break;
         case 35:
+            //当月正向有无功最大需量及发生时间(总 1~M)
             AFNC_F35();
             break;
         case 36:
+            //当月反向有无功最大需量及发生时间(总 1~M)
             AFNC_F36();
             break;
+        case 49:
+            //当前电压电流相位角
+            AFNC_F49();
+            break;
         case 57:
+            //当前三相电压电流2～N次谐波有效值
             AFNC_F57();
             break;
         case 58:
+            //当前三相电压电流2～N次谐波含有率
             AFNC_F58();
             break;
         case 73:
+            //直流模拟量实时数据
             AFNC_F73();
             break;
-            
         default:
-            break;
+            *_output = XL_ERROR;
+            return;
     }
     
     XL_UINT16 auxlen = 0;

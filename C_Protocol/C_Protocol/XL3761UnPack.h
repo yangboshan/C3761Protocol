@@ -12,7 +12,7 @@
 #include "XLDataType.h"
 
 
-XL_SINT32 UnPackFrame(XL_UINT16 *type, XL_UINT16 inlen,Byte *inbuf,XL_UINT16* outlen,Byte** outbuf,int* multiFrameFlag);
+XL_SINT32 UnPackFrame(XL_SINT16 *output, XL_UINT16 inlen,Byte *inbuf,XL_UINT16* outlen,Byte** outbuf,int* multiFrameFlag);
 
 #endif
 

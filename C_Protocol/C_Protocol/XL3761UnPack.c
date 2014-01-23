@@ -36,7 +36,7 @@ Byte CheckSum(Byte *data,XL_UINT16 len);
 void ParseStructure();
 
 //分发报文到具体处理区
-void HandOutFrame(XL_UINT16 *type,XL_UINT16* outlen,Byte** outbuf);
+XL_SINT32 HandOutFrame(XL_SINT16 *output,XL_UINT16* outlen,Byte** outbuf);
 
 
 //－－－－－－－－－－－－－－－－－
@@ -44,7 +44,7 @@ void HandOutFrame(XL_UINT16 *type,XL_UINT16* outlen,Byte** outbuf);
 //解帧入口
 //
 //－－－－－－－－－－－－－－－－－
-XL_SINT32 UnPackFrame(XL_UINT16 *type, XL_UINT16 inlen,Byte *inbuf,XL_UINT16* outlen,Byte** outbuf,int* multiFrameFlag){
+XL_SINT32 UnPackFrame(XL_SINT16 *output, XL_UINT16 inlen,Byte *inbuf,XL_UINT16* outlen,Byte** outbuf,int* multiFrameFlag){
     
     //初始化Frame结构
     frame = malloc(sizeof(FRAME));
@@ -66,7 +66,9 @@ XL_SINT32 UnPackFrame(XL_UINT16 *type, XL_UINT16 inlen,Byte *inbuf,XL_UINT16* ou
     ParseStructure(multiFrameFlag);
     
     //分发解析
-    HandOutFrame(type,outlen,outbuf);
+    if(HandOutFrame(output,outlen,outbuf) == XL_ERROR){
+        return XL_ERROR;
+    }
     
     return XL_NORMAL;
 }
@@ -180,13 +182,13 @@ void ParseStructure(int* multiFrameFlag){
 }
 
 //分发处理报文
-void HandOutFrame(XL_UINT16 *type,XL_UINT16* outlen,Byte** outbuf){
+XL_SINT32 HandOutFrame(XL_SINT16 *output,XL_UINT16* outlen,Byte** outbuf){
     
     switch (frame->afn) {
             
         //确认否认
         case AFN00:
-            initUserDataForAfn0(type,frame,outlen,outbuf);
+            initUserDataForAfn0(output,frame,outlen,outbuf);
             break;
             
         case AFN04:
@@ -197,19 +199,23 @@ void HandOutFrame(XL_UINT16 *type,XL_UINT16* outlen,Byte** outbuf){
             
         //一类数据
         case AFN0C:
-            initUserDataForAfnc(type,frame,outlen,outbuf);
+            initUserDataForAfnc(output,frame,outlen,outbuf);
             break;
          
         //二类数据
         case AFN0D:
-            initUserDataForAfnd(type,frame,outlen,outbuf);
-            break;
-        //事件
-        case AFN0E:
-            initUserDataForAfne(type,frame,outlen,outbuf);
+            initUserDataForAfnd(output,frame,outlen,outbuf);
             break;
             
-        default:
+        //三类数据
+        case AFN0E:
+            initUserDataForAfne(output,frame,outlen,outbuf);
             break;
+            
+        default:{
+            return XL_ERROR;
+        }
     }
+    
+    return XL_NORMAL;
 }

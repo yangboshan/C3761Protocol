@@ -10,5 +10,5 @@
 #define C_Protocol_XL3761AFN0_h
 #include "XLDataType.h"
 
-void initUserDataForAfn0(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** outbuf);
+void initUserDataForAfn0(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** outbuf);
 #endif

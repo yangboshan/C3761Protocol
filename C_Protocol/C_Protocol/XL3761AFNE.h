@@ -11,6 +11,6 @@
 
 #include "XLDataType.h"
 
-void initUserDataForAfne(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** outbuf);
+void initUserDataForAfne(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** outbuf);
 
 #endif

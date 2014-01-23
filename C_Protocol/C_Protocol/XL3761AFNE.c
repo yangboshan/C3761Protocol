@@ -97,14 +97,14 @@ void geterc32();
 XL_CHAR * gettimestr(XL_UINT8 len);
 XL_CHAR * getasciistr(XL_UINT8 len);
 
-void initUserDataForAfne(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** outbuf){
+void initUserDataForAfne(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** outbuf){
     
     printf("解析文件AFNE\n");
     
     offset=0;
     outoffset = 0;
     
-    _type = type;
+    _output = output;
     _outlen = outlen;
     _outbuf = outbuf;
     
@@ -144,7 +144,8 @@ void AFNE_RecursiveParse(){
             AFNE_F2();
             break;
         default:
-            break;
+            *_output = XL_ERROR;
+            return;
     }
     
     XL_UINT16 auxlen = 0;
@@ -286,7 +287,8 @@ void parseEvents(){
                 geterc32();
                 break;
             default:
-                break;
+                *_output = XL_ERROR;
+                return;
         }
         count--;
     }

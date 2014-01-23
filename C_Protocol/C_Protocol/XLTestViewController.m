@@ -32,7 +32,7 @@
 {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(response:) name:@"test" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(afn0:) name:@"afn0" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(afn0:) name:@"SPEHANDLE" object:nil];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touch)];
     [tap setNumberOfTouchesRequired:1];
@@ -45,12 +45,16 @@
         NSDictionary* dcs = notify.userInfo;
         NSString *value = [dcs valueForKey:@"key"];
         
-        if ([value isEqualToString:@"2"]) {
+        if ([value isEqualToString:@"1"]) {
             self.textView.text = @"确认帧";
         }
  
-        if ([value isEqualToString:@"3"]) {
+        if ([value isEqualToString:@"2"]) {
             self.textView.text = @"否认帧";
+        }
+        
+        if ([value isEqualToString:@"-1"]) {
+            self.textView.text = @"出现错误";
         }
  
     });

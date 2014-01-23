@@ -10,7 +10,7 @@
 #define C_Protocol_XL3761AFND_h
 #include "XLDataType.h"
 
-void initUserDataForAfnd(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** outbuf);
+void initUserDataForAfnd(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** outbuf);
 #endif
 
 

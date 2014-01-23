@@ -75,26 +75,28 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(XLSocketManager)
     
     dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
     dispatch_async(queue, ^{
-        unsigned short type = 0;
+        XL_SINT16 output = 0;
         unsigned short inlen = [data length];
         unsigned short outlen = 0;
         Byte *outbuff = NULL;
         int  multiFrameFlag = 0;    //多帧标志
         
-        if(UnPackFrame(&type,inlen, (Byte*)[data bytes], &outlen, &outbuff,&multiFrameFlag)){
-            if (type == 2){
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"afn0"
+        if(UnPackFrame(&output,inlen, (Byte*)[data bytes], &outlen, &outbuff,&multiFrameFlag) == 1){
+            
+            if (output == 1 || output == 2 || output == -1){
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"SPEHANDLE"
                                                                     object:Nil
-                                                                  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"1", @"key",nil]];
-            } else if (type == 3){
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"afn0"
-                                                                    object:Nil
-                                                                  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"2",@"key", nil]];
+                                                                  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d",output], @"key",nil]];
             } else {
                 XLParser *parser = [[XLParser alloc] init];
                 NSData *revData = [NSData dataWithBytes:outbuff length:outlen];
                 [parser initWithNSData:revData];
             }
+            
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"SPEHANDLE"
+                                                                object:Nil
+                                                              userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"-1", @"key",nil]];
         }
     });
     
@@ -119,18 +121,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(XLSocketManager)
  
     self.frameData = userData;
     
-    if (self.frameData) {
-        [self connection];
-    }
-    
-    
 //    if (self.frameData) {
-//        if (self.socket.isConnected) {
-//            [self.socket writeData:self.frameData withTimeout:-1 tag:0];
-//            [self.socket readDataWithTimeout:-1 tag:0];
-//        } else{
-//            [self connection];
-//        }
+//        [self connection];
 //    }
+    
+    
+    if (self.frameData) {
+        if (self.socket.isConnected) {
+            [self.socket writeData:self.frameData withTimeout:-1 tag:0];
+            [self.socket readDataWithTimeout:-1 tag:0];
+        } else{
+            [self connection];
+        }
+    }
 }
 @end

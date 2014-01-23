@@ -100,7 +100,7 @@ void AFND_F196();
 
 
 
-void initUserDataForAfnd(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** outbuf){
+void initUserDataForAfnd(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** outbuf){
     
     printf("解析文件AFND\n");
     
@@ -108,7 +108,7 @@ void initUserDataForAfnd(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** ou
     offset=0;
     outoffset = 0;
     
-    _type = type;
+    _output = output;
     _outlen = outlen;
     _outbuf = outbuf;
     
@@ -352,9 +352,9 @@ void RecursiveParse(){
         case 196:
             AFND_F196();//月冻结反向无功最大需量及发生时间（总、费率1～m）
             break;
-            
         default:
-            break;
+            *_output = XL_ERROR;
+            return;
     }
     
     XL_UINT16 auxlen = 0;

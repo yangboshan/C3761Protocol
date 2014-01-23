@@ -124,13 +124,13 @@
     
  
     
-    unsigned short type = 0;
+    XL_SINT16 output = 0;
     unsigned short inlen = 40;
     unsigned short outlen = 0;
     Byte *outbuff = NULL;
     int  multiFrameFlag = 0;    //多帧标志
     
-    if(UnPackFrame(&type,inlen, revbytes, &outlen, &outbuff,&multiFrameFlag)){
+    if(UnPackFrame(&output,inlen, revbytes, &outlen, &outbuff,&multiFrameFlag)){
         
         [self.recvdata appendBytes:outbuff length:outlen];
         

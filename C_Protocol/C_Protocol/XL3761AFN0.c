@@ -17,12 +17,12 @@
 void AFN0_RecursiveParse();
 
 
-void initUserDataForAfn0(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** outbuf){
+void initUserDataForAfn0(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** outbuf){
     
     outoffset = 0;
     offset = 0;
     
-    _type = type;
+    _output = output;
 
     _frame = (FRAME*)frame;
     
@@ -44,12 +44,13 @@ void AFN0_RecursiveParse(){
 
     switch (fn) {
         case 1:
-            *_type = XL_CONFIRM;
+            *_output = XL_CONFIRM;
             break;
         case 2:
-            *_type = XL_DENY;
+            *_output = XL_DENY;
             break;
         default:
-            break;
+            *_output = XL_ERROR;
+            return;
     }
 }

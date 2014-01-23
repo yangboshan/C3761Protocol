@@ -19,7 +19,7 @@ XL_UINT16 offset;
 XL_UINT16 outoffset;
 
 Byte* buff;
-XL_UINT16* _type;
+XL_SINT16* _output;
 XL_UINT16* _outlen;
 Byte** _outbuf;
 
