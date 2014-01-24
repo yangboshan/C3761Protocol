@@ -11,6 +11,16 @@
 #import "XL3761PackFrame.h"
 #import "UIView+UIView___FindAndResignFirstResponder.h"
 
+#define NoPara 0
+#define YearMonth 1
+#define YearMonthDay 2
+#define CurveData 3
+#define EventData 4
+
+#define DataType1 @"1"
+#define DataType2 @"2"
+#define DataType3 @"3"
+
 @interface XLTestViewController ()
 
 @property(nonatomic,assign) Byte* frame;
@@ -37,11 +47,19 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(touch)];
     [tap setNumberOfTouchesRequired:1];
     [self.view addGestureRecognizer:tap];
+    [self.indicatorView setHidden:YES];
 }
 
 -(void)afn0:(NSNotification*)notify{
     
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
+        if (data) {
+            NSString *desc = [NSString stringWithFormat:@"返回报文:%@",[data description]];
+            self.frameOriginal.text = desc;
+        }
+        
         NSDictionary* dcs = notify.userInfo;
         NSString *value = [dcs valueForKey:@"key"];
         
@@ -57,6 +75,8 @@
             self.textView.text = @"出现错误";
         }
  
+        [self.indicatorView stopAnimating];
+        [self.indicatorView setHidden:YES];
     });
 }
 
@@ -67,11 +87,23 @@
 
 -(void)response:(NSNotification*)notify{
     
+
+    
     dispatch_async(dispatch_get_main_queue(), ^{
+        
+        NSData *data = [[NSUserDefaults standardUserDefaults] objectForKey:@"data"];
+        if (data) {
+            NSString *desc = [NSString stringWithFormat:@"返回报文:%@",[data description]];
+            self.frameOriginal.text = desc;
+        }
+        
         NSDictionary* dcs = notify.userInfo;
         NSString *key = [[dcs allKeys] objectAtIndex:0];
         NSDictionary *dic = [dcs valueForKey:key];
         self.textView.text = [dic description];
+        
+        [self.indicatorView stopAnimating];
+        [self.indicatorView setHidden:YES];
     });
 }
 
@@ -89,16 +121,18 @@
                     :(NSInteger)month
                     :(NSInteger)day
 {
-    if (type == 0) {
+    if (type == NoPara) {
         self.frame = PackFrameWithDadt(afn, pn, fn, &_outlen);
         
-    }else if(type == 1){
+    }else if(type == YearMonth){
         self.frame = PackFrameWithTdm(afn, pn, fn, year, month, &_outlen);
         
-    }else if(type == 2){
+    }else if(type == YearMonthDay){
         self.frame = PackFrameWithTdd(afn, pn, fn, year, month, day,&_outlen);
-    }else if(type == 3){
+        
+    }else if(type == CurveData){
         self.frame = PackFrameWithTdc(afn, pn, fn, year, month, day, 0, 0, 1, 60, &_outlen);
+        
     } else {
         self.frame = PackFrameForEvent(afn, pn, fn, 0, 5, &_outlen);
         
@@ -107,7 +141,12 @@
 
 - (IBAction)sendData:(id)sender {
     
+    [self.indicatorView setHidden:NO];
+    [self.indicatorView startAnimating];
     self.textView.text = @"";
+    self.frameOriginal.text = @"";
+    
+    [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"data"];
  
     Byte afn;
     XL_UINT8 fn;
@@ -122,14 +161,14 @@
     month = [self.month.text integerValue];
     day =   [self.day.text integerValue];
     
-    if ([self.afnType.text isEqualToString:@"1"]) {
-        afn = 0x0c;
+    if ([self.afnType.text isEqualToString:DataType1]) {
+        afn = AFN0C;
     }
-    if ([self.afnType.text isEqualToString:@"2"]) {
-        afn = 0x0d;
+    if ([self.afnType.text isEqualToString:DataType2]) {
+        afn = AFN0D;
     }
-    if ([self.afnType.text isEqualToString:@"3"]) {
-        afn = 0x0e;
+    if ([self.afnType.text isEqualToString:DataType3]) {
+        afn = AFN0E;
     }
     
     NSInteger type = self.dataType.selectedSegmentIndex;

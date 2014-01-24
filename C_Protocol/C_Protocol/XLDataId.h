@@ -1191,127 +1191,314 @@ typedef enum dcanalog_month_data
 //测量点日数据——电压谐波数据
 typedef enum daily_data_vharmonic
 {
+    //数据时标
+    hdDataTime_ddv,
     
-    hdDataTime_ddv,   //数据时标
+    //A相2次谐波电压含有率日最大值
+    hdHarmoAVoltMax2,
     
-    hdHarmoAVoltMax2,//A相2次谐波电压含有率日最大值
-    hdHarmoAVoltMax2Tm,//A相2次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax3,//A相3次谐波电压含有率日最大值
-    hdHarmoAVoltMax3Tm,//A相3次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax4,//A相4次谐波电压含有率日最大值
-    hdHarmoAVoltMax4Tm,//A相4次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax5,//A相5次谐波电压含有率日最大值
-    hdHarmoAVoltMax5Tm,//A相5次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax6,//A相6次谐波电压含有率日最大值
-    hdHarmoAVoltMax6Tm,//A相6次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax7,//A相7次谐波电压含有率日最大值
-    hdHarmoAVoltMax7Tm,//A相7次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax8,//A相8次谐波电压含有率日最大值
-    hdHarmoAVoltMax8Tm,//A相8次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax9,//A相9次谐波电压含有率日最大值
-    hdHarmoAVoltMax9Tm,//A相9次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax10,//A相10次谐波电压含有率日最大值
-    hdHarmoAVoltMax10Tm,//A相10次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax11,//A相11次谐波电压含有率日最大值
-    hdHarmoAVoltMax11Tm,//A相11次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax12,//A相12次谐波电压含有率日最大值
-    hdHarmoAVoltMax12Tm,//A相12次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax13,//A相13次谐波电压含有率日最大值
-    hdHarmoAVoltMax13Tm,//A相13次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax14,//A相14次谐波电压含有率日最大值
-    hdHarmoAVoltMax14Tm,//A相14次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax15,//A相15次谐波电压含有率日最大值
-    hdHarmoAVoltMax15Tm,//A相15次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax16,//A相16次谐波电压含有率日最大值
-    hdHarmoAVoltMax16Tm,//A相16次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax17,//A相17次谐波电压含有率日最大值
-    hdHarmoAVoltMax17Tm,//A相17次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax18,//A相18次谐波电压含有率日最大值
-    hdHarmoAVoltMax18Tm,//A相18次谐波电压含有率日最大值发生时间
-    hdHarmoAVoltMax19,//A相19次谐波电压含有率日最大值
-    hdHarmoAVoltMax19Tm,//A相19次谐波电压含有率日最大值发生时间
-    hdDistortionAVoltMax,//A相总谐波电压含有率日最大值
-    hdDistortionAVoltMaxTm,//A相总谐波电压含有率日最大值发生时间
+    //A相2次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax2Tm,
+    
+    //A相3次谐波电压含有率日最大值
+    hdHarmoAVoltMax3,
+    
+    //A相3次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax3Tm,
+    
+    //A相4次谐波电压含有率日最大值
+    hdHarmoAVoltMax4,
+    
+    //A相4次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax4Tm,
+    
+    //A相5次谐波电压含有率日最大值
+    hdHarmoAVoltMax5,
+    
+    //A相5次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax5Tm,
+    
+    //A相6次谐波电压含有率日最大值
+    hdHarmoAVoltMax6,
+    
+    //A相6次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax6Tm,
+    
+    //A相7次谐波电压含有率日最大值
+    hdHarmoAVoltMax7,
+    
+    //A相7次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax7Tm,
+    
+    //A相8次谐波电压含有率日最大值
+    hdHarmoAVoltMax8,
+    
+    //A相8次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax8Tm,
+    
+    //A相9次谐波电压含有率日最大值
+    hdHarmoAVoltMax9,
+    
+    //A相9次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax9Tm,
+    
+    //A相10次谐波电压含有率日最大值
+    hdHarmoAVoltMax10,
+    
+    //A相10次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax10Tm,
+    
+    //A相11次谐波电压含有率日最大值
+    hdHarmoAVoltMax11,
+    
+    //A相11次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax11Tm,
+    
+    //A相12次谐波电压含有率日最大值
+    hdHarmoAVoltMax12,
+    
+    //A相12次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax12Tm,
+    
+    //A相13次谐波电压含有率日最大值
+    hdHarmoAVoltMax13,
+    
+    //A相13次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax13Tm,
+    
+    //A相14次谐波电压含有率日最大值
+    hdHarmoAVoltMax14,
+    
+    //A相14次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax14Tm,
+    
+    //A相15次谐波电压含有率日最大值
+    hdHarmoAVoltMax15,
+    
+    //A相15次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax15Tm,
+    
+    //A相16次谐波电压含有率日最大值
+    hdHarmoAVoltMax16,
+    
+    //A相16次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax16Tm,
+    
+    //A相17次谐波电压含有率日最大值
+    hdHarmoAVoltMax17,
+    
+    //A相17次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax17Tm,
+    
+    //A相18次谐波电压含有率日最大值
+    hdHarmoAVoltMax18,
+    
+    //A相18次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax18Tm,
+    
+    //A相19次谐波电压含有率日最大值
+    hdHarmoAVoltMax19,
+    
+    //A相19次谐波电压含有率日最大值发生时间
+    hdHarmoAVoltMax19Tm,
+    
+    //A相总谐波电压含有率日最大值
+    hdDistortionAVoltMax,
+    
+    //A相总谐波电压含有率日最大值发生时间
+    hdDistortionAVoltMaxTm,
+    
+    //B相2次谐波电压含有率日最大值
+    hdHarmoBVoltMax2,
+    
+    //B相2次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax2Tm,
+    
+    //B相3次谐波电压含有率日最大值
+    hdHarmoBVoltMax3,
+    
+    //B相3次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax3Tm,
+    
+    //B相4次谐波电压含有率日最大值
+    hdHarmoBVoltMax4,
+    
+    //B相4次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax4Tm,
+    
+    //B相5次谐波电压含有率日最大值
+    hdHarmoBVoltMax5,
+    
+    //B相5次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax5Tm,
+    
+    //B相6次谐波电压含有率日最大值
+    hdHarmoBVoltMax6,
+    
+    //B相6次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax6Tm,
+    
+    //B相7次谐波电压含有率日最大值
+    hdHarmoBVoltMax7,
+    
+    //B相7次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax7Tm,
+    
+    //B相8次谐波电压含有率日最大值
+    hdHarmoBVoltMax8,
+    
+    //B相8次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax8Tm,
+    
+    //B相9次谐波电压含有率日最大值
+    hdHarmoBVoltMax9,
+    
+    //B相9次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax9Tm,
+    
+    //B相10次谐波电压含有率日最大值
+    hdHarmoBVoltMax10,
+    
+    //B相10次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax10Tm,
+    
+    //B相11次谐波电压含有率日最大值
+    hdHarmoBVoltMax11,
+    
+    //B相11次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax11Tm,
+    
+    //B相12次谐波电压含有率日最大值
+    hdHarmoBVoltMax12,
+    
+    //B相12次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax12Tm,
+    
+    //B相13次谐波电压含有率日最大值
+    hdHarmoBVoltMax13,
+    
+    //B相13次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax13Tm,
+    
+    //B相14次谐波电压含有率日最大值
+    hdHarmoBVoltMax14,
+    
+    //B相14次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax14Tm,
+    
+    //B相15次谐波电压含有率日最大值
+    hdHarmoBVoltMax15,
+    
+    //B相15次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax15Tm,
+    
+    //B相16次谐波电压含有率日最大值
+    hdHarmoBVoltMax16,
+    
+    //B相16次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax16Tm,
+    
+    //B相17次谐波电压含有率日最大值
+    hdHarmoBVoltMax17,
+    
+    //B相17次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax17Tm,
+    
+    //B相18次谐波电压含有率日最大值
+    hdHarmoBVoltMax18,
+    
+    //B相18次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax18Tm,
+    
+    //B相19次谐波电压含有率日最大值
+    hdHarmoBVoltMax19,
+    
+    //B相19次谐波电压含有率日最大值发生时间
+    hdHarmoBVoltMax19Tm,
+    
+    //B相总谐波电压含有率日最大值
+    hdDistortionBVoltMax,
+    
+    //B相总谐波电压含有率日最大值发生时间
+    hdDistortionBVoltMaxTm,
     
     
-    hdHarmoBVoltMax2,//B相2次谐波电压含有率日最大值
-    hdHarmoBVoltMax2Tm,//B相2次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax3,//B相3次谐波电压含有率日最大值
-    hdHarmoBVoltMax3Tm,//B相3次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax4,//B相4次谐波电压含有率日最大值
-    hdHarmoBVoltMax4Tm,//B相4次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax5,//B相5次谐波电压含有率日最大值
-    hdHarmoBVoltMax5Tm,//B相5次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax6,//B相6次谐波电压含有率日最大值
-    hdHarmoBVoltMax6Tm,//B相6次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax7,//B相7次谐波电压含有率日最大值
-    hdHarmoBVoltMax7Tm,//B相7次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax8,//B相8次谐波电压含有率日最大值
-    hdHarmoBVoltMax8Tm,//B相8次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax9,//B相9次谐波电压含有率日最大值
-    hdHarmoBVoltMax9Tm,//B相9次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax10,//B相10次谐波电压含有率日最大值
-    hdHarmoBVoltMax10Tm,//B相10次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax11,//B相11次谐波电压含有率日最大值
-    hdHarmoBVoltMax11Tm,//B相11次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax12,//B相12次谐波电压含有率日最大值
-    hdHarmoBVoltMax12Tm,//B相12次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax13,//B相13次谐波电压含有率日最大值
-    hdHarmoBVoltMax13Tm,//B相13次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax14,//B相14次谐波电压含有率日最大值
-    hdHarmoBVoltMax14Tm,//B相14次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax15,//B相15次谐波电压含有率日最大值
-    hdHarmoBVoltMax15Tm,//B相15次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax16,//B相16次谐波电压含有率日最大值
-    hdHarmoBVoltMax16Tm,//B相16次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax17,//B相17次谐波电压含有率日最大值
-    hdHarmoBVoltMax17Tm,//B相17次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax18,//B相18次谐波电压含有率日最大值
-    hdHarmoBVoltMax18Tm,//B相18次谐波电压含有率日最大值发生时间
-    hdHarmoBVoltMax19,//B相19次谐波电压含有率日最大值
-    hdHarmoBVoltMax19Tm,//B相19次谐波电压含有率日最大值发生时间
-    hdDistortionBVoltMax,//B相总谐波电压含有率日最大值
-    hdDistortionBVoltMaxTm,//B相总谐波电压含有率日最大值发生时间
+    hdHarmoCVoltMax2,  //C相2次谐波电压含有率日最大值
     
-    
-    hdHarmoCVoltMax2,//C相2次谐波电压含有率日最大值
     hdHarmoCVoltMax2Tm,//C相2次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax3,//C相3次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax3,  //C相3次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax3Tm,//C相3次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax4,//C相4次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax4,  //C相4次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax4Tm,//C相4次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax5,//C相5次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax5,  //C相5次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax5Tm,//C相5次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax6,//C相6次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax6,  //C相6次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax6Tm,//C相6次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax7,//C相7次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax7,  //C相7次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax7Tm,//C相7次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax8,//C相8次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax8,  //C相8次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax8Tm,//C相8次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax9,//C相9次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax9,  //C相9次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax9Tm,//C相9次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax10,//C相10次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax10 ,//C相10次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax10Tm,//C相10次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax11,//C相11次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax11,  //C相11次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax11Tm,//C相11次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax12,//C相12次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax12,  //C相12次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax12Tm,//C相12次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax13,//C相13次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax13,  //C相13次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax13Tm,//C相13次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax14,//C相14次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax14,  //C相14次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax14Tm,//C相14次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax15,//C相15次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax15,  //C相15次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax15Tm,//C相15次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax16,//C相16次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax16,  //C相16次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax16Tm,//C相16次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax17,//C相17次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax17,  //C相17次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax17Tm,//C相17次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax18,//C相18次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax18,  //C相18次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax18Tm,//C相18次谐波电压含有率日最大值发生时间
-    hdHarmoCVoltMax19,//C相19次谐波电压含有率日最大值
+    
+    hdHarmoCVoltMax19,  //C相19次谐波电压含有率日最大值
+    
     hdHarmoCVoltMax19Tm,//C相19次谐波电压含有率日最大值发生时间
+    
     hdDistortionCVoltMax,//C相总谐波电压含有率日最大值
+    
     hdDistortionCVoltMaxTm,//C相总谐波电压含有率日最大值发生时间
+    
 }DAILY_DATA_VHARMONIC;
 
 
@@ -1327,121 +1514,233 @@ typedef enum daily_data_charmonic
 {
     hdDataTime_ddc,//数据时标
     
-    hdHarmoACurMax2,//A相2次谐波电流日最大值
+    hdHarmoACurMax2,  //A相2次谐波电流日最大值
+    
     hdHarmoACurMax2Tm,//A相2次谐波电流日最大值发生时间
-    hdHarmoACurMax3,//A相3次谐波电流日最大值
+    
+    hdHarmoACurMax3,  //A相3次谐波电流日最大值
+    
     hdHarmoACurMax3Tm,//A相3次谐波电流日最大值发生时间
-    hdHarmoACurMax4,//A相4次谐波电流日最大值
+    
+    hdHarmoACurMax4,  //A相4次谐波电流日最大值
+    
     hdHarmoACurMax4Tm,//A相4次谐波电流日最大值发生时间
-    hdHarmoACurMax5,//A相5次谐波电流日最大值
+    
+    hdHarmoACurMax5,  //A相5次谐波电流日最大值
+    
     hdHarmoACurMax5Tm,//A相5次谐波电流日最大值发生时间
-    hdHarmoACurMax6,//A相6次谐波电流日最大值
+    
+    hdHarmoACurMax6,  //A相6次谐波电流日最大值
+    
     hdHarmoACurMax6Tm,//A相6次谐波电流日最大值发生时间
-    hdHarmoACurMax7,//A相7次谐波电流日最大值
+    
+    hdHarmoACurMax7,  //A相7次谐波电流日最大值
+    
     hdHarmoACurMax7Tm,//A相7次谐波电流日最大值发生时间
-    hdHarmoACurMax8,//A相8次谐波电流日最大值
+    
+    hdHarmoACurMax8,  //A相8次谐波电流日最大值
+    
     hdHarmoACurMax8Tm,//A相8次谐波电流日最大值发生时间
-    hdHarmoACurMax9,//A相9次谐波电流日最大值
+    
+    hdHarmoACurMax9,  //A相9次谐波电流日最大值
+    
     hdHarmoACurMax9Tm,//A相9次谐波电流日最大值发生时间
-    hdHarmoACurMax10,//A相10次谐波电流日最大值
+    
+    hdHarmoACurMax10, //A相10次谐波电流日最大值
+    
     hdHarmoACurMax10Tm,//A相10次谐波电流日最大值发生时间
-    hdHarmoACurMax11,//A相11次谐波电流日最大值
+    
+    hdHarmoACurMax11,  //A相11次谐波电流日最大值
+    
     hdHarmoACurMax11Tm,//A相11次谐波电流日最大值发生时间
-    hdHarmoACurMax12,//A相12次谐波电流日最大值
+    
+    hdHarmoACurMax12,  //A相12次谐波电流日最大值
+    
     hdHarmoACurMax12Tm,//A相12次谐波电流日最大值发生时间
-    hdHarmoACurMax13,//A相13次谐波电流日最大值
+    
+    hdHarmoACurMax13,  //A相13次谐波电流日最大值
+    
     hdHarmoACurMax13Tm,//A相13次谐波电流日最大值发生时间
-    hdHarmoACurMax14,//A相14次谐波电流日最大值
+    
+    hdHarmoACurMax14,  //A相14次谐波电流日最大值
+    
     hdHarmoACurMax14Tm,//A相14次谐波电流日最大值发生时间
-    hdHarmoACurMax15,//A相15次谐波电流日最大值
+    
+    hdHarmoACurMax15,  //A相15次谐波电流日最大值
+    
     hdHarmoACurMax15Tm,//A相15次谐波电流日最大值发生时间
-    hdHarmoACurMax16,//A相16次谐波电流日最大值
+    
+    hdHarmoACurMax16,  //A相16次谐波电流日最大值
+    
     hdHarmoACurMax16Tm,//A相16次谐波电流日最大值发生时间
-    hdHarmoACurMax17,//A相17次谐波电流日最大值
+    
+    hdHarmoACurMax17,  //A相17次谐波电流日最大值
+    
     hdHarmoACurMax17Tm,//A相17次谐波电流日最大值发生时间
-    hdHarmoACurMax18,//A相18次谐波电流日最大值
+    
+    hdHarmoACurMax18,  //A相18次谐波电流日最大值
+    
     hdHarmoACurMax18Tm,//A相18次谐波电流日最大值发生时间
-    hdHarmoACurMax19,//A相19次谐波电流日最大值
+    
+    hdHarmoACurMax19,  //A相19次谐波电流日最大值
+    
     hdHarmoACurMax19Tm,//A相19次谐波电流日最大值发生时间
+    
     hdDistortionACurMax,//A相总谐波电流日最大值
+    
     hdDistortionACurMaxTm,//A相总畸变电流日最大值发生时间
     
-    hdHarmoBCurMax2,//B相2次谐波电流日最大值
+    hdHarmoBCurMax2,  //B相2次谐波电流日最大值
+    
     hdHarmoBCurMax2Tm,//B相2次谐波电流日最大值发生时间
-    hdHarmoBCurMax3,//B相3次谐波电流日最大值
+    
+    hdHarmoBCurMax3,  //B相3次谐波电流日最大值
+    
     hdHarmoBCurMax3Tm,//B相3次谐波电流日最大值发生时间
-    hdHarmoBCurMax4,//B相4次谐波电流日最大值
+    
+    hdHarmoBCurMax4,  //B相4次谐波电流日最大值
+    
     hdHarmoBCurMax4Tm,//B相4次谐波电流日最大值发生时间
-    hdHarmoBCurMax5,//B相5次谐波电流日最大值
+    
+    hdHarmoBCurMax5,  //B相5次谐波电流日最大值
+    
     hdHarmoBCurMax5Tm,//B相5次谐波电流日最大值发生时间
-    hdHarmoBCurMax6,//B相6次谐波电流日最大值
+    
+    hdHarmoBCurMax6,  //B相6次谐波电流日最大值
+    
     hdHarmoBCurMax6Tm,//B相6次谐波电流日最大值发生时间
-    hdHarmoBCurMax7,//B相7次谐波电流日最大值
+    
+    hdHarmoBCurMax7,  //B相7次谐波电流日最大值
+    
     hdHarmoBCurMax7Tm,//B相7次谐波电流日最大值发生时间
-    hdHarmoBCurMax8,//B相8次谐波电流日最大值
+    
+    hdHarmoBCurMax8,  //B相8次谐波电流日最大值
+    
     hdHarmoBCurMax8Tm,//B相8次谐波电流日最大值发生时间
-    hdHarmoBCurMax9,//B相9次谐波电流日最大值
+    
+    hdHarmoBCurMax9,  //B相9次谐波电流日最大值
+    
     hdHarmoBCurMax9Tm,//B相9次谐波电流日最大值发生时间
-    hdHarmoBCurMax10,//B相10次谐波电流日最大值
+    
+    hdHarmoBCurMax10,  //B相10次谐波电流日最大值
+    
     hdHarmoBCurMax10Tm,//B相10次谐波电流日最大值发生时间
-    hdHarmoBCurMax11,//B相11次谐波电流日最大值
+    
+    hdHarmoBCurMax11,  //B相11次谐波电流日最大值
+    
     hdHarmoBCurMax11Tm,//B相11次谐波电流日最大值发生时间
-    hdHarmoBCurMax12,//B相12次谐波电流日最大值
+    
+    hdHarmoBCurMax12,  //B相12次谐波电流日最大值
+    
     hdHarmoBCurMax12Tm,//B相12次谐波电流日最大值发生时间
-    hdHarmoBCurMax13,//B相13次谐波电流日最大值
+    
+    hdHarmoBCurMax13,  //B相13次谐波电流日最大值
+    
     hdHarmoBCurMax13Tm,//B相13次谐波电流日最大值发生时间
-    hdHarmoBCurMax14,//B相14次谐波电流日最大值
+    
+    hdHarmoBCurMax14,  //B相14次谐波电流日最大值
+    
     hdHarmoBCurMax14Tm,//B相14次谐波电流日最大值发生时间
-    hdHarmoBCurMax15,//B相15次谐波电流日最大值
+    
+    hdHarmoBCurMax15,  //B相15次谐波电流日最大值
+    
     hdHarmoBCurMax15Tm,//B相15次谐波电流日最大值发生时间
-    hdHarmoBCurMax16,//B相16次谐波电流日最大值
+    
+    hdHarmoBCurMax16,  //B相16次谐波电流日最大值
+    
     hdHarmoBCurMax16Tm,//B相16次谐波电流日最大值发生时间
-    hdHarmoBCurMax17,//B相17次谐波电流日最大值
+    
+    hdHarmoBCurMax17,  //B相17次谐波电流日最大值
+    
     hdHarmoBCurMax17Tm,//B相17次谐波电流日最大值发生时间
-    hdHarmoBCurMax18,//B相18次谐波电流日最大值
+    
+    hdHarmoBCurMax18,  //B相18次谐波电流日最大值
+    
     hdHarmoBCurMax18Tm,//B相18次谐波电流日最大值发生时间
-    hdHarmoBCurMax19,//B相19次谐波电流日最大值
+    
+    hdHarmoBCurMax19,  //B相19次谐波电流日最大值
+    
     hdHarmoBCurMax19Tm,//B相19次谐波电流日最大值发生时间
+    
     hdDistortionBCurMax,//B相总畸变电流日最大值
+    
     hdDistortionBCurMaxTm,//B相总畸变电流日最大值发生时间
     
-    hdHarmoCCurMax2,//C相2次谐波电流日最大值
+    
+    hdHarmoCCurMax2,  //C相2次谐波电流日最大值
+    
     hdHarmoCCurMax2Tm,//C相2次谐波电流日最大值发生时间
-    hdHarmoCCurMax3,//C相3次谐波电流日最大值
+    
+    hdHarmoCCurMax3,  //C相3次谐波电流日最大值
+    
     hdHarmoCCurMax3Tm,//C相3次谐波电流日最大值发生时间
-    hdHarmoCCurMax4,//C相4次谐波电流日最大值
+    
+    hdHarmoCCurMax4,  //C相4次谐波电流日最大值
+    
     hdHarmoCCurMax4Tm,//C相4次谐波电流日最大值发生时间
-    hdHarmoCCurMax5,//C相5次谐波电流日最大值
+    
+    hdHarmoCCurMax5,  //C相5次谐波电流日最大值
+    
     hdHarmoCCurMax5Tm,//C相5次谐波电流日最大值发生时间
-    hdHarmoCCurMax6,//C相6次谐波电流日最大值
+    
+    hdHarmoCCurMax6,  //C相6次谐波电流日最大值
+    
     hdHarmoCCurMax6Tm,//C相6次谐波电流日最大值发生时间
-    hdHarmoCCurMax7,//C相7次谐波电流日最大值
+    
+    hdHarmoCCurMax7,  //C相7次谐波电流日最大值
+    
     hdHarmoCCurMax7Tm,//C相7次谐波电流日最大值发生时间
-    hdHarmoCCurMax8,//C相8次谐波电流日最大值
+    
+    hdHarmoCCurMax8,  //C相8次谐波电流日最大值
+    
     hdHarmoCCurMax8Tm,//C相8次谐波电流日最大值发生时间
-    hdHarmoCCurMax9,//C相9次谐波电流日最大值
+    
+    hdHarmoCCurMax9,  //C相9次谐波电流日最大值
+    
     hdHarmoCCurMax9Tm,//C相9次谐波电流日最大值发生时间
-    hdHarmoCCurMax10,//C相10次谐波电流日最大值
+    
+    hdHarmoCCurMax10, //C相10次谐波电流日最大值
+    
     hdHarmoCCurMax10Tm,//C相10次谐波电流日最大值发生时间
-    hdHarmoCCurMax11,//C相11次谐波电流日最大值
+    
+    hdHarmoCCurMax11,  //C相11次谐波电流日最大值
+    
     hdHarmoCCurMax11Tm,//C相11次谐波电流日最大值发生时间
-    hdHarmoCCurMax12,//C相12次谐波电流日最大值
+    
+    hdHarmoCCurMax12,  //C相12次谐波电流日最大值
+    
     hdHarmoCCurMax12Tm,//C相12次谐波电流日最大值发生时间
-    hdHarmoCCurMax13,//C相13次谐波电流日最大值
+    
+    hdHarmoCCurMax13,  //C相13次谐波电流日最大值
+    
     hdHarmoCCurMax13Tm,//C相13次谐波电流日最大值发生时间
-    hdHarmoCCurMax14,//C相14次谐波电流日最大值
+    
+    hdHarmoCCurMax14,  //C相14次谐波电流日最大值
+    
     hdHarmoCCurMax14Tm,//C相14次谐波电流日最大值发生时间
-    hdHarmoCCurMax15,//C相15次谐波电流日最大值
+    
+    hdHarmoCCurMax15,  //C相15次谐波电流日最大值
+    
     hdHarmoCCurMax15Tm,//C相15次谐波电流日最大值发生时间
-    hdHarmoCCurMax16,//C相16次谐波电流日最大值
+    
+    hdHarmoCCurMax16,  //C相16次谐波电流日最大值
+    
     hdHarmoCCurMax16Tm,//C相16次谐波电流日最大值发生时间
-    hdHarmoCCurMax17,//C相17次谐波电流日最大值
+    
+    hdHarmoCCurMax17,  //C相17次谐波电流日最大值
+    
     hdHarmoCCurMax17Tm,//C相17次谐波电流日最大值发生时间
-    hdHarmoCCurMax18,//C相18次谐波电流日最大值
+    
+    hdHarmoCCurMax18,  //C相18次谐波电流日最大值
+    
     hdHarmoCCurMax18Tm,//C相18次谐波电流日最大值发生时间
-    hdHarmoCCurMax19,//C相19次谐波电流日最大值
+    
+    hdHarmoCCurMax19,  //C相19次谐波电流日最大值
+    
     hdHarmoCCurMax19Tm,//C相19次谐波电流日最大值发生时间
+    
     hdDistortionCCurMax,//C相总畸变电流日最大值
+    
     hdDistortionCCurMaxTm,//C相总畸变电流日最大值发生时间
     
 }DAILYDATA_CHARMONIC;
@@ -1457,28 +1756,22 @@ typedef enum daily_data_charmonic
 typedef enum measure_curve_data
 {
     cvBeginData,    //日期
+    
     cvCurveDensity, //密度
-    cvCurveCount,//点数
-    //   cvCurveData , //曲线数据
+    
+    cvCurveCount,   //点数
+
     //曲线类型
+    cvCurvePower, //功率曲线类型
     
-    cvCurvePower, //有功／无功功率曲线类型
+    cvCurveVolt,  //电压曲线类型
     
-    
-    //    cvCurvePosRE, //无功功率曲线
-    
-    cvCurveVolt,//电压曲线类型
-    
-    cvCurveCur,//电流曲线类型
-    
+    cvCurveCur,   //电流曲线类型
     
     cvCurvePowerFactor,//功率因素曲线
     
-    
     cvCurveDireCurAnalog,//直流模拟量数据曲线
-    
-    
-    
+
 }MEASURE_CURVE_DATA;
 
 
@@ -1493,109 +1786,161 @@ typedef enum measure_day_sta
 {
     
     hdDataTime_mds,//数据时标
-    //hdDataType,//日/月数据类型
-    hdAVoltOverHHAccTm,//A相电压越上上限日/月累计时间
-    hdAVoltDownLLAccTm,//A相电压越下下限日/月累计时间
-    hdAVoltOverHiAccTm,//A相电压越上限日/月累计时间
-    hdAVoltDownLoAccTm,//A相电压越下限日/月累计时间
+
+    hdAVoltOverHHAccTm, //A相电压越上上限日/月累计时间
+    
+    hdAVoltDownLLAccTm, //A相电压越下下限日/月累计时间
+    
+    hdAVoltOverHiAccTm, //A相电压越上限日/月累计时间
+    
+    hdAVoltDownLoAccTm, //A相电压越下限日/月累计时间
+    
     hdAVoltRegularAccTm,//A相电压合格日/月累计时间
     
-    hdBVoltOverHHAccTm,//B相电压越上上限日/月累计时间
-    hdBVoltDownLLAccTm,//B相电压越下下限日/月累计时间
-    hdBVoltOverHiAccTm,//B相电压越上限日/月累计时间
-    hdBVoltDownLoAccTm,//B相电压越下限日/月累计时间
+    hdBVoltOverHHAccTm, //B相电压越上上限日/月累计时间
+    
+    hdBVoltDownLLAccTm, //B相电压越下下限日/月累计时间
+    
+    hdBVoltOverHiAccTm, //B相电压越上限日/月累计时间
+    
+    hdBVoltDownLoAccTm, //B相电压越下限日/月累计时间
+    
     hdBVoltRegularAccTm,//B相电压合格日/月累计时间
     
-    hdCVoltOverHHAccTm,//C相电压越上上限日/月累计时间
-    hdCVoltDownLLAccTm,//C相电压越下下限日/月累计时间
-    hdCVoltOverHiAccTm,//C相电压越上限日/月累计时间
-    hdCVoltDownLoAccTm,//C相电压越下限日/月累计时间
+    hdCVoltOverHHAccTm, //C相电压越上上限日/月累计时间
+    
+    hdCVoltDownLLAccTm, //C相电压越下下限日/月累计时间
+    
+    hdCVoltOverHiAccTm, //C相电压越上限日/月累计时间
+    
+    hdCVoltDownLoAccTm, //C相电压越下限日/月累计时间
+    
     hdCVoltRegularAccTm,//C相电压合格日/月累计时间
     
-    hdAVoltMax,//A相电压最大值
+    hdAVoltMax,  //A相电压最大值
+    
     hdAVoltMaxTm,//A相电压最大值发生时间
-    hdAVoltMin,//A相电压最小值
+    
+    hdAVoltMin,  //A相电压最小值
+    
     hdAVoltMinTm,//A相电压最小值发生时间
     
-    hdBVoltMax,//B相电压最大值
+    hdBVoltMax,  //B相电压最大值
+    
     hdBVoltMaxTm,//B相电压最大值发生时间
-    hdBVoltMin,//B相电压最小值
+    
+    hdBVoltMin,  //B相电压最小值
+    
     hdBVoltMinTm,//B相电压最小值发生时间
     
-    hdCVoltMax,//C相电压最大值
+    hdCVoltMax,  //C相电压最大值
+    
     hdCVoltMaxTm,//C相电压最大值发生时间
-    hdCVoltMin,//C相电压最小值
+    
+    hdCVoltMin,  //C相电压最小值
+    
     hdCVoltMinTm,//C相电压最小值发生时间
     
-    hdAVoltAvg,//A相平均电压
-    hdBVoltAvg,//B相平均电压
-    hdCVoltAvg,//C相平均电压
+    hdAVoltAvg,  //A相平均电压
     
-    hdAVoltOverHiRate,//A相电压越上限率
-    hdAVoltDownLoRate,//A相电压越下限率
+    hdBVoltAvg,  //B相平均电压
+    
+    hdCVoltAvg,  //C相平均电压
+    
+    hdAVoltOverHiRate, //A相电压越上限率
+    
+    hdAVoltDownLoRate, //A相电压越下限率
+    
     hdAVoltRegularRate,//A相电压合格率
     
-    hdBVoltOverHiRate,//B相电压越上限率
-    hdBVoltDownLoRate,//B相电压越下限率
+    hdBVoltOverHiRate, //B相电压越上限率
+    
+    hdBVoltDownLoRate, //B相电压越下限率
+    
     hdBVoltRegularRate,//B相电压合格率
     
-    hdCVoltOverHiRate,//C相电压越上限率
-    hdCVoltDownLoRate,//C相电压越下限率
+    hdCVoltOverHiRate, //C相电压越上限率
+    
+    hdCVoltDownLoRate, //C相电压越下限率
+    
     hdCVoltRegularRate,//C相电压合格率
     
-    hdCurUnbalOLmtAccTm,//电流不平衡度越限日/月累计时间
-    hdVoltUnbalOLmtAccTm,//电压不平衡度越限日/月累计时间
-    hdCurUnbalMax,//电流不平衡最大值
-    hdCurUnbalMaxTm,//电流不平衡最大值发生时间
+    hdCurUnbalOLmtAccTm, //电流不平衡度越限日/月累计时间
     
-    hdVoltUnbalMax,//电压不平衡最大值
+    hdVoltUnbalOLmtAccTm,//电压不平衡度越限日/月累计时间
+    
+    hdCurUnbalMax,       //电流不平衡最大值
+    
+    hdCurUnbalMaxTm,     //电流不平衡最大值发生时间
+    
+    hdVoltUnbalMax,  //电压不平衡最大值
+    
     hdVoltUnbalMaxTm,//电压不平衡最大值发生时间
     
     hdACurOverHHAccTm,//A相电流越上上限累计时间
+    
     hdACurOverHiAccTm,//A相电流越上限累计时间
     
     hdBCurOverHHAccTm,//B相电流越上上限累计时间
+    
     hdBCurOverHiAccTm,//B相电流越上限累计时间
     
     hdCCurOverHHAccTm,//C相电流越上上限累计时间
+    
     hdCCurOverHiAccTm,//C相电流越上限累计时间
     
     hdZeroCurOverHHAccTm,//零序电流越上限累计时间
     
-    hdACurMax,//A相电流最大值
+    hdACurMax,  //A相电流最大值
+    
     hdACurMaxTm,//A相电流最大值发生时间
     
-    hdBCurMax,//B相电流最大值
+    hdBCurMax,  //B相电流最大值
+    
     hdBCurMaxTm,//B相电流最大值发生时间
     
-    hdCCurMax,//C相电流最大值
+    hdCCurMax,  //C相电流最大值
+    
     hdCCurMaxTm,//C相电流最大值发生时间
     
-    hdZeroCurMax,//零序电流最大值
+    hdZeroCurMax,  //零序电流最大值
+    
     hdZeroCurMaxTm,//零序电流最大值发生时间
     
     hdAPOverHHAccTm,//视在功率越上上限累计时间
+    
     hdAPOverHiAccTm,//视在功率越上限累计时间
     
     hdPfSector1AccTm,//区段1累计时间（功率因数＜定值1）
+    
     hdPfSector2AccTm,//区段2累计时间（定值1≤功率因数＜定值2）
+    
     hdPfSector3AccTm,//区段3累计时间（功率因数≥定值2）
     
-    hdAPMaxZ,//三相总最大有功功率
+    hdAPMaxZ,  //三相总最大有功功率
+    
     hdAPMaxZTm,//三相总最大有功功率发生时间
-    hdAPMaxA,//A相最大有功功率
+    
+    hdAPMaxA,  //A相最大有功功率
+    
     hdAPMaxATm,//A相最大有功功率发生时间
-    HdAPMaxB,//B相最大有功功率
+    
+    HdAPMaxB,  //B相最大有功功率
+    
     hdAPMaxBTm,//B相最大有功功率发生时间
-    HdAPMaxC,//C相最大有功功率
+    
+    HdAPMaxC,  //C相最大有功功率
+    
     hdAPMaxCTm,//C相最大有功功率发生时间
     
     hdAPZeroAccTmZ,//三相总有功功率为零时间
+    
     hdAPZeroAccTmA,//A相有功功率为零时间
+    
     hdAPZeroAccTmB,//B相有功功率为零时间
+    
     hdAPZeroAccTmC,//C相有功功率为零时间
     
-    //hdUpdateTime,//更新时间
 }MEASURE_DAY_STA;
 
 
@@ -1603,110 +1948,162 @@ typedef enum measure_day_sta
 typedef enum measure_month_sta
 {
     
-    hmDataTime_mms,//数据时标
-    //hdDataType,//日/月数据类型
+    hmDataTime_mms,    //数据时标
+ 
     hmAVoltOverHHAccTm,//A相电压越上上限日/月累计时间
+    
     hmAVoltDownLLAccTm,//A相电压越下下限日/月累计时间
+    
     hmAVoltOverHiAccTm,//A相电压越上限日/月累计时间
+    
     hmAVoltDownLoAccTm,//A相电压越下限日/月累计时间
+    
     hmAVoltRegularAccTm,//A相电压合格日/月累计时间
     
-    hmBVoltOverHHAccTm,//B相电压越上上限日/月累计时间
-    hmBVoltDownLLAccTm,//B相电压越下下限日/月累计时间
-    hmBVoltOverHiAccTm,//B相电压越上限日/月累计时间
-    hmBVoltDownLoAccTm,//B相电压越下限日/月累计时间
+    hmBVoltOverHHAccTm, //B相电压越上上限日/月累计时间
+    
+    hmBVoltDownLLAccTm, //B相电压越下下限日/月累计时间
+    
+    hmBVoltOverHiAccTm, //B相电压越上限日/月累计时间
+    
+    hmBVoltDownLoAccTm, //B相电压越下限日/月累计时间
+    
     hmBVoltRegularAccTm,//B相电压合格日/月累计时间
     
-    hmCVoltOverHHAccTm,//C相电压越上上限日/月累计时间
-    hmCVoltDownLLAccTm,//C相电压越下下限日/月累计时间
-    hmCVoltOverHiAccTm,//C相电压越上限日/月累计时间
-    hmCVoltDownLoAccTm,//C相电压越下限日/月累计时间
+    hmCVoltOverHHAccTm, //C相电压越上上限日/月累计时间
+    
+    hmCVoltDownLLAccTm, //C相电压越下下限日/月累计时间
+    
+    hmCVoltOverHiAccTm, //C相电压越上限日/月累计时间
+    
+    hmCVoltDownLoAccTm, //C相电压越下限日/月累计时间
+    
     hmCVoltRegularAccTm,//C相电压合格日/月累计时间
     
-    hmAVoltMax,//A相电压最大值
+    hmAVoltMax,  //A相电压最大值
+    
     hmAVoltMaxTm,//A相电压最大值发生时间
-    hmAVoltMin,//A相电压最小值
+    
+    hmAVoltMin,  //A相电压最小值
+    
     hmAVoltMinTm,//A相电压最小值发生时间
     
-    hmBVoltMax,//B相电压最大值
+    hmBVoltMax,  //B相电压最大值
+    
     hmBVoltMaxTm,//B相电压最大值发生时间
-    hmBVoltMin,//B相电压最小值
+    
+    hmBVoltMin,  //B相电压最小值
+    
     hmBVoltMinTm,//B相电压最小值发生时间
     
-    hmCVoltMax,//C相电压最大值
+    hmCVoltMax,  //C相电压最大值
+    
     hmCVoltMaxTm,//C相电压最大值发生时间
-    hmCVoltMin,//C相电压最小值
+    
+    hmCVoltMin,  //C相电压最小值
+    
     hmCVoltMinTm,//C相电压最小值发生时间
     
-    hmAVoltAvg,//A相平均电压
-    hmBVoltAvg,//B相平均电压
-    hmCVoltAvg,//C相平均电压
+    hmAVoltAvg,  //A相平均电压
     
-    hmAVoltOverHiRate,//A相电压越上限率
-    hmAVoltDownLoRate,//A相电压越下限率
+    hmBVoltAvg,  //B相平均电压
+    
+    hmCVoltAvg,  //C相平均电压
+    
+    hmAVoltOverHiRate, //A相电压越上限率
+    
+    hmAVoltDownLoRate, //A相电压越下限率
+    
     hmAVoltRegularRate,//A相电压合格率
     
-    hmBVoltOverHiRate,//B相电压越上限率
-    hmBVoltDownLoRate,//B相电压越下限率
+    hmBVoltOverHiRate, //B相电压越上限率
+    
+    hmBVoltDownLoRate, //B相电压越下限率
+    
     hmBVoltRegularRate,//B相电压合格率
     
-    hmCVoltOverHiRate,//C相电压越上限率
-    hmCVoltDownLoRate,//C相电压越下限率
+    hmCVoltOverHiRate, //C相电压越上限率
+    
+    hmCVoltDownLoRate, //C相电压越下限率
+    
     hmCVoltRegularRate,//C相电压合格率
     
-    hmCurUnbalOLmtAccTm,//电流不平衡度越限日/月累计时间
-    hmVoltUnbalOLmtAccTm,//电压不平衡度越限日/月累计时间
-    hmCurUnbalMax,//电流不平衡最大值
-    hmCurUnbalMaxTm,//电流不平衡最大值发生时间
+    hmCurUnbalOLmtAccTm, //电流不平衡度越限日/月累计时间
     
-    hmVoltUnbalMax,//电压不平衡最大值
-    hmVoltUnbalMaxTm,//电压不平衡最大值发生时间
+    hmVoltUnbalOLmtAccTm,//电压不平衡度越限日/月累计时间
+    
+    hmCurUnbalMax,       //电流不平衡最大值
+    
+    hmCurUnbalMaxTm,     //电流不平衡最大值发生时间
+    
+    hmVoltUnbalMax,      //电压不平衡最大值
+    
+    hmVoltUnbalMaxTm,    //电压不平衡最大值发生时间
     
     hmACurOverHHAccTm,//A相电流越上上限累计时间
+    
     hmACurOverHiAccTm,//A相电流越上限累计时间
     
     hmBCurOverHHAccTm,//B相电流越上上限累计时间
+    
     hmBCurOverHiAccTm,//B相电流越上限累计时间
     
     hmCCurOverHHAccTm,//C相电流越上上限累计时间
+    
     hmCCurOverHiAccTm,//C相电流越上限累计时间
     
     hmZeroCurOverHHAccTm,//零序电流越上限累计时间
     
-    hmACurMax,//A相电流最大值
+    hmACurMax,  //A相电流最大值
+    
     hmACurMaxTm,//A相电流最大值发生时间
     
-    hmBCurMax,//B相电流最大值
+    hmBCurMax,  //B相电流最大值
+    
     hmBCurMaxTm,//B相电流最大值发生时间
     
-    hmCCurMax,//C相电流最大值
+    hmCCurMax,  //C相电流最大值
+    
     hmCCurMaxTm,//C相电流最大值发生时间
     
-    hmZeroCurMax,//零序电流最大值
+    hmZeroCurMax,  //零序电流最大值
+    
     hmZeroCurMaxTm,//零序电流最大值发生时间
     
     hmAPOverHHAccTm,//视在功率越上上限累计时间
+    
     hmAPOverHiAccTm,//视在功率越上限累计时间
     
     hmPfSector1AccTm,//区段1累计时间（功率因数＜定值1）
+    
     hmPfSector2AccTm,//区段2累计时间（定值1≤功率因数＜定值2）
+    
     hmPfSector3AccTm,//区段3累计时间（功率因数≥定值2）
     
-    hmAPMaxZ,//三相总最大有功功率
+    hmAPMaxZ,  //三相总最大有功功率
+    
     hmAPMaxZTm,//三相总最大有功功率发生时间
-    hmAPMaxA,//A相最大有功功率
+    
+    hmAPMaxA,  //A相最大有功功率
+    
     hmAPMaxATm,//A相最大有功功率发生时间
-    hmAPMaxB,//B相最大有功功率
+    
+    hmAPMaxB,  //B相最大有功功率
+    
     hmAPMaxBTm,//B相最大有功功率发生时间
-    hmAPMaxC,//C相最大有功功率
+    
+    hmAPMaxC,  //C相最大有功功率
+    
     hmAPMaxCTm,//C相最大有功功率发生时间
     
     hmAPZeroAccTmZ,//三相总有功功率为零时间
+    
     hmAPZeroAccTmA,//A相有功功率为零时间
+    
     hmAPZeroAccTmB,//B相有功功率为零时间
+    
     hmAPZeroAccTmC,//C相有功功率为零时间
     
-    //hdUpdateTime,//更新时间
 }MEASURE_MONTH_STA;
 
 //测量点日电能示值数据
@@ -1716,80 +2113,114 @@ typedef enum measure_day_powervalue
     //数据时标
     hdDataTime_mdp=0,
     
+    hdPosAEValueZ, //正向有功总电能示值
     
-    //hdDataType , //日／月数据类型
+    hdPosAEValue1, //正向有功费率1电能示值
     
-    
-    hdPosAEValueZ,//正向有功总电能示值
-    hdPosAEValue1,//正向有功费率1电能示值
     hdPosAEValue2, //正向有功费率2电能示值
-    hdPosAEValue3,//正向有功费率3电能示值
-    hdPosAEValue4,  //正向有功费率4电能示值
+    
+    hdPosAEValue3, //正向有功费率3电能示值
+    
+    hdPosAEValue4, //正向有功费率4电能示值
     
     
     
     hdPosREValueZ,//正向无功总电能示值
+    
     hdPosREValue1,//正向无功费率1电能示值
+    
     hdPosREValue2,//正向无功费率2电能示值
+    
     hdPosREValue3,//正向无功费率3电能示值
+    
     hdPosREValue4,//正向无功费率4电能示值
     
     hdFirstREValueZ,//一象限无功总电能示值
+    
     hdFirstREValue1,//一象限无功费率1电能示值
+    
     hdFirstREValue2,//一象限无功费率2电能示值
+    
     hdFirstREValue3,//一象限无功费率3电能示值
+    
     hdFirstREValue4,//一象限无功费率4电能示值
     
     
     hdFourREValueZ,//四象限无功总电能示值
+    
     hdFourREValue1,//四象限无功费率1电能示值
+    
     hdFourREValue2,//四象限无功费率2电能示值
+    
     hdFourREValue3,//四象限无功费率3电能示值
+    
     hdFourREValue4,//四象限无功费率4电能示值
     
     
     
     
     hdNegAEValueZ,//反向有功总电能示值
+    
     hdNegAEValue1,//反向有功费率1电能示值
+    
     hdNegAEValue2,//反向有功费率2电能示值
+    
     hdNegAEValue3,//反向有功费率3电能示值
+    
     hdNegAEValue4,//反向有功费率4电能示值
     
     
     hdNegREValueZ,//反向无功总电能示值
+    
     hdNegREValue1,//反向无功费率1电能示值
+    
     hdNegREValue2,//反向无功费率2电能示值
+    
     hdNegREValue3,//反向无功费率3电能示值
+    
     hdNegREValue4,//反向无功费率4电能示值
     
-    
-    
-    
+
     hdSecondREValueZ,//二象限无功总电能示值
+    
     hdSecondREValue1,//二象限无功费率1电能示值
+    
     hdSecondREValue2,//二象限无功费率2电能示值
+    
     hdSecondREValue3,//二象限无功费率3电能示值
+    
     hdSecondREValue4,//二象限无功费率4电能示值
     
     
     hdThirdREValueZ,//三象限无功总电能示值
+    
     hdThirdREValue1,//三象限无功费率1电能示值
+    
     hdThirdREValue2,//三象限无功费率2电能示值
+    
     hdThirdREValue3,//三象限无功费率3电能示值
+    
     hdThirdREValue4,//三象限无功费率4电能示值
     
-    hdPosREValueZG,//正向无功（组合无功1）总电能示值
+    hdPosREValueZG,     //正向无功（组合无功1）总电能示值
+    
     hdPosREGroupValueG1,//费率1正向无功（组合无功1）电能示值
+    
     hdPosREGroupValueG2,//费率2正向无功（组合无功1）电能示值
+    
     hdPosREGroupValueG3,//费率3正向无功（组合无功1）电能示值
+    
     hdPosREGroupValueG4,//费率4正向无功（组合无功1）电能示值
     
     
     hdNegREValueZG,//反向无功（组合无功1）总电能示值
+    
     hdNegREValueG1,//费率1反向无功（组合无功1）电能示值
+    
     hdNegREValueG2,//费率2反向无功（组合无功1）电能示值
+    
     hdNegREValueG3,//费率3反向无功（组合无功1）电能示值
+    
     hdNegREValueG4,//费率4反向无功（组合无功1）电能示值
     
 }MEASURE_DAY_POWERVALUE;
@@ -1802,80 +2233,112 @@ typedef enum measure_month_powervalue
     //数据时标
     hmDataTime_mmp=0,
     
+    hmPosAEValueZ, //正向有功总电能示值
     
-    //hdDataType , //日／月数据类型
+    hmPosAEValue1, //正向有功费率1电能示值
     
-    
-    hmPosAEValueZ,//正向有功总电能示值
-    hmPosAEValue1,//正向有功费率1电能示值
     hmPosAEValue2, //正向有功费率2电能示值
-    hmPosAEValue3,//正向有功费率3电能示值
-    hmPosAEValue4,  //正向有功费率4电能示值
+    
+    hmPosAEValue3, //正向有功费率3电能示值
+    
+    hmPosAEValue4, //正向有功费率4电能示值
     
     
     
     hmPosREValueZ,//正向无功总电能示值
+    
     hmPosREValue1,//正向无功费率1电能示值
+    
     hmPosREValue2,//正向无功费率2电能示值
+    
     hmPosREValue3,//正向无功费率3电能示值
+    
     hmPosREValue4,//正向无功费率4电能示值
     
     hmFirstREValueZ,//一象限无功总电能示值
+    
     hmFirstREValue1,//一象限无功费率1电能示值
+    
     hmFirstREValue2,//一象限无功费率2电能示值
+    
     hmFirstREValue3,//一象限无功费率3电能示值
+    
     hmFirstREValue4,//一象限无功费率4电能示值
     
     
     hmFourREValueZ,//四象限无功总电能示值
+    
     hmFourREValue1,//四象限无功费率1电能示值
+    
     hmFourREValue2,//四象限无功费率2电能示值
+    
     hmFourREValue3,//四象限无功费率3电能示值
+    
     hmFourREValue4,//四象限无功费率4电能示值
-    
-    
-    
+
     
     hmNegAEValueZ,//反向有功总电能示值
+    
     hmNegAEValue1,//反向有功费率1电能示值
+    
     hmNegAEValue2,//反向有功费率2电能示值
+    
     hmNegAEValue3,//反向有功费率3电能示值
+    
     hmNegAEValue4,//反向有功费率4电能示值
     
     
     hmNegREValueZ,//反向无功总电能示值
+    
     hmNegREValue1,//反向无功费率1电能示值
+    
     hmNegREValue2,//反向无功费率2电能示值
+    
     hmNegREValue3,//反向无功费率3电能示值
+    
     hmNegREValue4,//反向无功费率4电能示值
     
     
-    
-    
     hmSecondREValueZ,//二象限无功总电能示值
+    
     hmSecondREValue1,//二象限无功费率1电能示值
+    
     hmSecondREValue2,//二象限无功费率2电能示值
+    
     hmSecondREValue3,//二象限无功费率3电能示值
+    
     hmSecondREValue4,//二象限无功费率4电能示值
     
     
     hmThirdREValueZ,//三象限无功总电能示值
+    
     hmThirdREValue1,//三象限无功费率1电能示值
+    
     hmThirdREValue2,//三象限无功费率2电能示值
+    
     hmThirdREValue3,//三象限无功费率3电能示值
+    
     hmThirdREValue4,//三象限无功费率4电能示值
     
-    hmPosREValueZG,//正向无功（组合无功1）总电能示值
+    hmPosREValueZG,     //正向无功（组合无功1）总电能示值
+    
     hmPosREGroupValueG1,//费率1正向无功（组合无功1）电能示值
+    
     hmPosREGroupValueG2,//费率2正向无功（组合无功1）电能示值
+    
     hmPosREGroupValueG3,//费率3正向无功（组合无功1）电能示值
+    
     hmPosREGroupValueG4,//费率4正向无功（组合无功1）电能示值
     
     
     hmNegREValueZG,//反向无功（组合无功1）总电能示值
+    
     hmNegREValueG1,//费率1反向无功（组合无功1）电能示值
+    
     hmNegREValueG2,//费率2反向无功（组合无功1）电能示值
+    
     hmNegREValueG3,//费率3反向无功（组合无功1）电能示值
+    
     hmNegREValueG4,//费率4反向无功（组合无功1）电能示值
     
 }MEASURE_MONTH_POWERVALUE;
@@ -1884,221 +2347,218 @@ typedef enum measure_month_powervalue
 //测量点日需量数据
 typedef enum history_day_powerneeds
 {
-    //hdMeasureNo=0,  //测量点号
     
     hdDataTime_hdp,   //数据时标
     
-    //hdDataType,//日/月数据类型
-    
-    
     hdPosADMaxZ,//正向有功总最大需量
-    //hdPosADMaxZTm,//正向有功总最大需量发生时间
+
     hdPosADMax1,//费率1正向有功最大需量
-    //hdPosADMax1Tm,//费率1正向有功最大需量发生时间
+
     hdPosADMax2,//费率2正向有功最大需量
-    //hdPosADMax2Tm,//费率2正向有功最大需量发生时间
+
     hdPosADMax3,//费率3正向有功最大需量
-    //hdPosADMax3Tm,//费率3正向有功最大需量发生时间
-    hdPosADMax4, //费率4正向有功最大需量
-    //hdPosADMax4Tm,//费率4正向有功最大需量发生时间
+
+    hdPosADMax4,//费率4正向有功最大需量
+
     
     hdPosADMaxZTm,//正向有功总最大需量发生时间
+    
     hdPosADMax1Tm,//费率1正向有功最大需量发生时间
+    
     hdPosADMax2Tm,//费率2正向有功最大需量发生时间
+    
     hdPosADMax3Tm,//费率3正向有功最大需量发生时间
+    
     hdPosADMax4Tm,//费率4正向有功最大需量发生时间
     
     
-    
-    
     hdPosRDMaxZ,//正向无功总最大需量
-    // hdPosRDMaxZTm,//正向无功总最大需量发生时间
+
     hdPosRDMax1,//费率1正向无功最大需量
-    //hdPosRDMax1Tm,//费率1正向无功最大需量发生时间
+
     hdPosRDMax2,//费率2正向无功最大需量
-    //hdPosRDMax2Tm,//费率2正向无功最大需量发生时间
+
     hdPosRDMax3,//费率3正向无功最大需量
-    //hdPosRDMax3Tm,//费率3正向无功最大需量发生时间
+
     hdPosRDMax4,//费率4正向无功最大需量
-    //hdPosRDMax4Tm,//费率4正向无功最大需量发生时间
-    
+
     
     hdPosRDMaxZTm,//正向无功总最大需量发生时间
+    
     hdPosRDMax1Tm,//费率1正向无功最大需量发生时间
+    
     hdPosRDMax2Tm,//费率2正向无功最大需量发生时间
+    
     hdPosRDMax3Tm,//费率3正向无功最大需量发生时间
+    
     hdPosRDMax4Tm,//费率4正向无功最大需量发生时间
-    
-    
-    
-    
-    
-    
+
     hdNegADMaxZ,//反向有功总最大需量
-    //hdNegADMaxZTm,//反向有功总最大需量发生时间
+
     hdNegADMax1,//费率1反向有功最大需量
-    //hdNegADMax1Tm,//费率1反向有功最大需量发生时间
+
     hdNegADMax2,//费率2反向有功最大需量
-    //hdNegADMax2Tm,//费率2反向有功最大需量发生时间
+
     hdNegADMax3,//费率3反向有功最大需量
-    //hdNegADMax3Tm,//费率3反向有功最大需量发生时间
+
     hdNegADMax4,//费率4反向有功最大需量
-    //hdNegADMax4Tm,//费率4反向有功最大需量发生时间
-    
-    
+
     hdNegADMaxZTm,//反向有功总最大需量发生时间
+    
     hdNegADMax1Tm,//费率1反向有功最大需量发生时间
+    
     hdNegADMax2Tm,//费率2反向有功最大需量发生时间
+    
     hdNegADMax3Tm,//费率3反向有功最大需量发生时间
+    
     hdNegADMax4Tm,//费率4反向有功最大需量发生时间
     
     
-    
     hdNegRDMaxZ,//反向无功总最大需量
-    //hdNegRDMaxZTm,//反向无功总最大需量发生时间
+
     hdNegRDMax1,//费率1反向无功最大需量
-    //hdNegRDMax1Tm,//费率1反向无功最大需量发生时间
+
     hdNegRDMax2,//费率2反向无功最大需量
-    //hdNegRDMax2Tm,//费率2反向无功最大需量发生时间
+
     hdNegRDMax3,//费率3反向无功最大需量
-    //hdNegRDMax3Tm,//费率3反向无功最大需量发生时间
+
     hdNegRDMax4,//费率4反向无功最大需量
-    //hdNegRDMax4Tm,//费率3反向无功最大需量发生时间
-    
-    
+
     
     hdNegRDMaxZTm,//反向无功总最大需量发生时间
+    
     hdNegRDMax1Tm,//费率1反向无功最大需量发生时间
+    
     hdNegRDMax2Tm,//费率2反向无功最大需量发生时间
+    
     hdNegRDMax3Tm,//费率3反向无功最大需量发生时间
+    
     hdNegRDMax4Tm,//费率3反向无功最大需量发生时间
     
     
-    hdADMaxZ,//三相总有功最大需量
-    hdADMaxZTm,//三相总有功最大需量发生时间
-    hdADMaxA,//A相有功最大需量
-    hdADMaxATm,//A相有功最大需量发生时间
-    hdADMaxB,//B相有功最大需量
-    hdADMaxBTm,//B相有功最大需量发生时间
-    hdADMaxC,//C相有功最大需量
-    hdADMaxCTm,//C相有功最大需量发生时间,
+    hdADMaxZ,  //三相总有功最大需量
     
-    // hdUpdateTime,//更新时间
+    hdADMaxZTm,//三相总有功最大需量发生时间
+    
+    hdADMaxA,  //A相有功最大需量
+    
+    hdADMaxATm,//A相有功最大需量发生时间
+    
+    hdADMaxB,  //B相有功最大需量
+    
+    hdADMaxBTm,//B相有功最大需量发生时间
+    
+    hdADMaxC,  //C相有功最大需量
+    
+    hdADMaxCTm,//C相有功最大需量发生时间,
+
 }HISTORY_DAY_POWERNEEDS;
-
-
 
 
 //测量点月需量数据
 typedef enum history_month_powerneeds
 {
-    //hdMeasureNo=0,  //测量点号
-    
+
     hmDataTime_hmp,   //数据时标
-    
-    //hdDataType,//日/月数据类型
-    
-    
+
     hmPosADMaxZ,//正向有功总最大需量
-    //hmPosADMaxZTm,//正向有功总最大需量发生时间
+
     hmPosADMax1,//费率1正向有功最大需量
-    //hmPosADMax1Tm,//费率1正向有功最大需量发生时间
+
     hmPosADMax2,//费率2正向有功最大需量
-    //hmPosADMax2Tm,//费率2正向有功最大需量发生时间
+
     hmPosADMax3,//费率3正向有功最大需量
-    //hmPosADMax3Tm,//费率3正向有功最大需量发生时间
+
     hmPosADMax4, //费率4正向有功最大需量
-    //hmPosADMax4Tm,//费率4正向有功最大需量发生时间
-    
-    
+
     hmPosADMaxZTm,//正向有功总最大需量发生时间
+    
     hmPosADMax1Tm,//费率1正向有功最大需量发生时间
+    
     hmPosADMax2Tm,//费率2正向有功最大需量发生时间
+    
     hmPosADMax3Tm,//费率3正向有功最大需量发生时间
+    
     hmPosADMax4Tm,//费率4正向有功最大需量发生时间
-    
-    
-    
-    
-    
+
     hmPosRDMaxZ,//正向无功总最大需量
-    // hmPosRDMaxZTm,//正向无功总最大需量发生时间
+
     hmPosRDMax1,//费率1正向无功最大需量
-    //hmPosRDMax1Tm,//费率1正向无功最大需量发生时间
+
     hmPosRDMax2,//费率2正向无功最大需量
-    // hmPosRDMax2Tm,//费率2正向无功最大需量发生时间
+
     hmPosRDMax3,//费率3正向无功最大需量
-    //hmPosRDMax3Tm,//费率3正向无功最大需量发生时间
+
     hmPosRDMax4,//费率4正向无功最大需量
-    // hmPosRDMax4Tm,//费率4正向无功最大需量发生时间
-    
-    
-    
     
     hmPosRDMaxZTm,//正向无功总最大需量发生时间
+    
     hmPosRDMax1Tm,//费率1正向无功最大需量发生时间
+    
     hmPosRDMax2Tm,//费率2正向无功最大需量发生时间
+    
     hmPosRDMax3Tm,//费率3正向无功最大需量发生时间
+    
     hmPosRDMax4Tm,//费率4正向无功最大需量发生时间
-    
-    
-    
-    
-    
+
     hmNegADMaxZ,//反向有功总最大需量
-    //hmNegADMaxZTm,//反向有功总最大需量发生时间
+
     hmNegADMax1,//费率1反向有功最大需量
-    //hmNegADMax1Tm,//费率1反向有功最大需量发生时间
+
     hmNegADMax2,//费率2反向有功最大需量
-    //hmNegADMax2Tm,//费率2反向有功最大需量发生时间
+
     hmNegADMax3,//费率3反向有功最大需量
-    //hmNegADMax3Tm,//费率3反向有功最大需量发生时间
+
     hmNegADMax4,//费率4反向有功最大需量
-    //hmNegADMax4Tm,//费率4反向有功最大需量发生时间
-    
-    
-    
+
     hmNegADMaxZTm,//反向有功总最大需量发生时间
+    
     hmNegADMax1Tm,//费率1反向有功最大需量发生时间
+    
     hmNegADMax2Tm,//费率2反向有功最大需量发生时间
+    
     hmNegADMax3Tm,//费率3反向有功最大需量发生时间
+    
     hmNegADMax4Tm,//费率4反向有功最大需量发生时间
     
-    
-    
+
     hmNegRDMaxZ,//反向无功总最大需量
-    //hmNegRDMaxZTm,//反向无功总最大需量发生时间
+
     hmNegRDMax1,//费率1反向无功最大需量
-    //hmNegRDMax1Tm,//费率1反向无功最大需量发生时间
+
     hmNegRDMax2,//费率2反向无功最大需量
-    //hmNegRDMax2Tm,//费率2反向无功最大需量发生时间
+
     hmNegRDMax3,//费率3反向无功最大需量
-    //hmNegRDMax3Tm,//费率3反向无功最大需量发生时间
+
     hmNegRDMax4,//费率4反向无功最大需量
-    // hmNegRDMax4Tm,//费率3反向无功最大需量发生时间
-    
+
     
     hmNegRDMaxZTm,//反向无功总最大需量发生时间
+    
     hmNegRDMax1Tm,//费率1反向无功最大需量发生时间
+    
     hmNegRDMax2Tm,//费率2反向无功最大需量发生时间
+    
     hmNegRDMax3Tm,//费率3反向无功最大需量发生时间
+    
     hmNegRDMax4Tm,//费率3反向无功最大需量发生时间
+
+    hmADMaxZ,  //三相总有功最大需量
     
-    
-    
-    hmADMaxZ,//三相总有功最大需量
     hmADMaxZTm,//三相总有功最大需量发生时间
-    hmADMaxA,//A相有功最大需量
+    
+    hmADMaxA,  //A相有功最大需量
+    
     hmADMaxATm,//A相有功最大需量发生时间
-    hmADMaxB,//B相有功最大需量
+    
+    hmADMaxB,  //B相有功最大需量
+    
     hmADMaxBTm,//B相有功最大需量发生时间
-    hmADMaxC,//C相有功最大需量
+    
+    hmADMaxC,  //C相有功最大需量
+    
     hmADMaxCTm,//C相有功最大需量发生时间,
-    
-    
-    
-    
-    // hdUpdateTime,//更新时间
+
 }HISTORY_MONTH_POWERNEEDS;
 
 //终端日统计数据

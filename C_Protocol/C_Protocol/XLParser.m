@@ -19,14 +19,14 @@
 
 Byte *bytes;
 NSInteger len;
-NSInteger _offset;
-NSInteger begin;
-NSInteger end;
+int _offset;
+int begin;
+int end;
 
 NSInteger _type;
-NSInteger _identifier;
+int _identifier;
 
-NSInteger curveIdentifier;
+int curveIdentifier;
 bool isCurve = NO;
 
 
@@ -44,9 +44,9 @@ NSMutableDictionary *_subdic;
     bytes = (Byte*)[data bytes];
     len = [data length];
     
-    for(int i =0;i<len;i++){
-        NSLog(@"%02x",bytes[i]);
-    }
+//    for(int i =0;i<len;i++){
+//        NSLog(@"%02x",bytes[i]);
+//    }
     
     _offset = 0;
     
@@ -84,7 +84,7 @@ NSMutableDictionary *_subdic;
 
 -(void)setKeyForDic{
     
-    NSInteger dtype=0;
+    int  dtype=0;
     
     switch (_type) {
         case 0:{
@@ -173,7 +173,7 @@ NSMutableDictionary *_subdic;
             break;
     }
     
-    NSLog(@"-----------执行方法前offset:%d",_offset);
+//    NSLog(@"-----------执行方法前offset:%d",_offset);
     
     NSString *method = [NSString stringWithFormat:@"parse%d",dtype + 1];
     SEL selecter = NSSelectorFromString(method);
@@ -419,18 +419,18 @@ NSMutableDictionary *_subdic;
     NSInteger len = *(Byte*)(bytes + _offset);  _offset+=1;
     //    NSLog(@"%d",len);
     
-    NSString *eventDesc = [NSString stringWithUTF8String:(const char*)(bytes + _offset)];
+    NSString *eventDesc1 = [NSString stringWithUTF8String:(const char*)(bytes + _offset)];
     
+//    NSString *eventDesc2 = [[NSString alloc] initWithCString:(const char*)(bytes + _offset) encoding:NSUTF8StringEncoding];
+ 
+    NSLog(@"事件长度:%d",len);
+    NSLog(@"事件内容 %@",eventDesc1);
+    NSData *data = [NSData dataWithBytes:(bytes + _offset) length:len];
+    NSLog(@"%@",[data description]);
     
-    NSStringEncoding enc = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingGB_2312_80);
-    NSData   *data = [NSData dataWithBytes:(bytes + _offset) length:len];
-    NSString *desc = [[NSString alloc] initWithData: data encoding:enc];
-    NSLog(@"%@",desc);
-    
-    [_subdic setObject:eventDesc
+    [_subdic setObject:eventDesc1
                 forKey:[NSString stringWithFormat:@"%d",_identifier]];
-    
-    NSLog(@"%@",eventDesc);
+
     _offset += len;
 }
 

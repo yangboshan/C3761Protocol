@@ -26,4 +26,8 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 - (IBAction)clear:(id)sender;
 
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *indicatorView;
+
+@property (weak, nonatomic) IBOutlet UITextView *frameOriginal;
+
 @end

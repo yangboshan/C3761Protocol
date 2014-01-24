@@ -178,9 +178,9 @@ Byte* PackFrame(Byte afn,PACKITEM array[],XL_UINT8 itemcount,XL_UINT16* outlen){
     //设置校验和
     setchecksum((frame + 6));
     
-    for(int i = 0;i<length;i++){
-        printf("%2x ",frame[i]);
-    }
+//    for(int i = 0;i<length;i++){
+//        printf("%2x ",frame[i]);
+//    }
   
     return frame;
 }

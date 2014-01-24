@@ -289,6 +289,7 @@ void parseEvents(){
             default:
                 *_output = XL_ERROR;
                 return;
+                break;
         }
         count--;
     }
@@ -305,37 +306,39 @@ void parseEvents(){
  
  /－－－－－－－－－－－－－－*/
 XL_CHAR * gettimestr(XL_UINT8 len){
- 
-    XL_CHAR time[len*3];
-    XL_CHAR *timec = malloc(len*3);
-    memset(timec, 0, strlen(timec));
+    
+//    XL_UINT8 hlen = strlen("年");
+    XL_CHAR time[2*len];
+    XL_CHAR *timec = malloc(2*len);
+    memset(timec, 0, 2*len);
     XL_UINT8 vtime;
 
     for(XL_UINT8 i =len;i>0;i--){
         vtime = (userdata[offset + i-1]>>4 & 0x0f) * 10 + (userdata [offset + i-1]&0x0f);
         sprintf(time,"%d",vtime);
-
+ 
         switch (i) {
             case 5:
-                strcat(time, "年");
+                strcat(time, "-");
                 break;
             case 4:
-                strcat(time, "月");
+                strcat(time, "-");
                 break;
             case 3:
-                strcat(time, "日");
+                strcat(time, " ");
                 break;
             case 2:
-                strcat(time, "时");
+                strcat(time, ":");
                 break;
-            case 1:
-                strcat(time, "分");
-                break;
-            default:
-                break;
+//            case 1:
+//                strcat(time, "分");
+//                break;
         }
         strcat(timec, time);
     }
+ 
+//    timec[len*(hlen+1)+1] = '\0';
+    printf("%d",(int)strlen(timec));
     return timec;
 }
 
@@ -346,12 +349,13 @@ XL_CHAR * gettimestr(XL_UINT8 len){
  /－－－－－－－－－－－－－－*/
 XL_CHAR * getasciistr(XL_UINT8 len){
 
-    XL_CHAR *asciistr = malloc(len);
+    XL_CHAR *asciistr = malloc(len+1);
     memset(asciistr, 0, len);
     
     for(XL_UINT8 i = 0;i<len;i++){
         asciistr[i] =userdata[offset+i];
     }
+    asciistr[len] = '\0';
     return asciistr;
 }
 
@@ -394,14 +398,17 @@ void geterc1(){
         strcat(result, " 终端进行参数及数据区初始化 ");
     }else{
         strcat(result, "终端版本变更,变更前软件版本号:");
+        
+        printf("长度%d",(int)strlen(pversion));
         strcat(result, pversion);
         strcat(result, " 变更后软件版本号:");
+        printf("长度%d",(int)strlen(pversion));
         strcat(result, nversion);
     }
     strcat(result, " 发生时间:");
     strcat(result, time);
     
-    printf("%s",result);
+    printf("%s\n",result);
     
     XL_UINT8 eventlen = strlen(result);
     
