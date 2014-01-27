@@ -121,42 +121,42 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(XLSocketManager)
 －－－－－－－－－－－－－－－－－*/
 -(void)packRequestFrame:(NSData*)userData{
     
-//    Byte revbytes[] = {0x68 ,0x82 ,0x00 ,0x82 ,0x00 ,0x68 ,
-//        0x88 ,
-//        0x00 ,0x25 ,0x01 ,0x00 ,0x04 ,
-//        0x0E ,
-//        0x61 ,
-//        0x00 ,0x00 ,0x01 ,0x00 ,
-//        0x01 ,
-//        0x01 ,
-//        0x00 ,
-//        0x01 ,
-//        0x01 ,0x0E ,
-//        0x35 ,0x10 ,0x16 ,0x01 ,0x14 ,
-//        0x02 ,
-//        0x32 ,0x2E ,0x30 ,0x31 ,
-//        0x32 ,0x2E ,0x30 ,0x32 ,
-//        0x29 ,0x16};
-//    
-//    
-//    NSMutableData *recvdata = [NSMutableData data];
-//    XL_SINT16 output = 0;
-//    unsigned short inlen = 40;
-//    unsigned short outlen = 0;
-//    Byte *outbuff = NULL;
-//    int  multiFrameFlag = 0;    //多帧标志
-//    
-//    if(UnPackFrame(&output,inlen, revbytes, &outlen, &outbuff,&multiFrameFlag)){
-//        
-//        [recvdata appendBytes:outbuff length:outlen];
-//        
-//        if (!multiFrameFlag) {
-//            XLParser *parser = [[XLParser alloc] init];
-//            [parser initWithNSData:recvdata];
-//        }
-//    }
-//    
-//    return;
+    Byte revbytes[] = {0x68 ,0x82 ,0x00 ,0x82 ,0x00 ,0x68 ,
+        0x88 ,
+        0x00 ,0x25 ,0x01 ,0x00 ,0x04 ,
+        0x0E ,
+        0x61 ,
+        0x00 ,0x00 ,0x01 ,0x00 ,
+        0x01 ,
+        0x01 ,
+        0x00 ,
+        0x01 ,
+        0x01 ,0x0E ,
+        0x35 ,0x10 ,0x16 ,0x01 ,0x14 ,
+        0x02 ,
+        0x32 ,0x2E ,0x30 ,0x31 ,
+        0x32 ,0x2E ,0x30 ,0x32 ,
+        0x29 ,0x16};
+    
+    
+    NSMutableData *recvdata = [NSMutableData data];
+    XL_SINT16 output = 0;
+    unsigned short inlen = 40;
+    unsigned short outlen = 0;
+    Byte *outbuff = NULL;
+    int  multiFrameFlag = 0;    //多帧标志
+    
+    if(UnPackFrame(&output,inlen, revbytes, &outlen, &outbuff,&multiFrameFlag)){
+        
+        [recvdata appendBytes:outbuff length:outlen];
+        
+        if (!multiFrameFlag) {
+            XLParser *parser = [[XLParser alloc] init];
+            [parser initWithNSData:recvdata];
+        }
+    }
+    
+    return;
     
  
     self.frameData = userData;

@@ -77,6 +77,12 @@ enum frame_type{
     //事件 19
     eventlist,
     
+    //通讯参数
+    parameter_data_comm,
+    
+    //测量点参数
+    parameter_data_mtr,
+    
 }FRAMETYPE;
 
 
@@ -2596,6 +2602,181 @@ enum eventlist{
     event
 }EVENT;
 
+
+//通讯参数
+typedef enum parameter_data_comm
+{
+    pmRtsDelayTm,  //终端数传机延时时间RTS
+    
+    pmSendDelayTm, //终端作为启动站允许发送传输延时时间
+    
+    pmRecvDelayTm, //终端等待从动站响应的超时时间  bin_2
+    
+    pmRecvRetryTm, //终端等待从动站相应的重发次数  bin_2
+    
+    pmNeedConfirm1,//1类数据自动上报需要确认
+    
+    pmNeedConfirm2,//2类数据自动上报需要确认
+    
+    pmNeedConfirm3,//3类数据自动上报需要确认
+    
+    pmHeartPeriod, //心跳周期
+    
+    
+    pmMasterPrimeIP,    //主站主用IP
+    
+    pmMasterPrimePort,  //主站主用端口
+    
+    pmMasterStandbyIP,  //主站备用IP
+    
+    pmMasterStandbyPort,//主站备用端口
+    
+    pmMasterAPN,        //主站APN
+    
+    pmIP,        //终端IP地址
+    
+    pmSubnetMask,//终端子网掩码
+    
+    pmGateWay,   //终端网关
+    
+    pmProxyType, //终端代理类型
+    
+    pmProxyAddr, //终端代理服务器地址
+    
+    pmProxyPort, //终端代理服务器端口
+    
+    pmProxyConnType,   //终端代理服务器连接方式
+    
+    pmProxyUserNameLen,//终端代理服务器用户名长度
+    
+    pmProxyUserName,   //终端代理服务器用户名
+    
+    pmProxyPassWordLen,//终端代理服务器密码长度
+    
+    pmProxyPassWord,   //终端代理服务器密码
+    
+    pmListenPort,      //终端侦听端口
+    
+    pmVPNUserName,     //虚拟专网用户名
+    
+    pmVPNPassWord,     //虚拟专网密码
+    
+}PARAMETER_DATA_COMM;
+
+//测量点参数
+typedef enum parameter_data_mtr
+{
+    
+    pmPTRatio,     //电压互感器倍率
+    
+    pmCTRatio,     //电流互感器倍率
+    
+    pmRatedVoltage,//额定电压
+    
+    pmRatedCurrent,//额定电流
+    
+    pmRatedLoad,   //额定负荷
+    
+    pmPowerConnWay,//电源接线方式
+    
+    
+    
+    pmSingleMeterConnPhase,//单相表接线相
+    
+    pmVoltRegularHiLmt,    //电压合格上限
+    
+    pmVoltRegularLoLmt,    //电压合格下限
+    
+    pmSeverVoltLmt,        //电压断相门限
+    
+    pmVoltHHLmt,           //电压上上限（过压门限）
+    
+    pmVoltHHLmtDuration,   //过压越限持续时间
+    
+    pmVoltOverRecoverFactor,//过压越限恢复系数
+    
+    pmVoltLLLmt,            //电压下下限（欠压门限）
+    
+    pmVoltLLLmtDuration,    //欠压越限持续时间
+    
+    pmVoltUnderRecoverFactor,//欠压越限恢复系数
+    
+    
+    pmCurHHLmt,        //相电流上上限（过流门限）
+    
+    pmCurHHLmtDuration,//过流越限持续时间
+    
+    pmCurHHRecoverFactor,//过流越限恢复系数
+    
+    pmCurHiLmt,          //相电流上限（额定电流门限）
+    
+    pmCurHiLmtDuration,  //额定电流越限持续时间
+    
+    pmCurHiRecoverFactor,//额定电流越限恢复系数
+    
+    pmZeroCurHiLmt,      //零序电流上限
+    
+    pmZeroCurHiLmtDuration,  //零序电流上限越限持续时间
+    
+    pmZeroCurHiRecoverFactor,//零序电流上限越限恢复系数
+    
+    pmAPHHLmt,          //视在功率上上限
+    
+    pmAPHHDuration,     //视在功率上上限越限持续时间
+    
+    pmAPHHRecoverFactor,//视在功率上上限越限恢复系数
+    
+    pmAPHiLmt,     //视在功率上限
+    
+    pmAPHiDuration,//视在功率上限越限持续时间
+    
+    pmAPHiRecoverFactor,//视在功率上限越限恢复系数
+    
+    pmUnbalVoltLmt,     //三相电压不平衡限值
+    
+    pmUnbalVoltDuration,//越限持续时间
+    
+    pmUnbalVoltRecoverFactor,//越限恢复系数
+    
+    pmUnbalCurLmt,           //三相电流不平衡限值
+    
+    pmUnbalCurDuration,      //越限持续时间
+    
+    pmUnbalCurRecoverFactor, //越限恢复系数
+    
+    pmLostVoltTmLmt,         //连续失压时间限值
+    
+    
+    pmRa,//A相电阻RA
+    
+    pmXa,//A相电抗XA
+    
+    pmGa,//A相电导GA
+    
+    pmBa,//A相电纳BA
+    
+    pmRb,//B相电阻RB
+    
+    pmXb,//B相电抗XB
+    
+    pmGb,//B相电导GB
+    
+    pmBb,//B相电纳BB
+    
+    
+    pmRc,//C相电阻RC
+    
+    pmXc,//C相电抗XC
+    
+    pmGc,//C相电导GC
+    
+    pmBc,//C相电纳BC
+    
+    pmPfLmt1,//功率因数分段限值1
+    
+    pmPfLmt2,//功率因数分段限值2
+    
+}PARAMETER_DATA_MTR;
 #endif
 
 

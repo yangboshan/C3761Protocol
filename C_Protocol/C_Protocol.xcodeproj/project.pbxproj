@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C923D14D1895DFF5006EC8C6 /* XL3761AFNA.c in Sources */ = {isa = PBXBuildFile; fileRef = C923D14C1895DFF5006EC8C6 /* XL3761AFNA.c */; };
 		C928AFCE188FC33300DA6592 /* XL3761AFN0.c in Sources */ = {isa = PBXBuildFile; fileRef = C928AFCD188FC33300DA6592 /* XL3761AFN0.c */; };
 		C999CF48187A9B7B00AD65D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C999CF47187A9B7B00AD65D5 /* Foundation.framework */; };
 		C999CF4A187A9B7B00AD65D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C999CF49187A9B7B00AD65D5 /* CoreGraphics.framework */; };
@@ -53,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C923D14B1895DFE1006EC8C6 /* XL3761AFNA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XL3761AFNA.h; sourceTree = "<group>"; };
+		C923D14C1895DFF5006EC8C6 /* XL3761AFNA.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XL3761AFNA.c; sourceTree = "<group>"; };
 		C928AFCC188FC2AE00DA6592 /* XL3761AFN0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XL3761AFN0.h; sourceTree = "<group>"; };
 		C928AFCD188FC33300DA6592 /* XL3761AFN0.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XL3761AFN0.c; sourceTree = "<group>"; };
 		C999CF44187A9B7B00AD65D5 /* C_Protocol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = C_Protocol.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -224,6 +227,7 @@
 				C9B38F7C18850606001BC9AB /* XLCommon.c */,
 				C999CF80187A9BAB00AD65D5 /* XL3761UnPack.c */,
 				C928AFCD188FC33300DA6592 /* XL3761AFN0.c */,
+				C923D14C1895DFF5006EC8C6 /* XL3761AFNA.c */,
 				C9C88ACF188657C100F4D245 /* XL3761AFNC.c */,
 				C999CF82187A9BAB00AD65D5 /* XL3761AFND.c */,
 				C9B38FAC1885123D001BC9AB /* XL3761AFNE.c */,
@@ -244,6 +248,7 @@
 				C999CF7F187A9BAB00AD65D5 /* XL3761UnPack.h */,
 				C9B38FB018851F15001BC9AB /* XL3761PackFrame.h */,
 				C928AFCC188FC2AE00DA6592 /* XL3761AFN0.h */,
+				C923D14B1895DFE1006EC8C6 /* XL3761AFNA.h */,
 				C9C88ACE188657AA00F4D245 /* XL3761AFNC.h */,
 				C999CF81187A9BAB00AD65D5 /* XL3761AFND.h */,
 				C9B38FAB18851221001BC9AB /* XL3761AFNE.h */,
@@ -380,6 +385,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9C88AE0188E4EA900F4D245 /* XLSocketManager.m in Sources */,
+				C923D14D1895DFF5006EC8C6 /* XL3761AFNA.c in Sources */,
 				C9C88AE5188E4F1800F4D245 /* GCDAsyncSocket.m in Sources */,
 				C9B38F7D18850606001BC9AB /* XLCommon.c in Sources */,
 				C999CF87187A9BAB00AD65D5 /* XL3761AFND.c in Sources */,
