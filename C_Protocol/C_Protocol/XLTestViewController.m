@@ -10,6 +10,7 @@
 #import "XLSocketManager.h"
 #import "XL3761PackFrame.h"
 #import "UIView+UIView___FindAndResignFirstResponder.h"
+#import  "XLDataItem.h"
 
 #define NoPara 0
 #define YearMonth 1
@@ -97,10 +98,39 @@
             self.frameOriginal.text = desc;
         }
         
+//        NSDictionary* dcs = notify.userInfo;
+//        NSString *key = [[dcs allKeys] objectAtIndex:0];
+//        NSDictionary *dic = [dcs valueForKey:key];
+//        
+//    
+//        NSString *result = @"";
+//   
+//        for(int i = 0;i< [dic.allKeys count];i++){
+//
+//            result = [result stringByAppendingString:[NSString stringWithFormat:@"%@:  %@",
+//                                                      dic.allKeys[i],
+//                                                      [dic valueForKey:dic.allKeys[i]]]];
+//            result = [result stringByAppendingString:@"\n\n"];
+//        }
+//        self.textView.text = result;
+        
         NSDictionary* dcs = notify.userInfo;
         NSString *key = [[dcs allKeys] objectAtIndex:0];
         NSDictionary *dic = [dcs valueForKey:key];
-        self.textView.text = [dic description];
+        NSArray *array = [dic valueForKey:@"key"];
+        
+        NSString *result = @"";
+        
+        for(XLDataItem *item in array){
+            
+            result = [result stringByAppendingString:[NSString stringWithFormat:@"%@:  %@",
+                                                      item.key,
+                                                      item.value]];
+            result = [result stringByAppendingString:@"\n\n"];
+        }
+ 
+        self.textView.text = result;
+        
         
         [self.indicatorView stopAnimating];
         [self.indicatorView setHidden:YES];

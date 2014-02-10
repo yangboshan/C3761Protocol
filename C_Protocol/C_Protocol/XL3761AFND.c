@@ -6,6 +6,8 @@
 //  Copyright (c) 2014年 XLDZ. All rights reserved.
 //
 
+//待确认 F28 最大值
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -2078,7 +2080,7 @@ void AFND_F28()
     identifier = hdCurUnbalMax;//
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容 2个字节 1个小数点 十分位
-    temp=bcdtouint(userdata+offset, 2, 1);
+    temp=bcdtosint(userdata+offset, 2, 1);
     memcpy(buff + outoffset, &temp_value, 8);outoffset+=8;offset+=2;
     
     //电流不平衡最大值发生时间
@@ -2100,7 +2102,7 @@ void AFND_F28()
     identifier = hdVoltUnbalMax;//
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容 2个字节 1个小数点 十分位
-    temp=bcdtouint(userdata+offset, 2, 1);
+    temp=bcdtosint(userdata+offset, 2, 1);
     memcpy(buff + outoffset, &temp_value, 8);outoffset+=8;offset+=2;
     
     //电压不平衡最大值发生时间

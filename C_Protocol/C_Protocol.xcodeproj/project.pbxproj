@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C923D14D1895DFF5006EC8C6 /* XL3761AFNA.c in Sources */ = {isa = PBXBuildFile; fileRef = C923D14C1895DFF5006EC8C6 /* XL3761AFNA.c */; };
 		C928AFCE188FC33300DA6592 /* XL3761AFN0.c in Sources */ = {isa = PBXBuildFile; fileRef = C928AFCD188FC33300DA6592 /* XL3761AFN0.c */; };
+		C96E66EA1897351F005E19FE /* XLDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C96E66E91897351F005E19FE /* XLDataItem.m */; };
 		C999CF48187A9B7B00AD65D5 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C999CF47187A9B7B00AD65D5 /* Foundation.framework */; };
 		C999CF4A187A9B7B00AD65D5 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C999CF49187A9B7B00AD65D5 /* CoreGraphics.framework */; };
 		C999CF4C187A9B7B00AD65D5 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C999CF4B187A9B7B00AD65D5 /* UIKit.framework */; };
@@ -58,6 +59,8 @@
 		C923D14C1895DFF5006EC8C6 /* XL3761AFNA.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XL3761AFNA.c; sourceTree = "<group>"; };
 		C928AFCC188FC2AE00DA6592 /* XL3761AFN0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XL3761AFN0.h; sourceTree = "<group>"; };
 		C928AFCD188FC33300DA6592 /* XL3761AFN0.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XL3761AFN0.c; sourceTree = "<group>"; };
+		C96E66E81897351F005E19FE /* XLDataItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLDataItem.h; sourceTree = "<group>"; };
+		C96E66E91897351F005E19FE /* XLDataItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLDataItem.m; sourceTree = "<group>"; };
 		C999CF44187A9B7B00AD65D5 /* C_Protocol.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = C_Protocol.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C999CF47187A9B7B00AD65D5 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C999CF49187A9B7B00AD65D5 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -265,6 +268,8 @@
 				C9B38F701884BF92001BC9AB /* XLParser.m */,
 				C9C88ADE188E4EA900F4D245 /* XLSocketManager.h */,
 				C9C88ADF188E4EA900F4D245 /* XLSocketManager.m */,
+				C96E66E81897351F005E19FE /* XLDataItem.h */,
+				C96E66E91897351F005E19FE /* XLDataItem.m */,
 			);
 			name = Communication;
 			sourceTree = "<group>";
@@ -386,6 +391,7 @@
 			files = (
 				C9C88AE0188E4EA900F4D245 /* XLSocketManager.m in Sources */,
 				C923D14D1895DFF5006EC8C6 /* XL3761AFNA.c in Sources */,
+				C96E66EA1897351F005E19FE /* XLDataItem.m in Sources */,
 				C9C88AE5188E4F1800F4D245 /* GCDAsyncSocket.m in Sources */,
 				C9B38F7D18850606001BC9AB /* XLCommon.c in Sources */,
 				C999CF87187A9BAB00AD65D5 /* XL3761AFND.c in Sources */,

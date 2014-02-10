@@ -8,6 +8,7 @@
 
 #import "XLParser.h"
 #import "XLDataTypeDic.h"
+#import "XLDataItem.h"
 
 
 @interface XLParser()
@@ -31,6 +32,8 @@ bool isCurve = NO;
 
 
 NSMutableDictionary *_subdic;
+NSMutableArray *array;
+
 
 -(void)initWithNSData:(NSData*)data{
     
@@ -50,7 +53,7 @@ NSMutableDictionary *_subdic;
     
     _offset = 0;
     
-    
+    array = [NSMutableArray array];
     while (_offset<len) {
         NSMutableDictionary *subdic = [NSMutableDictionary dictionary];
         
@@ -75,16 +78,18 @@ NSMutableDictionary *_subdic;
             end = _offset;
         }
     }
+    
+    [_subdic setObject:array forKey:@"key"];
     NSLog(@"字典完成");
     [[NSNotificationCenter defaultCenter] postNotificationName:@"test"
                                                         object:Nil
                                                       userInfo:dic];
 }
 
-
+COMPLEX_ITEM dtype;
 -(void)setKeyForDic{
     
-    int  dtype=0;
+//    int  dtype=0;
     
     switch (_type) {
         case 0:{
@@ -175,7 +180,7 @@ NSMutableDictionary *_subdic;
     
 //    NSLog(@"-----------执行方法前offset:%d",_offset);
     
-    NSString *method = [NSString stringWithFormat:@"parse%d",dtype + 1];
+    NSString *method = [NSString stringWithFormat:@"parse%d",dtype.datatype + 1];
     SEL selecter = NSSelectorFromString(method);
     
 #pragma clang diagnostic push
@@ -190,9 +195,15 @@ NSMutableDictionary *_subdic;
     NSInteger dishu = *(XL_UINT16*)(bytes+_offset); _offset+=2;
     
     NSString *results = [NSString stringWithFormat:@"%.3f",pow(dishu, mi)];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
     
-    [_subdic setObject:results
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+//    [_subdic setObject:results
+//                forKey:key];
 }
 
 
@@ -202,14 +213,20 @@ NSMutableDictionary *_subdic;
     double result = ivalue/10.0;
     
     NSString *results = [NSString stringWithFormat:@"%.1f",result];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
     
-    if (isCurve) {
-        [_subdic setObject:results
-                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
-    }else{
-    [_subdic setObject:results
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
-    }
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+//    if (isCurve) {
+//        [_subdic setObject:results
+//                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
+//    }else{
+//    [_subdic setObject:results
+//                forKey:key];
+//    }
 }
 
 //2字节 2位小数 带符号
@@ -219,8 +236,15 @@ NSMutableDictionary *_subdic;
     
     NSString *results = [NSString stringWithFormat:@"%.2f",result];
     
-    [_subdic setObject:results
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+//    [_subdic setObject:results
+//                forKey:key];
     
 }
 
@@ -230,14 +254,21 @@ NSMutableDictionary *_subdic;
     double result = ivalue/10.0;
     
     NSString *results = [NSString stringWithFormat:@"%.1f",result];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
     
-    if (isCurve) {
-        [_subdic setObject:results
-                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
-    }else{
-    [_subdic setObject:results
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
-    }
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+    
+//    if (isCurve) {
+//        [_subdic setObject:results
+//                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
+//    }else{
+//    [_subdic setObject:results
+//                forKey:key];
+//    }
 }
 
 //3字节 4位小数
@@ -248,14 +279,21 @@ NSMutableDictionary *_subdic;
     double result = ivalue/10000.0;
     
     NSString *results = [NSString stringWithFormat:@"%.4f",result];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
     
-    if (isCurve) {
-        [_subdic setObject:results
-                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
-    }else {
-        [_subdic setObject:results
-                    forKey:[NSString stringWithFormat:@"%d",_identifier]];
-    }
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+    
+//    if (isCurve) {
+//        [_subdic setObject:results
+//                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
+//    }else {
+//        [_subdic setObject:results
+//                    forKey:key];
+//    }
 }
 
 
@@ -265,9 +303,15 @@ NSMutableDictionary *_subdic;
     double result = ivalue/100.0;
     
     NSString *results = [NSString stringWithFormat:@"%.2f",result];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
 
-    [_subdic setObject:results
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+//    [_subdic setObject:results
+//                forKey:key];
     
 }
 
@@ -278,9 +322,15 @@ NSMutableDictionary *_subdic;
     double result = ivalue/10000.0;
     
     NSString *results = [NSString stringWithFormat:@"%.4f",result];
-
-    [_subdic setObject:results
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+//    [_subdic setObject:results
+//                forKey:key];
     
 }
 
@@ -294,8 +344,15 @@ NSMutableDictionary *_subdic;
     NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
     NSString *tdd = [NSString stringWithFormat:@"%@年%@月%@日%@时%@分",year,month,day,hour,minute];
     
-    [_subdic setObject:tdd
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = tdd;
+    [array addObject:item];
+    
+//    [_subdic setObject:tdd
+//                forKey:key];
     
 }
 
@@ -308,8 +365,17 @@ NSMutableDictionary *_subdic;
     NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
     NSString *tdd = [NSString stringWithFormat:@"%@月%@日%@时%@分",month,day,hour,minute];
     
-    [_subdic setObject:tdd
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = tdd;
+    [array addObject:item];
+    
+    
+    
+//    [_subdic setObject:tdd
+//                forKey:key];
     
 }
 
@@ -320,8 +386,16 @@ NSMutableDictionary *_subdic;
     NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
     NSString *tdd = [NSString stringWithFormat:@"%@日%@时%@分",day,hour,minute];
     
-    [_subdic setObject:tdd
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = tdd;
+    [array addObject:item];
+    
+//    [_subdic setObject:tdd
+//                forKey:key];
 }
 
 
@@ -332,8 +406,16 @@ NSMutableDictionary *_subdic;
     NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
     NSString *tdd = [NSString stringWithFormat:@"%@年%@月%@日",year,month,day];
     
-    [_subdic setObject:tdd
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = tdd;
+    [array addObject:item];
+    
+    
+//    [_subdic setObject:tdd
+//                forKey:key];
 }
 
 //月年
@@ -342,8 +424,17 @@ NSMutableDictionary *_subdic;
     NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
     NSString *tdd = [NSString stringWithFormat:@"%@年%@月",year,month];
     
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    
+//    XLDataItem *item = [[XLDataItem alloc] init];
+//    item.key = key;
+//    item.value = tdd;
+//    [array addObject:item];
+    
+    
     [_subdic setObject:tdd
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+                forKey:key];
 }
 
 //3字节 4位小数
@@ -353,9 +444,17 @@ NSMutableDictionary *_subdic;
     double result = ivalue/10000.0;
     
     NSString *results = [NSString stringWithFormat:@"%.4f",result];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
     
-    [_subdic setObject:results
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+    
+//    [_subdic setObject:results
+//                forKey:key];
     
 }
 
@@ -367,14 +466,22 @@ NSMutableDictionary *_subdic;
     double result = ivalue/1000.0;
     
     NSString *results = [NSString stringWithFormat:@"%.3f",result];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
     
-    if (isCurve) {
-        [_subdic setObject:results
-                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
-    }else{
-    [_subdic setObject:results
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
-    }
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+    
+//    if (isCurve) {
+//        [_subdic setObject:results
+//                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
+//    }else{
+//    [_subdic setObject:results
+//                forKey:key];
+//    }
 }
 
 
@@ -382,8 +489,19 @@ NSMutableDictionary *_subdic;
 -(void)parse29{
     NSInteger ivalue = *(Byte*)(bytes + _offset);  _offset+=1;
     
-    [_subdic setObject:[NSNumber numberWithInteger:ivalue]
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    NSString *results = [NSString stringWithFormat:@"%d",ivalue];
+    
+    
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+    
+//    [_subdic setObject:results
+//                forKey:key];
 }
 
 
@@ -391,16 +509,38 @@ NSMutableDictionary *_subdic;
 -(void)parse30{
     NSInteger ivalue = *(XL_UINT16*)(bytes + _offset);  _offset+=2;
     
-    [_subdic setObject:[NSNumber numberWithInteger:ivalue]
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    NSString *results = [NSString stringWithFormat:@"%d",ivalue];
+    
+    
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+    
+//    [_subdic setObject:results
+//                forKey:key];
 }
 
 //BIN 4字节
 -(void)parse32{
     NSInteger ivalue = *(XL_UINT32*)(bytes + _offset);  _offset+=4;
     
-    [_subdic setObject:[NSNumber numberWithInteger:ivalue]
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    NSString *results = [NSString stringWithFormat:@"%d",ivalue];
+    
+    
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+    
+//    [_subdic setObject:results
+//                forKey:key];
 }
 
 //31字节 状态量

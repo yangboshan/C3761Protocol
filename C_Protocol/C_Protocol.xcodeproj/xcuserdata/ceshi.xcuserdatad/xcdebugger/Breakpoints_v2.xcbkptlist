@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "C_Protocol/XLParser.m"
-            timestampString = "412221035.881854"
+            filePath = "C_Protocol/XLTestViewController.m"
+            timestampString = "412563363.582349"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "419"
-            endingLineNumber = "419"
-            landmarkName = "-parse35"
+            startingLineNumber = "167"
+            endingLineNumber = "167"
+            landmarkName = "-getframedata:::::::"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
