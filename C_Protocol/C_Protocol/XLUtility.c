@@ -7,6 +7,9 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "XLUtility.h"
 #include <math.h>
 
@@ -106,10 +109,43 @@ XL_SINT64 bcdtosint(Byte* value,XL_UINT8 byteslen,XL_UINT8 digitlen){
 Byte bcdToTime(Byte* value)
 {
     Byte result =0;
-    Byte temp =0;
 
-    temp   = (Byte)(*(value)>>4 & 0x0f)*10 + (*(value) & 0x0f);
+    result   = (Byte)(*(value)>>4 & 0x0f)*10 + (*(value) & 0x0f);
     return result;
+}
+
+
+/*－－－－－－－－－－－－－－－－－
+ 十进制转BCD
+ －－－－－－－－－－－－－－－－－*/
+Byte* decimaltobcd_s(XL_FP64 dec,XL_UINT8 byteslen,XL_UINT8 digitlen){
+    
+    
+    XL_SINT64 decimal = dec * pow(10, digitlen + 1) / 10;
+    XL_SINT64 temp;
+    
+    int flag =-1;
+    
+    flag = (dec<0)?1:0;
+    
+    if (dec<0) {
+        decimal = -decimal;
+    }
+    
+    Byte* value =malloc(byteslen);
+    
+    for(XL_UINT8 i = 0; i < byteslen; i++)
+    {
+        temp = decimal%100;
+        value[i]=((temp/10)<<4) + ((temp%10) & 0x0F);
+        decimal /= 100;
+    }
+    
+    if(flag)
+    {
+        value[byteslen-1]=( value[byteslen-1]|0x80);
+    }
+    return value;
 }
 
 

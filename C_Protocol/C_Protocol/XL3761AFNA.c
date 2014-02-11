@@ -42,11 +42,11 @@ void AFNA_F60();//谐波限值
 void AFNA_F61();//直流模拟量接入参数
 
 
-//JP柜参数
-void AFNA_F73();//电容器参数
-void AFNA_F74();//电容器投切运行参数
-void AFNA_F75();//电容器保护参数
-void AFNA_F76();//电容器投切控制方式
+////JP柜参数
+//void AFNA_F73();//电容器参数
+//void AFNA_F74();//电容器投切运行参数
+//void AFNA_F75();//电容器保护参数
+//void AFNA_F76();//电容器投切控制方式
 
 
 void AFNA_F81();//直流模拟量变比
@@ -150,18 +150,18 @@ void AFNA_RecursiveParse()
         case 61:
             AFNA_F61();//直流模拟量接入参数
             break;
-        case 73:
-            AFNA_F73();//电容器参数
-            break;
-        case 74:
-            AFNA_F74();//电容器投切运行参数
-            break;
-        case 75:
-            AFNA_F75();//电容器保护参数
-            break;
-        case 76:
-            AFNA_F76();//电容器投切控制方式
-            break;
+//        case 73:
+//            AFNA_F73();//电容器参数
+//            break;
+//        case 74:
+//            AFNA_F74();//电容器投切运行参数
+//            break;
+//        case 75:
+//            AFNA_F75();//电容器保护参数
+//            break;
+//        case 76:
+//            AFNA_F76();//电容器投切控制方式
+//            break;
         case 81:
             AFNA_F81();//直流模拟量变比
             break;
@@ -190,6 +190,237 @@ void AFNA_RecursiveParse()
         AFNA_RecursiveParse();
     }
 }
+
+
+void AFNA_F9()//终端事件记录配置设置
+{
+    printf("执行F9\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = parameter_data_terminal; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    
+    //    Byte temp_value =0;
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;
+    
+    //数据标志  2个字节
+    identifier = pmEventEffecFlag;//事件记录有效标志位
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    int i = 0;
+    for(i=0;i<8;i++)
+    {
+        buff[outoffset] = *(Byte*)(userdata +offset);
+        printf("buff[%d]=%02x,",i,buff[outoffset]);
+        outoffset += 1;
+        offset += 1;
+    }
+    
+    //数据标志  2个字节
+    identifier = pmEventImptFlag;//事件重要性等级标志位
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    for(i=0;i<8;i++)
+    {
+        buff[outoffset] = *(Byte*)(userdata +offset);
+        printf("buff[%d]=%02x,",i,buff[outoffset]);
+        outoffset += 1;
+        offset += 1;
+    }
+    end = outoffset;
+    len = end -begin;
+    memcpy(buff + begin -2, &len, 2);
+}
+
+void AFNA_F12()//终端状态量输入参数
+{
+    printf("执行F12\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = parameter_data_terminal; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    
+    //    Byte temp_value =0;
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;
+    
+    //数据标志  2个字节
+    identifier = pmStateVariableInter;//状态量接入标志位（对应1～8路状态量）
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(Byte*)(buff+outoffset)=*(Byte*)(userdata+offset);
+    outoffset+=sizeof(Byte);
+    offset+=1;
+    
+    //数据标志  2个字节
+    identifier = pmStateVariableAttr;//状态量属性标志位（对应1～8路状态量）
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(Byte*)(buff+outoffset)=*(Byte*)(userdata+offset);
+    outoffset+=sizeof(Byte);
+    offset+=1;
+    
+    end = outoffset;
+    len = end -begin;
+    memcpy(buff + begin -2, &len, 2);
+}
+
+void AFNA_F36()//终端上行通信流量门限设置
+{
+    printf("执行F36\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = parameter_data_terminal; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    
+    //    Byte temp_value =0;
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;
+    
+    //数据标志  2个字节
+    identifier = pmCommFlowLmt;//月通信流量门限
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(XL_UINT32*)(buff+outoffset)=*(XL_UINT32*)(userdata+offset);
+    outoffset+=sizeof(XL_UINT32);
+    offset+=4;
+    
+    end = outoffset;
+    len = end -begin;
+    memcpy(buff + begin -2, &len, 2);
+}
+
+void AFNA_F60()//谐波限值
+{
+    printf("执行F60\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = parameter_data_terminal; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    
+    int i=0;
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;
+    
+    //数据标志  2个字节
+    for(i=0;i<21;i++)
+    {
+        identifier = pmVoltHarmoRateHiLmtZ+i;//总畸变电压含有率上限+i
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset,2,1);
+        outoffset+=sizeof(XL_SINT64);
+        offset+=2;
+    }
+    
+    for(i=0;i<19;i++)
+    {
+        identifier = pmCurHarmoEffecHiLmtZ+i;//总畸变电流有效值上限+i
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset,2,2);
+        outoffset+=sizeof(XL_SINT64);
+        offset+=2;
+    }
+    end = outoffset;
+    len = end -begin;
+    memcpy(buff + begin -2, &len, 2);
+}
+
+void AFNA_F61()//直流模拟量接入参数
+{
+    printf("执行F61\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = parameter_data_terminal; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    
+    //    Byte temp_value =0;
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;
+    
+    //数据标志  2个字节
+    identifier = pmDCAnalogInter;//直流模拟量接入参数
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(Byte*)(buff+outoffset)=*(Byte*)(userdata+offset);
+    outoffset+=sizeof(Byte);
+    offset+=1;
+    
+    end = outoffset;
+    len = end -begin;
+    memcpy(buff + begin -2, &len, 2);
+}
+
+void AFNA_F91()//终端地理位置信息
+{
+    printf("执行F91\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = parameter_data_terminal; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    
+    //    Byte temp_value =0;
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;
+    
+    //数据标志  2个字节
+    identifier = pmLongitude;//经度,秒
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 2, 2);
+    outoffset+=sizeof(XL_UINT64);
+    offset+=2;
+    //经度,分
+    *(Byte*)(buff+outoffset)=bcdToTime(userdata+offset);
+    outoffset+=sizeof(Byte);
+    offset+=2;
+    //经度,度
+    *(Byte*)(userdata+offset+1) &= 0x8F;
+    *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 2, 0);
+    outoffset+=sizeof(XL_SINT64);
+    offset+=2;
+    
+    end = outoffset;
+    len = end -begin;
+    memcpy(buff + begin -2, &len, 2);
+}
+
+
 
 //终端上行通信口通信参数设置
 void AFNA_F1()
@@ -280,8 +511,6 @@ void AFNA_F1()
 //主站IP地址和端口
 void AFNA_F3()
 {
-    
-    
     printf("执行F3\n");
     
     //1个字节长度  数据类型
@@ -352,8 +581,6 @@ void AFNA_F3()
 //终端IP地址和端口
 void AFNA_F7()
 {
-    
-    
     printf("执行F7\n");
     
     //1个字节长度  数据类型
@@ -378,7 +605,7 @@ void AFNA_F7()
     identifier = pmIP;//终端IP标志
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 4);//终端ip地质
+    memcpy(buff + outoffset, userdata+offset, 4);//终端ip地址
     outoffset+=4;
     offset+=4;
     
@@ -413,7 +640,7 @@ void AFNA_F7()
     identifier = pmProxyAddr;//代理服务器地址
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 1);//代理类型
+    memcpy(buff + outoffset, userdata+offset, 4);
     outoffset+=4;
     offset+=4;
     
@@ -421,7 +648,7 @@ void AFNA_F7()
     identifier = pmProxyPort;//代理服务器端口
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  2个字节
-    memcpy(buff + outoffset, userdata+offset, 1);//代理类型端口
+    memcpy(buff + outoffset, userdata+offset, 2);//代理类型端口
     outoffset+=2;
     offset+=2;
     
@@ -446,6 +673,10 @@ void AFNA_F7()
     //数据标志  2个字节
     identifier = pmProxyUserName;//用户名
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据长度 可变长
+    memcpy(buff + outoffset, &temp, 1);outoffset+=1;
+    
+    
     //数据内容  m个字节
     memcpy(buff + outoffset, userdata+offset,temp);//
     outoffset+=temp;
@@ -464,6 +695,10 @@ void AFNA_F7()
     //数据标志  2个字节
     identifier = pmProxyPassWord;//密码
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //密码长度
+    memcpy(buff + outoffset, &temp, 1);outoffset+=1;
+    
+    
     //数据内容  m个字节
     memcpy(buff + outoffset, userdata+offset,temp);//
     outoffset+=temp;
@@ -483,36 +718,15 @@ void AFNA_F7()
     memcpy(buff + begin - 2,&len, 2);
     
 }
-//终端事件记录配置设置
-void AFNA_F9()
-{
-    //终端参数
-    printf("执行F9\n");
-    
-    
-    
-    
-    
-    
-}
+
 
 //终端参数
 //终端电能表/交流采样装置配置参数-jp柜
 void AFNA_F10()
 {
     
-    
-    
-    
-    
-    
 }
-//终端状态量输入参数
-void AFNA_F12()
-{
-    
-    
-}
+
 //终端总加组配置参数
 void AFNA_F14()
 {
@@ -525,8 +739,6 @@ void AFNA_F15()
     
     
 }
-
-
 
 //虚拟专网用户名、密码
 void AFNA_F16()
@@ -573,17 +785,12 @@ void AFNA_F16()
     end = outoffset;
     len = end - begin;
     memcpy(buff + begin - 2,&len, 2);
-    
-    
-    
 }
 
 //测量点参数
 //测量点基本参数
 void AFNA_F25()
 {
-    
-    
     printf("执行F25\n");
     
     //1个字节长度  数据类型
@@ -600,6 +807,7 @@ void AFNA_F25()
     XL_SINT64 temp  =0;
     //    Byte temp_value =0;
     XL_UINT16 len=0;  //输出缓冲区数据长度
+    
     
     
     begin = outoffset;
@@ -650,19 +858,68 @@ void AFNA_F25()
     
     
     //数据标志  2个字节
-    identifier = pmRatedLoad;//电源接线方式
+    identifier = pmPowerConnWay;//电源接线方式
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //数据内容  1个字节
-    memcpy(buff + outoffset, userdata+offset, 1);//
-    outoffset+=1;
-    offset+=1;
+    
+    
+    Byte test =0;
+    XL_CHAR *result = (XL_CHAR *) malloc(200);
+    memset(result, 0, strlen(result));
+    test=(*(Byte*)(userdata+offset)&0x03);
+    switch (test) {
+        case 0:
+            strcat(result, "备用");
+            break;
+        case 1:
+            strcat(result, "三相三线");
+            break;
+        case 2:
+            strcat(result, "三相四线");
+            break;
+        case 3:
+            strcat(result, "单相表");
+            break;
+        default:
+            break;
+    }
+    test=(*(Byte*)(userdata+offset)>>2&0x03);
+    switch (test) {
+        case 0:
+            strcat(result, "接线不确定");
+            break;
+        case 1:
+            strcat(result, "A相接线");
+            break;
+        case 2:
+            strcat(result, "B相接线");
+            break;
+        case 3:
+            strcat(result, "C相接线");
+            break;
+        default:
+            break;
+    }
+    //长度
+    XL_UINT8 eventlen = strlen(result);
+    memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT8)); outoffset++;
+    //内容
+    memcpy(buff + outoffset, result, eventlen);outoffset+= eventlen;
+    offset++;
+    
+    
+    
+    
+    //    //数据内容  1个字节
+    //    memcpy(buff + outoffset, userdata+offset, 1);//
+    //    outoffset+=1;
+    //    offset+=1;
     
     
     end = outoffset;
     len = end - begin;
     memcpy(buff + begin - 2,&len, 2);
     
-    
+    free(result);
 }
 //测量点限值参数
 void AFNA_F26()
@@ -1174,55 +1431,14 @@ void AFNA_F28()
     end = outoffset;
     len = end - begin;
     memcpy(buff + begin - 2,&len, 2);
-    
-    
-    
 }
-void AFNA_F36()//终端上行通信流量门限设置
-{
-    
-    
-    
-}
+
 
 void AFNA_F45()//功控轮次设定
 {
     
     
 }
-void AFNA_F60()//谐波限值
-{
-    
-    
-}
-void AFNA_F61()//直流模拟量接入参数
-{
-    
-}
-
-
-//JP柜参数
-void AFNA_F73()//电容器参数
-{
-    
-    
-}
-void AFNA_F74()//电容器投切运行参数
-{
-    
-    
-}
-void AFNA_F75()//电容器保护参数
-{
-    
-    
-}
-void AFNA_F76()//电容器投切控制方式
-{
-    
-    
-}
-
 
 void AFNA_F81()//直流模拟量变比
 {
@@ -1243,7 +1459,6 @@ void AFNA_F83()//直流模拟量冻结参数
 }
 void AFNA_F90()//设置无线通信参数
 {
-    
     
     
 }

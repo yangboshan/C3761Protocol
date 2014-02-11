@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *fn;
  
 - (IBAction)sendData:(id)sender;
+- (IBAction)home:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *year;
 @property (weak, nonatomic) IBOutlet UITextField *month;
 @property (weak, nonatomic) IBOutlet UITextField *day;

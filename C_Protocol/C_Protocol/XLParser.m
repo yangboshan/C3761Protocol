@@ -47,9 +47,9 @@ NSMutableArray *array;
     bytes = (Byte*)[data bytes];
     len = [data length];
     
-//    for(int i =0;i<len;i++){
-//        NSLog(@"%02x",bytes[i]);
-//    }
+    for(int i =0;i<len;i++){
+        NSLog(@"%02x",bytes[i]);
+    }
     
     _offset = 0;
     
@@ -172,6 +172,20 @@ COMPLEX_ITEM dtype;
             break;
         case 19:{
             dtype = eventlist[_identifier];
+        }
+            break;
+            
+        case 20:{
+            dtype  = parameter_data_comm[_identifier];
+
+        }
+            break;
+        case 21:{
+            dtype  = parameter_data_mtr[_identifier];
+        }
+            break;
+        case 22:{
+            dtype  = parameter_data_terminal[_identifier];
         }
             break;
         default:
@@ -437,6 +451,28 @@ COMPLEX_ITEM dtype;
                 forKey:key];
 }
 
+//1字节 1位小数
+-(void)parse22{
+    
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/10.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.1f",result];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+    
+    //    [_subdic setObject:results
+    //                forKey:key];
+    
+}
+
+
 //3字节 4位小数
 -(void)parse23{
     
@@ -559,17 +595,25 @@ COMPLEX_ITEM dtype;
     NSInteger len = *(Byte*)(bytes + _offset);  _offset+=1;
     //    NSLog(@"%d",len);
     
-    NSString *eventDesc1 = [NSString stringWithUTF8String:(const char*)(bytes + _offset)];
+    NSString *desc = [NSString stringWithUTF8String:(const char*)(bytes + _offset)];
+
+    NSLog(@"长度:%d",len);
+    NSLog(@"内容 %@",desc);
     
-//    NSString *eventDesc2 = [[NSString alloc] initWithCString:(const char*)(bytes + _offset) encoding:NSUTF8StringEncoding];
- 
-    NSLog(@"事件长度:%d",len);
-    NSLog(@"事件内容 %@",eventDesc1);
-    NSData *data = [NSData dataWithBytes:(bytes + _offset) length:len];
-    NSLog(@"%@",[data description]);
+//    NSData *data = [NSData dataWithBytes:(bytes + _offset) length:len];
+//    NSLog(@"%@",[data description]);
     
-    [_subdic setObject:eventDesc1
-                forKey:[NSString stringWithFormat:@"%d",_identifier]];
+    
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = desc;
+    [array addObject:item];
+    
+    
+//    [_subdic setObject:eventDesc1
+//                forKey:[NSString stringWithFormat:@"%d",_identifier]];
 
     _offset += len;
 }

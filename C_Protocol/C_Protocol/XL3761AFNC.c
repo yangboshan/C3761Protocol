@@ -468,9 +468,34 @@ void AFNC_F25()
 }
 
 /*当前铜损、铁损有功总电能示值*/
+/*当前铜损、铁损有功总电能示值*/
 void AFNC_F29()
 {
-    offset += 15;
+    buff[outoffset] = mtr_rt_basic_sta; outoffset++;
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    
+    begin = outoffset;
+    //终端抄表时间,5字节,暂时不用,直接跳过
+    offset += 5;
+    XL_UINT16 identifier;
+    identifier = rtCopperLossAEValueZ;//当前铜损有功总电能示值
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 5, 4);
+    offset +=5;
+    outoffset += sizeof(XL_UINT64);
+    
+    identifier = rtIronLossAEValueZ;//当前铁损有功总电能示值
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 5, 4);
+    offset +=5;
+    outoffset += sizeof(XL_UINT64);
+    
+    end = outoffset;
+    XL_UINT16 len = end -begin;
+    memcpy(buff + begin -2, &len, 2);
 }
 
 /*当前正向有/无功（组合无功1）电能示值、一/四象限无功电能示值（总、费率1～M，1≤M≤12）*/

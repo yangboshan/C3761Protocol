@@ -14,6 +14,7 @@
 #include "XL3761UnPack.h"
 
 #include "XL3761AFN0.h"
+#include "XL3761AFNA.h"
 #include "XL3761AFNC.h"
 #include "XL3761AFND.h"
 #include "XL3761AFNE.h"
@@ -190,11 +191,13 @@ XL_SINT32 HandOutFrame(XL_SINT16 *output,XL_UINT16* outlen,Byte** outbuf){
         case AFN00:
             initUserDataForAfn0(output,frame,outlen,outbuf);
             break;
-            
+        
         case AFN04:
             break;
-            
+        
+        //查询参数
         case AFN0A:
+            initUserDataForAfna(output,frame,outlen,outbuf);
             break;
             
         //一类数据

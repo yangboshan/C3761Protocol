@@ -21,6 +21,7 @@
 #define DataType1 @"1"
 #define DataType2 @"2"
 #define DataType3 @"3"
+#define DataType4 @"4"
 
 @interface XLTestViewController ()
 
@@ -41,6 +42,9 @@
 
 - (void)viewDidLoad
 {
+
+
+    
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(response:) name:@"test" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(afn0:) name:@"SPEHANDLE" object:nil];
@@ -161,7 +165,7 @@
         self.frame = PackFrameWithTdd(afn, pn, fn, year, month, day,&_outlen);
         
     }else if(type == CurveData){
-        self.frame = PackFrameWithTdc(afn, pn, fn, year, month, day, 0, 0, 1, 60, &_outlen);
+        self.frame = PackFrameWithTdc(afn, pn, fn, year, month, day, 0, 0, 1, XL_CV96, &_outlen);
         
     } else {
         self.frame = PackFrameForEvent(afn, pn, fn, 0, 5, &_outlen);
@@ -200,6 +204,9 @@
     if ([self.afnType.text isEqualToString:DataType3]) {
         afn = AFN0E;
     }
+    if ([self.afnType.text isEqualToString:DataType4]) {
+        afn = AFN0A;
+    }
     
     NSInteger type = self.dataType.selectedSegmentIndex;
     
@@ -231,6 +238,11 @@
  
     
     [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
+}
+
+- (IBAction)home:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 - (IBAction)clear:(id)sender {
     self.textView.text = @"";

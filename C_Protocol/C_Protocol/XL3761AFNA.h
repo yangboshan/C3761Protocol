@@ -10,6 +10,6 @@
 #define C_Protocol_XL3761AFNA_h
 #include "XLDataType.h"
 
-void initUserDataForAfna(XL_UINT16 *type,void *frame,XL_UINT16* outlen,Byte** outbuf)
+void initUserDataForAfna(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** outbuf);
 
 #endif

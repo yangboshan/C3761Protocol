@@ -77,11 +77,14 @@ enum frame_type{
     //事件 19
     eventlist,
     
-    //通讯参数
+    //通讯参数 20
     parameter_data_comm,
     
-    //测量点参数
+    //测量点参数 21
     parameter_data_mtr,
+    
+    //终端参数 22
+    parameter_data_terminal
     
 }FRAMETYPE;
 
@@ -200,7 +203,11 @@ enum mtr_rt_basic_sta
     rtBCurrentPhaseAngle,
     
     //C相电流相角
-    rtCCurrentPhaseAngle
+    rtCCurrentPhaseAngle,
+    
+    rtCopperLossAEValueZ,//当前铜损有功总电能示值
+    
+    rtIronLossAEValueZ,//当前铁损有功总电能示值
     
 }MTR_RT_BASIC_STA;
 
@@ -2777,6 +2784,108 @@ typedef enum parameter_data_mtr
     pmPfLmt2,//功率因数分段限值2
     
 }PARAMETER_DATA_MTR;
+
+//终端参数
+enum parameter_data_terminal
+{
+    pmEventEffecFlag,//事件记录有效标志位
+    
+    pmEventImptFlag,//事件重要性等级标志位
+    
+    pmStateVariableInter,//状态量接入标志位（对应1～8路状态量）
+    
+    pmStateVariableAttr,//状态量属性标志位（对应1～8路状态量）
+    
+    pmCommFlowLmt,//月通信流量门限
+    
+    pmVoltHarmoRateHiLmtZ,//总畸变电压含有率上限
+    
+    pmVoltHarmoRateHiLmtOdd,//奇次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmtEven,//偶次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt2,//2次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt4,//4次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt6,//6次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt8,//8次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt10,//10次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt12,//12次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt14,//14次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt16,//16次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt18,//18次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt3,//3次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt5,//5次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt7,//7次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt9,//9次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt11,//11次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt13,//13次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt15,//15次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt17,//17次谐波电压含有率上限
+    
+    pmVoltHarmoRateHiLmt19,//19次谐波电压含有率上限
+    
+    pmCurHarmoEffecHiLmtZ,//总畸变电流有效值上限
+    
+    pmCurHarmoEffecHiLmt2,//2次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt4,//4次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt6,//6次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt8,//8次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt10,//10次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt12,//12次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt14,//14次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt16,//16次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt18,//18次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt3,//3次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt5,//5次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt7,//7次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt9,//9次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt11,//11次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt13,//13次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt15,//15次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt17,//17次谐波电流有效值上限
+    
+    pmCurHarmoEffecHiLmt19,//19次谐波电流有效值上限
+    
+    pmDCAnalogInter,//直流模拟量接入参数
+    
+    pmLongitude,//经度
+    
+    pmLatitude,//纬度
+    
+    
+}PARAMETER_DATA_TERMINAL;
 #endif
 
 

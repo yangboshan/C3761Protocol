@@ -1,4 +1,4 @@
-//
+
 //  XLDataType.h
 //  C_Protocol
 //
@@ -70,9 +70,12 @@ typedef signed long  long       XL_SINT64_4;//8字节 有符号 四位小数×10
 #define XL_NULL 0
 
 #define XL_ERROR -1
-#define XL_NORMAL 1;
-#define XL_CONFIRM 1;
-#define XL_DENY 2;
+#define XL_NORMAL 1
+#define XL_CONFIRM 1
+#define XL_DENY 2
+
+#define XL_CV96 60
+
 
 #pragma pack(1)
 typedef struct{
@@ -84,6 +87,30 @@ typedef struct{
     XL_UINT8  digitlen;
     XL_UINT8  shouldUseByte;
 }PACKITEM;
+
+typedef struct{
+    
+    //十进制数值
+    XL_FP64 value1;
+    
+    XL_UINT8 value1blen;
+    
+    XL_UINT8 value1dlen;
+    
+    //字节
+    XL_UINT8  value2[64];
+    
+    //字节长度
+    XL_UINT8  value2blen;
+    
+    //是否使用数值OR字节 flag
+    XL_UINT8  shouldUseValue2;
+    
+    //是否使用BCD
+    XL_UINT8  shouldUseBcd;
+    
+}PACKITEM_P;
+
 
 
 #endif

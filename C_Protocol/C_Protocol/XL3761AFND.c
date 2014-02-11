@@ -185,7 +185,7 @@ void RecursiveParse(){
             AFND_F35();//月冻结月电压统计数据
             break;
         case 36:
-            AFND_F36();//月冻结月不平衡度越限累计时间
+            AFND_F36();//月冻结月不平衡度越限累计时间  ERR
             break;
         case 37:
             AFND_F37();//月冻结月电流越限数据
@@ -206,7 +206,7 @@ void RecursiveParse(){
             break;
             
         case 50:
-            AFND_F50();//日冻结终端日控制统计数据
+            AFND_F50();//日冻结终端日控制统计数据  ERR
             break;
         case 51:
             AFND_F51();//月冻结终端月供电时间+月复位累计次数
@@ -214,14 +214,14 @@ void RecursiveParse(){
             break;
             
         case 52:
-            AFND_F52();//月冻结终端月控制统计数据
+            AFND_F52();//月冻结终端月控制统计数据  ERR
             break;
             
         case 53:
-            AFND_F53();//终端与主站日通信流量
+            AFND_F53();//终端与主站日通信流量  ERR
             break;
         case 54:
-            AFND_F54();//终端与主站月通信流量
+            AFND_F54();//终端与主站月通信流量 ERR
             break;
             
         case 81:
@@ -2081,7 +2081,7 @@ void AFND_F28()
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容 2个字节 1个小数点 十分位
     temp=bcdtosint(userdata+offset, 2, 1);
-    memcpy(buff + outoffset, &temp_value, 8);outoffset+=8;offset+=2;
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=2;
     
     //电流不平衡最大值发生时间
     identifier = hdCurUnbalMaxTm;//
@@ -2103,7 +2103,7 @@ void AFND_F28()
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容 2个字节 1个小数点 十分位
     temp=bcdtosint(userdata+offset, 2, 1);
-    memcpy(buff + outoffset, &temp_value, 8);outoffset+=8;offset+=2;
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=2;
     
     //电压不平衡最大值发生时间
     identifier = hdVoltUnbalMaxTm;//
@@ -4039,8 +4039,8 @@ void AFND_F81()
         identifier = cvCurvePower;  //功率曲线数据标志
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         //数据内容
-        temp= bcdtosint(userdata+offset, 4, 4);
-        memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=4;
+        temp= bcdtosint(userdata+offset, 3, 4);
+        memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
     }
     
     end = outoffset;

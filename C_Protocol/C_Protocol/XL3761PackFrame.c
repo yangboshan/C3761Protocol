@@ -13,6 +13,8 @@
 #include <string.h>
 #include <math.h>
 #include "XL3761PackFrame.h"
+#include "XLUtility.h"
+
 
 //起始位
 #define START 0x68
@@ -38,6 +40,9 @@ XL_UINT8 offset_ = 0;
 
 //设置用户数据区DADT
 void setuserdata(PACKITEM* userdata,XL_UINT8 count);
+
+
+void setuserdatafor4(PACKITEM_P* userdata,XL_UINT8 count);
 
 //设置校验和
 void setchecksum(Byte* userdata);
@@ -110,6 +115,137 @@ Byte* PackFrameForEvent(Byte afn,XL_UINT8 pn,XL_UINT8 fn,XL_UINT8 p1,XL_UINT8 p2
     dataitem.data[0] = p1;dataitem.data[1] = p2;dataitem.datalen = 2;
     dataitem.shouldUseByte = 1;
     return PackFrame(afn, &dataitem, 1, outlen);
+}
+
+
+Byte* PackFrameForAfn04F25(XL_UINT16 m1,XL_UINT16 m2,double v,double c,double l,Byte type){
+    return 0;
+}
+
+
+Byte* PackFrameForAfn04(Byte afn,XL_UINT8 pn,XL_UINT8 fn,PACKITEM_P array[],XL_UINT8 itemcount,XL_UINT16* outlen){
+    
+    XL_UINT8 userdatalen = 0;
+    offset_ = 0;
+    
+    for(XL_UINT8 i = 0;i<itemcount;i++){
+        
+        PACKITEM_P item = array[i];
+        
+        //数据单元长度
+        if (!item.shouldUseValue2) {
+            userdatalen += item.value1blen;
+        }else {
+            userdatalen += item.value2blen;
+        }
+    }
+    
+    //数据单元标识
+    userdatalen += 4;
+    
+    //C(1) Addr(5) AFN(1) SEQ(1) DADT
+    userdatalen += 8;
+    
+    //帧总长度 1 2 2 1 C(1) Addr(5)
+    //    AFN(1) SEQ(1) DADT CS(1) 1
+    length = userdatalen + 8;
+    *outlen = length;
+    
+    frame = malloc(length);
+    memset(frame, 0, length);
+    
+    frame[offset_++] = START;
+    *(frame + 5) = START;
+    *(frame + length -1) = END;
+    
+    XL_UINT16 lengthl = userdatalen<<2|PROTOCOL;
+    
+    //长度L1
+    frame[offset_++] = (Byte)(lengthl & 0x00ff);
+    frame[offset_++] = (Byte)((lengthl & 0xff00)>>8);
+    
+    //长度L2
+    frame[offset_++] = *(frame+1);
+    frame[offset_++] = *(frame+2);
+    
+    offset_++;
+    
+    //控制域
+    frame[offset_++] = CF;
+    
+    //地址域
+    frame[offset_++]  = 0x00;frame[offset_++]  = 0x25;
+    frame[offset_++]  = 0x01;frame[offset_++]  = 0x00;
+    frame[offset_++]  = 0x04;
+    
+    //设置AFN
+    frame[offset_++] = afn;
+    
+    //设置SEQ
+    frame[offset_++] = SEQ;
+    
+    setdadt(pn, fn);
+    
+    //设置用户数据
+    setuserdatafor4(array,itemcount);
+    
+    //设置校验和
+    setchecksum((frame + 6));
+    
+    //    for(int i = 0;i<length;i++){
+    //        printf("%2x ",frame[i]);
+    //    }
+    
+    return frame;
+}
+
+/*－－－－－－－－－－－－－－－－－
+ 设置参数用户数据区
+ －－－－－－－－－－－－－－－－－*/
+void setuserdatafor4(PACKITEM_P* userdata,XL_UINT8 count){
+
+    for(XL_UINT8 i = 0;i < count;i++ ){
+        PACKITEM_P item;
+        item = userdata[i];
+        
+        if (item.shouldUseValue2) {
+            
+            for(XL_UINT8 m = 0;m<item.value2blen;m++){
+                
+                frame[offset_++] = (Byte)item.value2[m];
+            }
+            
+        }else{
+            
+            if (item.shouldUseBcd) {
+                Byte* tmp = decimaltobcd_s(item.value1,
+                                           item.value1blen,
+                                           item.value1dlen);
+                
+                for(XL_UINT8 k = 0;k < item.value1blen;k++){
+                    
+                    frame[offset_++] = tmp[k];
+                }
+                
+                free(tmp);
+                
+            } else {
+                
+                if (item.value1blen == 1) {
+                    *(frame + offset_) = (XL_UINT8)item.value1;offset_++;
+                    
+                } else if (item.value1blen == 2){
+                    *(frame + offset_) = (XL_UINT16)item.value1;offset_+=2;
+                    
+                } else if (item.value1blen == 4){
+                    *(frame + offset_) = (XL_UINT64)item.value1;offset_+=2;
+                    
+                } else {
+                    
+                }
+            }
+        }
+    }
 }
 
 /*－－－－－－－－－－－－－－－－－
