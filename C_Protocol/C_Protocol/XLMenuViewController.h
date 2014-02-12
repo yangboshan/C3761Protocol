@@ -13,4 +13,5 @@
 - (IBAction)query:(id)sender;
 - (IBAction)set:(id)sender;
 - (IBAction)setF27:(id)sender;
+- (IBAction)setF26:(id)sender;
 @end

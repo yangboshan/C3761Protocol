@@ -47,4 +47,9 @@
 - (IBAction)setF27:(id)sender {
         [self performSegueWithIdentifier:@"setF27" sender:nil];
 }
+
+- (IBAction)setF26:(id)sender {
+          [self performSegueWithIdentifier:@"setF26" sender:nil];
+    
+}
 @end

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		84EA6F4518AB015200E81AC2 /* XLSettingF27ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EA6F4418AB015200E81AC2 /* XLSettingF27ViewController.m */; };
+		84EA6F4818AB260000E81AC2 /* XLSettingF26ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EA6F4718AB260000E81AC2 /* XLSettingF26ViewController.m */; };
 		C90DA1F818AA08FB00C5ACE4 /* XLMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90DA1F718AA08FB00C5ACE4 /* XLMenuViewController.m */; };
 		C90DA1FE18AA0BD700C5ACE4 /* XLSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90DA1FD18AA0BD700C5ACE4 /* XLSettingViewController.m */; };
 		C923D14D1895DFF5006EC8C6 /* XL3761AFNA.c in Sources */ = {isa = PBXBuildFile; fileRef = C923D14C1895DFF5006EC8C6 /* XL3761AFNA.c */; };
@@ -60,6 +61,8 @@
 /* Begin PBXFileReference section */
 		84EA6F4318AB015200E81AC2 /* XLSettingF27ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLSettingF27ViewController.h; sourceTree = "<group>"; };
 		84EA6F4418AB015200E81AC2 /* XLSettingF27ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLSettingF27ViewController.m; sourceTree = "<group>"; };
+		84EA6F4618AB260000E81AC2 /* XLSettingF26ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLSettingF26ViewController.h; sourceTree = "<group>"; };
+		84EA6F4718AB260000E81AC2 /* XLSettingF26ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLSettingF26ViewController.m; sourceTree = "<group>"; };
 		C90DA1F618AA08FB00C5ACE4 /* XLMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLMenuViewController.h; sourceTree = "<group>"; };
 		C90DA1F718AA08FB00C5ACE4 /* XLMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLMenuViewController.m; sourceTree = "<group>"; };
 		C90DA1FC18AA0BD700C5ACE4 /* XLSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLSettingViewController.h; sourceTree = "<group>"; };
@@ -204,6 +207,8 @@
 				C999CF4E187A9B7B00AD65D5 /* Supporting Files */,
 				84EA6F4318AB015200E81AC2 /* XLSettingF27ViewController.h */,
 				84EA6F4418AB015200E81AC2 /* XLSettingF27ViewController.m */,
+				84EA6F4618AB260000E81AC2 /* XLSettingF26ViewController.h */,
+				84EA6F4718AB260000E81AC2 /* XLSettingF26ViewController.m */,
 			);
 			path = C_Protocol;
 			sourceTree = "<group>";
@@ -422,6 +427,7 @@
 				C9C88AF5188F4BB700F4D245 /* UIView+UIView___FindAndResignFirstResponder.m in Sources */,
 				C9C88AD0188657C100F4D245 /* XL3761AFNC.c in Sources */,
 				C999CF5E187A9B7B00AD65D5 /* XLViewController.m in Sources */,
+				84EA6F4818AB260000E81AC2 /* XLSettingF26ViewController.m in Sources */,
 				C90DA1F818AA08FB00C5ACE4 /* XLMenuViewController.m in Sources */,
 				C999CF85187A9BAB00AD65D5 /* XL3761UnPack.c in Sources */,
 				C9B38FB218851F27001BC9AB /* XL3761PackFrame.c in Sources */,
