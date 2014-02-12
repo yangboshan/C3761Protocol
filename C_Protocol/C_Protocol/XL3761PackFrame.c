@@ -419,8 +419,19 @@ void setdata(XL_UINT16 num,XL_UINT8 ispn){
    
     XL_UINT16 group;
     
+    //设置PN
     if (ispn) {
-        group = (num - 1) / 8 + 1;
+        
+        //终端P0
+        if (num == 0) {
+            frame[offset_++] = 0x00;
+            frame[offset_++] = 0x00;
+            return;
+        //测量点
+        } else {
+             group = (num - 1) / 8 + 1;
+        }
+    //设置FN
     } else {
         group = (num - 1) / 8;
     }
