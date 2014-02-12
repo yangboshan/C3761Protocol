@@ -43,7 +43,7 @@ Byte* PackFrameForEvent(Byte afn,XL_UINT8 pn,XL_UINT8 fn,XL_UINT8 p1,XL_UINT8 p2
 //额定电流 c
 //额定负荷 l
 //电源接线方式 type
-Byte* PackFrameForAfn04F25(XL_UINT16 m1,XL_UINT16 m2,double v,double c,double l,Byte type);
+//Byte* PackFrameForAfn04F25(XL_UINT16 m1,XL_UINT16 m2,double v,double c,double l,Byte type);
 
 Byte* PackFrameForAfn04(Byte afn,XL_UINT8 pn,XL_UINT8 fn,PACKITEM_P array[],XL_UINT8 itemcount,XL_UINT16* outlen);
 

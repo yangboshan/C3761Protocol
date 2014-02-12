@@ -99,13 +99,13 @@ void AFNA_RecursiveParse()
     
     switch (fn) {
         case 1:
-            AFNA_F1();//终端上行通信口通信参数设置
+            AFNA_F1();//终端上行通信口通信参数设置  ERR
             break;
         case 3:
-            AFNA_F3();//主站IP地址和端口
+            AFNA_F3();//主站IP地址和端口   ERR
             break;
         case 7:
-            AFNA_F7();//终端IP地址和端口
+            AFNA_F7();//终端IP地址和端口   ERR
             break;
             
         case 9:
@@ -124,7 +124,7 @@ void AFNA_RecursiveParse()
             AFNA_F15();//有功总电能量差动越限事件参数设置
             break;
         case 16:
-            AFNA_F16();//虚拟专网用户名、密码
+            AFNA_F16();//虚拟专网用户名、密码  ERR
             break;
         case 25:
             AFNA_F25();//测量点基本参数
@@ -1296,7 +1296,7 @@ void AFNA_F27()
     
     
     //数据标志  2个字节
-    identifier = pmBb;//A相电纳BA
+    identifier = pmBa;//A相电纳BA
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容 a.26格式  无符号 2个字节 3位小数
     temp=bcdtouint(userdata+offset, 2, 3);

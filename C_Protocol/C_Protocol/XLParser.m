@@ -520,6 +520,30 @@ COMPLEX_ITEM dtype;
 //    }
 }
 
+//2字节 3位小数
+-(void)parse26{
+    
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/1000.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.3f",result];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+    
+    //    if (isCurve) {
+    //        [_subdic setObject:results
+    //                    forKey:[NSString stringWithFormat:@"%d",curveIdentifier]];
+    //    }else{
+    //    [_subdic setObject:results
+    //                forKey:key];
+    //    }
+}
 
 //BIN 1字节
 -(void)parse29{

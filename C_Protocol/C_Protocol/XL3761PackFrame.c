@@ -29,8 +29,9 @@
 #define ZERO 0x00
 
 //控制域
-#define CF 0x4b
 
+#define CF 0x4b
+#define CF1 0x4a
 //SEQ
 #define SEQ 0x61
 
@@ -118,9 +119,9 @@ Byte* PackFrameForEvent(Byte afn,XL_UINT8 pn,XL_UINT8 fn,XL_UINT8 p1,XL_UINT8 p2
 }
 
 
-Byte* PackFrameForAfn04F25(XL_UINT16 m1,XL_UINT16 m2,double v,double c,double l,Byte type){
-    return 0;
-}
+//Byte* PackFrameForAfn04F25(XL_UINT16 m1,XL_UINT16 m2,double v,double c,double l,Byte type){
+//    return 0;
+//}
 
 
 Byte* PackFrameForAfn04(Byte afn,XL_UINT8 pn,XL_UINT8 fn,PACKITEM_P array[],XL_UINT8 itemcount,XL_UINT16* outlen){
@@ -145,6 +146,9 @@ Byte* PackFrameForAfn04(Byte afn,XL_UINT8 pn,XL_UINT8 fn,PACKITEM_P array[],XL_U
     
     //C(1) Addr(5) AFN(1) SEQ(1) DADT
     userdatalen += 8;
+    
+    //PW
+    userdatalen += 16;
     
     //帧总长度 1 2 2 1 C(1) Addr(5)
     //    AFN(1) SEQ(1) DADT CS(1) 1
@@ -171,7 +175,7 @@ Byte* PackFrameForAfn04(Byte afn,XL_UINT8 pn,XL_UINT8 fn,PACKITEM_P array[],XL_U
     offset_++;
     
     //控制域
-    frame[offset_++] = CF;
+    frame[offset_++] = CF1;
     
     //地址域
     frame[offset_++]  = 0x00;frame[offset_++]  = 0x25;
@@ -188,6 +192,10 @@ Byte* PackFrameForAfn04(Byte afn,XL_UINT8 pn,XL_UINT8 fn,PACKITEM_P array[],XL_U
     
     //设置用户数据
     setuserdatafor4(array,itemcount);
+    
+    for(int i = 0;i<16;i++){
+        frame[offset_++] = 0x00;
+    }
     
     //设置校验和
     setchecksum((frame + 6));

@@ -142,7 +142,7 @@
     item5.shouldUseValue2 = 1;
     array[5] = item5;
     
-    self.frame = PackFrameForAfn04(0x04, 0, 25, array, 6, &_outlen);
+    self.frame = PackFrameForAfn04(0x04, 1, 25, array, 6, &_outlen);
     self.data = [NSData dataWithBytes:self.frame length:self.outlen];
     NSLog(@"%@",[self.data description]);
     
