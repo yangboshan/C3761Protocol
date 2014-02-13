@@ -35,17 +35,10 @@ Byte* PackFrameForEvent(Byte afn,XL_UINT8 pn,XL_UINT8 fn,XL_UINT8 p1,XL_UINT8 p2
 
 
 //设置参数
-
-//F25测量点基本参数
-//电压互感器倍率 m1
-//电流互感器倍率 m2
-//额定电压 v
-//额定电流 c
-//额定负荷 l
-//电源接线方式 type
 //Byte* PackFrameForAfn04F25(XL_UINT16 m1,XL_UINT16 m2,double v,double c,double l,Byte type);
 
 Byte* PackFrameForAfn04(Byte afn,XL_UINT8 pn,XL_UINT8 fn,PACKITEM_P array[],XL_UINT8 itemcount,XL_UINT16* outlen);
 
+PACKITEM_P BuildPackItem(XL_FP64 value1,XL_UINT8 value1blen,XL_UINT8 value1dlen,XL_UINT8  value2[64],XL_UINT8  value2blen,XL_UINT8  shouldUseValue2,XL_UINT8  shouldUseBcd);
 
 #endif

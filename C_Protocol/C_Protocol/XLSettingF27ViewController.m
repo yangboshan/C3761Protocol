@@ -95,6 +95,7 @@
     
     
     PACKITEM_P item;
+    
     item.value1 = [self.Ra.text integerValue];
     item.value1blen = 2;//字节长度
     item.value1dlen = 3;//小数长度

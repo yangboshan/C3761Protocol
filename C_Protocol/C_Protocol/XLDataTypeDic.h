@@ -130,7 +130,11 @@ enum typelist {
     //ascii 32个字节
     ASCII32_37,
     
-    BS64_38
+    //BS 64
+    BS64_38,
+    
+    //ascii 16
+    ASCII16_39
     
 }DATATYPE;
 
@@ -147,19 +151,19 @@ const COMPLEX_ITEM parameter_data_comm[]=
     {BIN1_29,"2类数据自动上报需要确认"},
     {BIN1_29,"3类数据自动上报需要确认"},
     {BIN1_29,"心跳周期"},
-    {BIN4_32,"主站主用IP"},
+    {BIN1_29,"主站主用IP"},
     {BIN2_30,"主站主用端口"},
     
     
     
-    {BIN4_32,"主站备用IP"},
+    {BIN1_29,"主站备用IP"},
     {BIN2_30,"主站备用端口"},
-    {BIN2_30,"主站APN"},
-    {BIN4_32,"终端IP地址"},
-    {BIN4_32,"终端子网掩码"},
-    {BIN4_32,"终端网关"},
+    {ASCII16_39,"主站APN"},
+    {BIN1_29,"终端IP地址"},
+    {BIN1_29,"终端子网掩码"},
+    {BIN1_29,"终端网关"},
     {BIN1_29,"终端代理类型"},
-    {BIN4_32,"终端代理服务器地址"},
+    {BIN1_29,"终端代理服务器地址"},
     {BIN2_30,"终端代理服务器端口"},
     {BIN1_29,"终端代理服务器连接方式"},
     
@@ -289,7 +293,9 @@ const COMPLEX_ITEM terminal_rt_basic_sta[] =
     
     {BIN1_29,"当前重要事件计数器EC1值"},
     
-    {BIN1_29,"当前一般事件计数器EC2值"}
+    {BIN1_29,"当前一般事件计数器EC2值"},
+    
+    {STRING_35,"当前终端日历时钟"}
 };
 
 const COMPLEX_ITEM mtr_rt_basic_sta[] =
@@ -2442,9 +2448,9 @@ const COMPLEX_ITEM history_month_powerneeds[]=
 
 const COMPLEX_ITEM parameter_data_terminal[] =
 {
-    {BS64_38,"事件记录有效标志位"},
+    {STRING_35,"事件记录有效标志位"},
     
-    {BS64_38,"事件重要性等级标志位"},
+    {STRING_35,"事件重要性等级标志位"},
     
     {BS8_34,"状态量接入标志位（对应1～8路状态量）"},
     

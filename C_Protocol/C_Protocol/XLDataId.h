@@ -111,7 +111,10 @@ enum terminal_rt_basic_sta {
     rtImptEventCount,
     
     //当前一般事件计数器EC2值
-    rtCommonEventCount
+    rtCommonEventCount,
+    
+    //当前日历时钟
+    rtCalendarClock
     
 }TERMINAL_RT_BASIC_STA;
 

@@ -71,8 +71,8 @@ void initUserDataForAfna(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** 
     
     userdata = _frame->frameData;
     
-    buff = malloc(_frame->userlen*3 + 50);
-    memset(buff,0,_frame->userlen*3 + 50);
+    buff = malloc(_frame->userlen*16 + 50);
+    memset(buff,0,_frame->userlen*16 + 50);
     *_outbuf = buff;
     
     AFNA_RecursiveParse();
@@ -99,13 +99,13 @@ void AFNA_RecursiveParse()
     
     switch (fn) {
         case 1:
-            AFNA_F1();//终端上行通信口通信参数设置  ERR
+            AFNA_F1();//终端上行通信口通信参数设置
             break;
         case 3:
-            AFNA_F3();//主站IP地址和端口   ERR
+            AFNA_F3();//主站IP地址和端口
             break;
         case 7:
-            AFNA_F7();//终端IP地址和端口   ERR
+            AFNA_F7();//终端IP地址和端口   ERR暂不支持
             break;
             
         case 9:
@@ -208,35 +208,72 @@ void AFNA_F9()//终端事件记录配置设置
     //    Byte temp_value =0;
     XL_UINT16 len=0;  //输出缓冲区数据长度
     
-    
     begin = outoffset;
     
     //数据标志  2个字节
     identifier = pmEventEffecFlag;//事件记录有效标志位
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    int i = 0;
+    
+    XL_CHAR *result = malloc(150);
+    memset(result, 0, strlen(result));
+    XL_SINT8 i = 0;
+    XL_SINT8 j = 0;
+    XL_UINT64 temp = 0;
+    XL_CHAR chTemp[20];
     for(i=0;i<8;i++)
     {
-        buff[outoffset] = *(Byte*)(userdata +offset);
-        printf("buff[%d]=%02x,",i,buff[outoffset]);
-        outoffset += 1;
-        offset += 1;
+        temp = *(XL_UINT8*)(userdata + offset + i);
+        for(j=0;j<8;j++)
+        {
+            if((temp & (0x01 << j))>0)
+            {
+                sprintf(chTemp,"%d",(i*8)+j+1);
+                strcat(chTemp,",");
+                strcat(result,chTemp);
+            }
+        }
+        
     }
+    printf("%s\n",result);
+    XL_UINT8 stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT8));outoffset++;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    offset += 8;
+    free(result);
     
     //数据标志  2个字节
     identifier = pmEventImptFlag;//事件重要性等级标志位
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    result = malloc(150);
+    memset(result, 0, strlen(result));
     for(i=0;i<8;i++)
     {
-        buff[outoffset] = *(Byte*)(userdata +offset);
-        printf("buff[%d]=%02x,",i,buff[outoffset]);
-        outoffset += 1;
-        offset += 1;
+        temp = *(XL_UINT8*)(userdata + offset +  i);
+        for(j=0;j<8;j++)
+        {
+            if((temp & (0x01 << j))>0)
+            {
+                sprintf(chTemp,"%d",(i*8)+j+1);
+                strcat(chTemp,",");
+                strcat(result,chTemp);
+            }
+        }
+        
     }
+    
+    printf("%s",result);
+    stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT8));outoffset++;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    offset += 8;
+    free(result);
+    
     end = outoffset;
     len = end -begin;
     memcpy(buff + begin -2, &len, 2);
 }
+
+
 
 void AFNA_F12()//终端状态量输入参数
 {
@@ -469,7 +506,8 @@ void AFNA_F1()
     memcpy(buff + outoffset, &temp, 2);outoffset+=2;
     //重发次数
     identifier = pmRecvRetryTm;
-    temp=((*(XL_UINT16*)(userdata+offset)>>12)&0x000f);
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    temp=((*(XL_UINT16*)(userdata+offset)>>12)&0x03);
     memcpy(buff + outoffset, &temp, 2);outoffset+=2;
     
     offset+=2;
@@ -482,13 +520,13 @@ void AFNA_F1()
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容
     buff[outoffset]=(*(Byte*)(userdata+offset)&0x01);
-    outoffset++;offset++;
+    outoffset++;
     
     //数据标志  2个字节
     identifier = pmNeedConfirm2;//2类数据自动上报
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     buff[outoffset]=(*(Byte*)(userdata+offset)&0x02);
-    outoffset++;offset++;
+    outoffset++;
     
     //数据标志  2个字节
     identifier = pmNeedConfirm3;//3类数据自动上报
@@ -534,10 +572,35 @@ void AFNA_F3()
     //数据标志  2个字节
     identifier = pmMasterPrimeIP;//主站主用IP
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //主站主用ip  4个字节
-    memcpy(buff + outoffset, userdata+offset, 4);
-    outoffset+=4;
-    offset+=4;
+    //
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    identifier = pmMasterPrimeIP;//主站主用IP
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    identifier = pmMasterPrimeIP;//主站主用IP
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    identifier = pmMasterPrimeIP;//主站主用IP
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    
+    
+    
+    
+    
+    
+    
     
     //数据标志  2个字节
     identifier = pmMasterPrimePort;//主站主用端口
@@ -550,10 +613,40 @@ void AFNA_F3()
     //数据标志  2个字节
     identifier = pmMasterStandbyIP;//主站备用IP
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //主站备用ip  4个字节
-    memcpy(buff + outoffset, userdata+offset, 4);
-    outoffset+=4;
-    offset+=4;
+    //主站备用ip
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    
+    identifier = pmMasterStandbyIP;//主站备用IP
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //主站备用ip
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    
+    identifier = pmMasterStandbyIP;//主站备用IP
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //主站备用ip
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    
+    identifier = pmMasterStandbyIP;//主站备用IP
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //主站备用ip
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     //数据标志  2个字节
     identifier = pmMasterStandbyPort;//主站备用端口
@@ -576,6 +669,7 @@ void AFNA_F3()
     end = outoffset;
     len = end - begin;
     memcpy(buff + begin - 2,&len, 2);
+
     
 }
 //终端IP地址和端口
@@ -605,28 +699,93 @@ void AFNA_F7()
     identifier = pmIP;//终端IP标志
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 4);//终端ip地址
-    outoffset+=4;
-    offset+=4;
-    
+    memcpy(buff + outoffset, userdata+offset, 1);//终端ip地址
+    outoffset+=1;
+    offset+=1;
+    //数据标志  2个字节
+    identifier = pmIP;//终端IP标志
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);//终端ip地址
+    outoffset+=1;
+    offset+=1;
+    //数据标志  2个字节
+    identifier = pmIP;//终端IP标志
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);//终端ip地址
+    outoffset+=1;
+    offset+=1;
+    //数据标志  2个字节
+    identifier = pmIP;//终端IP标志
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);//终端ip地址
+    outoffset+=1;
+    offset+=1;
     
     
     //数据标志  2个字节
     identifier = pmSubnetMask;//子网掩码
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 4);//子网掩码
-    outoffset+=4;
-    offset+=4;
+    memcpy(buff + outoffset, userdata+offset, 1);//子网掩码
+    outoffset+=1;
+    offset+=1;
+    
+    //数据标志  2个字节
+    identifier = pmSubnetMask;//子网掩码
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);//子网掩码
+    outoffset+=1;
+    offset+=1;
+    
+    //数据标志  2个字节
+    identifier = pmSubnetMask;//子网掩码
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);//子网掩码
+    outoffset+=1;
+    offset+=1;
+    
+    //数据标志  2个字节
+    identifier = pmSubnetMask;//子网掩码
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);//子网掩码
+    outoffset+=1;
+    offset+=1;
+    
     
     //数据标志  2个字节
     identifier = pmGateWay;//网关
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 4);//网关
-    outoffset+=4;
-    offset+=4;
+    memcpy(buff + outoffset, userdata+offset, 1);//网关
+    outoffset+=1;
+    offset+=1;
     
+    identifier = pmGateWay;//网关
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);//网关
+    outoffset+=1;
+    offset+=1;
+    
+    identifier = pmGateWay;//网关
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);//网关
+    outoffset+=1;
+    offset+=1;
+    
+    identifier = pmGateWay;//网关
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);//网关
+    outoffset+=1;
+    offset+=1;
     
     //数据标志  2个字节
     identifier = pmProxyType;//代理类型
@@ -640,9 +799,32 @@ void AFNA_F7()
     identifier = pmProxyAddr;//代理服务器地址
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 4);
-    outoffset+=4;
-    offset+=4;
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    
+    identifier = pmProxyAddr;//代理服务器地址
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    
+    identifier = pmProxyAddr;//代理服务器地址
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    
+    identifier = pmProxyAddr;//代理服务器地址
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容  4个字节
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset+=1;
+    offset+=1;
+    
+    
     
     //数据标志  2个字节
     identifier = pmProxyPort;//代理服务器端口
@@ -712,12 +894,9 @@ void AFNA_F7()
     outoffset+=2;
     offset+=2;
     
-    
     end = outoffset;
     len = end - begin;
-    memcpy(buff + begin - 2,&len, 2);
-    
-}
+    memcpy(buff + begin - 2,&len, 2);}
 
 
 //终端参数

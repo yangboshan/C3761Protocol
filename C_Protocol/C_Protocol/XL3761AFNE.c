@@ -112,8 +112,8 @@ void initUserDataForAfne(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** 
     
     userdata = _frame->frameData;
     
-    buff = malloc(_frame->userlen*3 + 50);
-    memset(buff,0,_frame->userlen*3 + 50);
+    buff = malloc(_frame->userlen*16 + 50);
+    memset(buff,0,_frame->userlen*16 + 50);
     *_outbuf = buff;
     
     AFNE_RecursiveParse();
@@ -314,6 +314,9 @@ XL_CHAR * gettimestr(XL_UINT8 len){
     XL_UINT8 vtime;
 
     for(XL_UINT8 i =len;i>0;i--){
+        
+        for(int k =0;k<2*len;k++){time[k] = '\0';}
+        
         vtime = (userdata[offset + i-1]>>4 & 0x0f) * 10 + (userdata [offset + i-1]&0x0f);
         sprintf(time,"%d",vtime);
  

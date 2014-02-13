@@ -18,6 +18,7 @@
 
 void AFNC_RecursiveParse();
 
+void AFNC_F2();
 void AFNC_F3();
 void AFNC_F7();
 void AFNC_F9();
@@ -48,8 +49,8 @@ void initUserDataForAfnc(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** 
     
     userdata = _frame->frameData;
     
-    buff = malloc(_frame->userlen*3 + 50);
-    memset(buff,0,_frame->userlen*3 + 50);
+    buff = malloc(_frame->userlen*16 + 50);
+    memset(buff,0,_frame->userlen*16 + 50);
     *_outbuf = buff;
 
     AFNC_RecursiveParse();
@@ -74,6 +75,10 @@ void AFNC_RecursiveParse(){
     printf("fn=%d\n",fn);
 
     switch (fn) {
+        case 2:
+            //终端日历时钟
+            AFNC_F2();
+            break;
         case 3:
             //终端参数状态
             AFNC_F3();
@@ -147,6 +152,113 @@ void AFNC_RecursiveParse(){
         AFNC_RecursiveParse();
 }
 }
+
+
+
+/*终端日历时钟*/
+void AFNC_F2()
+{
+	buff[outoffset] = terminal_rt_basic_sta; outoffset++;
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    
+    begin = outoffset;
+    
+    XL_UINT16 identifier;
+    identifier = rtCalendarClock;//当前终端日历时钟
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //XL_UINT8 i = 5;
+    printf("解析1类数据,F2:");
+    
+    XL_CHAR *result = malloc(100);
+    memset(result, 0, strlen(result));
+    XL_CHAR chDate[6];
+    XL_SINT8 i=5;
+    for(i=5;i>=0;i--)
+    {
+        printf("i=%d\n",i);
+        switch(i)
+        {
+            case 5://年
+                sprintf(chDate,"%d",bcdToTime(userdata+offset+i));
+                strcat(chDate,"-");
+                break;
+            case 4://月,星期
+                sprintf(chDate,"%d",*(Byte*)(userdata+offset+i)&0x1F);
+                strcat(chDate,"-");
+                break;
+            case 3://日
+                sprintf(chDate,"%d",bcdToTime(userdata+offset+i));
+                strcat(chDate," ");
+                break;
+            case 2://时
+                sprintf(chDate,"%02d",bcdToTime(userdata+offset+i));
+                strcat(chDate,":");
+                break;
+            case 1://分
+                sprintf(chDate,"%02d",bcdToTime(userdata+offset+i));
+                strcat(chDate,":");
+                break;
+            case 0://秒
+                sprintf(chDate,"%02d",bcdToTime(userdata+offset+i));
+                break;
+        }
+        strcat(result,chDate);
+        if(i==3)
+        {
+            strcat(result,"星期");
+            XL_UINT8 temp = 0;
+            temp = (*(XL_UINT8*)(userdata+offset+4)>>5)&0x07;
+            switch(temp)
+            {
+                case 0:
+                    break;
+                case 1:
+                    strcat(result,"一 ");
+                    break;
+                case 2:
+                    strcat(result,"二 ");
+                    break;
+                case 3:
+                    strcat(result,"三 ");
+                    break;
+                case 4:
+                    strcat(result,"四 ");
+                    break;
+                case 5:
+                    strcat(result,"五 ");
+                    break;
+                case 6:
+                    strcat(result,"六 ");
+                    break;
+                case 7:
+                    strcat(result,"日 ");
+                    break;
+            }
+        }
+    }
+    
+    printf("%s",result);
+    offset +=6;
+    
+    XL_UINT8 stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT8));outoffset++;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    
+    printf("\n");
+    
+    end = outoffset;
+    
+    XL_UINT16 len = end -begin;
+    memcpy(buff + begin -2, &len, 2);
+}
+
+
+
+
+
 /*终端参数状态*/
 void AFNC_F3()
 {

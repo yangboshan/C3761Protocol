@@ -62,10 +62,12 @@
 
 
 @property (strong, nonatomic) IBOutlet UITextField *v30;
+@property (weak, nonatomic) IBOutlet UITextField *v31;
 
 @property (strong, nonatomic) IBOutlet UITextView *showResult;
 - (IBAction)setF26:(id)sender;
 - (IBAction)return:(id)sender;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 
 
 @end

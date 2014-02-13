@@ -118,8 +118,8 @@ void initUserDataForAfnd(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** 
     
     userdata = _frame->frameData;
     
-    buff = malloc(_frame->userlen*3 + 50);
-    memset(buff,0,_frame->userlen*3 + 50);
+    buff = malloc(_frame->userlen*16 + 50);
+    memset(buff,0,_frame->userlen*16 + 50);
     *_outbuf = buff;
     
     RecursiveParse();

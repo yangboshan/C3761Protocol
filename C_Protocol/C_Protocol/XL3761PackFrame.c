@@ -29,9 +29,9 @@
 #define ZERO 0x00
 
 //控制域
-
 #define CF 0x4b
 #define CF1 0x4a
+
 //SEQ
 #define SEQ 0x61
 
@@ -124,6 +124,28 @@ Byte* PackFrameForEvent(Byte afn,XL_UINT8 pn,XL_UINT8 fn,XL_UINT8 p1,XL_UINT8 p2
 //}
 
 
+//build packitem instance
+PACKITEM_P BuildPackItem(XL_FP64 value1,XL_UINT8 value1blen,XL_UINT8 value1dlen,XL_UINT8  value2[64],XL_UINT8  value2blen,XL_UINT8  shouldUseValue2,XL_UINT8  shouldUseBcd){
+    
+    PACKITEM_P packItem;
+    packItem.value1 = value1;
+    packItem.value1blen = value1blen;
+    packItem.value1dlen = value1dlen;
+    
+    if (value2blen>0) {
+        for(int i = 0;i<value2blen;i++){
+            packItem.value2[i] = value2[i];
+        }
+    }
+
+    packItem.value2blen = value2blen;
+    packItem.shouldUseValue2 = shouldUseValue2;
+    packItem.shouldUseBcd = shouldUseBcd;
+    
+    return packItem;
+}
+
+//参数设置组帧接口
 Byte* PackFrameForAfn04(Byte afn,XL_UINT8 pn,XL_UINT8 fn,PACKITEM_P array[],XL_UINT8 itemcount,XL_UINT16* outlen){
     
     XL_UINT8 userdatalen = 0;
@@ -147,7 +169,7 @@ Byte* PackFrameForAfn04(Byte afn,XL_UINT8 pn,XL_UINT8 fn,PACKITEM_P array[],XL_U
     //C(1) Addr(5) AFN(1) SEQ(1) DADT
     userdatalen += 8;
     
-    //PW
+    //密码域
     userdatalen += 16;
     
     //帧总长度 1 2 2 1 C(1) Addr(5)
@@ -216,6 +238,7 @@ void setuserdatafor4(PACKITEM_P* userdata,XL_UINT8 count){
         PACKITEM_P item;
         item = userdata[i];
         
+        //使用value2
         if (item.shouldUseValue2) {
             
             for(XL_UINT8 m = 0;m<item.value2blen;m++){
@@ -224,7 +247,7 @@ void setuserdatafor4(PACKITEM_P* userdata,XL_UINT8 count){
             }
             
         }else{
-            
+            //使用Bcd
             if (item.shouldUseBcd) {
                 Byte* tmp = decimaltobcd_s(item.value1,
                                            item.value1blen,
@@ -236,7 +259,8 @@ void setuserdatafor4(PACKITEM_P* userdata,XL_UINT8 count){
                 }
                 
                 free(tmp);
-                
+            
+            //BIN BS..
             } else {
                 
                 if (item.value1blen == 1) {
