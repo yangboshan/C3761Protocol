@@ -55,7 +55,10 @@ void AFNA_F83();//直流模拟量冻结参数
 void AFNA_F90();//设置无线通信参数
 
 
+void AFNA_F91();//终端地理位置信息
+
 //增补
+void AFNA_F169();//变压器基本参数设置
 void AFNA_F170();//wifi通信设置
 void AFNA_F172();//用户管理
 
@@ -178,6 +181,9 @@ void AFNA_RecursiveParse()
             AFNA_F90();//设置无线通信参数
             break;
             
+        case 169:
+            AFNA_F169();
+            break;
             
         case 170:
             AFNA_F170();
@@ -982,7 +988,157 @@ void AFNA_F7()
 //终端电能表/交流采样装置配置参数-jp柜
 void AFNA_F10()
 {
+    printf("执行F10\n");
     
+    //1个字节长度  数据类型
+    buff[outoffset] = parameter_data_mtr_comm; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;//数据标志
+    
+    
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    begin = outoffset;
+    
+    XL_UINT16 mtrCnt = 0;//配置的测量点数
+    mtrCnt = *(XL_UINT16*)(userdata + offset);
+    offset += 2;
+    
+    XL_UINT8 i = 0;
+    for(i = 0;i < mtrCnt; i++)
+    {
+        
+        identifier = pmMtrDeviceNo;//测量点装置序号
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        *(XL_UINT16*)(buff+outoffset) = *(XL_UINT16*)(userdata+offset);//两字节bin类型
+        offset += 2;
+        outoffset += 2;
+        
+        //数据标志  2个字节
+        identifier = pmMtrNo;//测量点号
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        *(XL_UINT16*)(buff+outoffset) = *(XL_UINT16*)(userdata+offset);//两字节bin类型
+        offset += 2;
+        outoffset += 2;
+        
+        XL_UINT8 temp = 0;
+        identifier = pmCommSpeed;//通信速率
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        temp = *(Byte*)(userdata + offset);
+        switch (temp>>5) {
+            case 0:
+                //未设置，或使用默认
+                *(XL_UINT16*)(buff+outoffset) = 0;
+                break;
+            case 1:
+                *(XL_UINT16*)(buff+outoffset) = 600;
+                break;
+            case 2:
+                *(XL_UINT16*)(buff+outoffset) = 1200;
+                break;
+            case 3:
+                *(XL_UINT16*)(buff+outoffset) = 2400;
+                break;
+            case 4:
+                *(XL_UINT16*)(buff+outoffset) = 4800;
+                break;
+            case 5:
+                *(XL_UINT16*)(buff+outoffset) = 7200;
+                break;
+            case 6:
+                *(XL_UINT16*)(buff+outoffset) = 9600;
+                break;
+            case 7:
+                *(XL_UINT16*)(buff+outoffset) = 19200;
+                break;
+            default:
+                break;
+        }
+        
+        outoffset += sizeof(XL_UINT16);
+        
+        identifier = pmCommPort;//通信端口号
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        *(Byte*)(buff+outoffset) = (temp & 0x1F);
+        outoffset += sizeof(Byte);
+        offset += 1;
+        
+        identifier = pmCommPrtlType;//通信协议类型
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        XL_CHAR* result = malloc(50);
+        memset(result, 0, strlen(result));
+        temp = *(XL_UINT8*)(userdata+offset);
+        switch (temp) {
+            case 0:
+                result = "无需抄表";
+                break;
+            case 1:
+                result = "DL/T 645—1997";
+                break;
+            case 30:
+                result = "DL/T 645—2007";
+                break;
+            case 31:
+                result = "串行接口连接窄带低压载波通信模块";
+                break;
+                
+            default:
+                break;
+        }
+        
+        //长度
+        XL_UINT16 mtrcommlen = strlen(result);
+        memcpy(buff + outoffset, &mtrcommlen, sizeof(XL_UINT16)); outoffset+=2;
+        //内容
+        memcpy(buff + outoffset, result, mtrcommlen);outoffset+= mtrcommlen;
+        offset++;
+        
+        free(result);
+        
+        identifier = pmCommAddr;//通信地址
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        XL_CHAR chTemp[7];
+        for(i = 0; i < 6; i++)
+        {
+            chTemp[i] = bcdToTime(userdata + offset+i);
+        }
+        chTemp[6] ='\0';
+        
+        mtrcommlen = strlen(chTemp);
+        memcpy(buff + outoffset, &mtrcommlen, sizeof(XL_UINT16)); outoffset+=2;
+        //内容
+        memcpy(buff + outoffset, result, mtrcommlen);outoffset+= mtrcommlen;
+        offset += 6;
+        
+        identifier = pmFeeNum;//通信费率个数
+        memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+        *(XL_UINT8*)(buff+outoffset) = (*(XL_UINT8*)(userdata + offset))&0x3F;
+        offset += 1;
+        outoffset += 1;
+        
+        identifier = pmIntegerNum;//整数位个数
+        memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+        temp = *(XL_UINT8*)(userdata+offset);
+        
+        *(XL_UINT8*)(buff+outoffset) = ((temp>>2)&0x03)+4;outoffset++;
+        
+        identifier = pmDecimalNum;//小数位个数
+        memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+        *(XL_UINT8*)(buff + outoffset) = (temp&0x03)+1;
+        
+        offset++;
+        
+        offset += 7;//所属采集器通信地址,6字节；用户大类号及用户小类号，1字节，此处不做处理
+    }
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+
 }
 
 //终端总加组配置参数
@@ -1759,6 +1915,224 @@ void AFNA_F90()//设置无线通信参数
     
     
 }
+
+void AFNA_F169()//变压器基本参数设置
+{
+    printf("执行F169\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = parameter_data_terminal; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;
+    
+    //数据标志  2个字节
+    identifier = pmEpId;//设备编号
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    XL_CHAR chTemp[20];
+    XL_UINT8 i = 0;
+    XL_CHAR* result=malloc(20);
+    
+    memset(result, 0, strlen(result));
+    for(i = 0;i < 16;i++)
+    {
+        sprintf(chTemp, "%c", *(XL_CHAR*)(userdata + offset+i));
+        
+        strcat(result, chTemp);
+    }
+    
+    XL_UINT16 stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    offset += 16;
+    free(result);
+    
+    //设备类型，1字节，无具体定义，先跳过
+    offset++;
+    
+    //额定电压
+    identifier = pmTerminalRatedVoltage;
+    memcpy(buff + outoffset, &identifier, 2);outoffset += 2;
+    *(XL_UINT64*)(buff+outoffset) = bcdtouint(userdata+offset, 2, 1);
+    offset+=2;
+    outoffset+=sizeof(XL_UINT64);
+    
+    //额定电流
+    identifier = pmTerminalRatedCurrent;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    *(XL_UINT64*)(buff+outoffset) = bcdtouint(userdata + offset, 3, 1);
+    offset += 3;
+    outoffset += sizeof(XL_UINT64);
+    
+    //额定容量
+    identifier = pmRatedCapital;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    *(XL_UINT16*)(buff+outoffset) = *(XL_UINT16*)(userdata + offset);
+    offset += 2;
+    outoffset += sizeof(XL_UINT16);
+    
+    //满载损耗
+    identifier = pmFullLoadLoss;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    *(XL_UINT16*)(buff+outoffset) = *(XL_UINT16*)(userdata + offset);
+    offset += 2;
+    outoffset += sizeof(XL_UINT16);
+    
+    //空载损耗
+    identifier = pmNoLoadLoss;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    *(XL_UINT16*)(buff+outoffset) = *(XL_UINT16*)(userdata + offset);
+    offset += 2;
+    outoffset += sizeof(XL_UINT16);
+    
+    //阻抗电压
+    identifier = pmImpedanceVoltage;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    *(XL_UINT64*)(buff+outoffset) = bcdtouint(userdata+offset, 2, 1);
+    offset+=2;
+    outoffset+=sizeof(XL_UINT64);
+    
+    //额定频率
+    identifier = pmRatedFrequency;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    *(XL_UINT64*)(buff+outoffset) = bcdtouint(userdata+offset, 2, 1);
+    offset+=2;
+    outoffset+=sizeof(XL_UINT64);
+    
+    //制造日期
+    identifier = pmManufactureDate;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    *(Byte*)(buff+outoffset) = bcdToTime(userdata +offset);//日
+    outoffset++;
+    offset++;
+    
+    *(Byte*)(buff+outoffset) = bcdToTime(userdata +offset);//月
+    outoffset++;
+    offset++;
+    
+    *(Byte*)(buff+outoffset) = bcdToTime(userdata +offset);//年
+    outoffset++;
+    offset++;
+    
+    //出厂编号,16字节,ASCII码
+    identifier = pmManufactureNo;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    result=malloc(20);
+    memset(result, 0, strlen(result));
+    for(i = 0;i < 16;i++)
+    {
+        sprintf(chTemp, "%c", *(XL_CHAR*)(userdata + offset+i));
+        
+        strcat(result, chTemp);
+    }
+    
+    stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    offset += 16;
+    free(result);
+    
+    //连接组别
+    identifier = pmConnGroups;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    result=malloc(20);
+    memset(result, 0, strlen(result));
+    for(i = 0;i < 8;i++)
+    {
+        sprintf(chTemp, "%c", *(XL_CHAR*)(userdata + offset+i));
+        
+        strcat(result, chTemp);
+    }
+    
+    stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    offset += 16;
+    free(result);
+    
+    //相数
+    identifier = pmPhaseNum;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    *(XL_UINT8*)(buff+outoffset) = *(XL_UINT8*)(userdata + offset);
+    offset += 1;
+    outoffset += sizeof(XL_UINT8);
+    
+    //绝缘耐热等级
+    identifier = pmInsulationGrade;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    result=malloc(20);
+    
+    memset(result, 0, strlen(result));
+    sprintf(chTemp, "%c", *(XL_CHAR*)(userdata + offset));
+    
+    strcat(result, chTemp);
+    
+    stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    offset += 1;
+    free(result);
+    
+    //温升
+    identifier = pmTempratureRise;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    *(XL_UINT64*)(buff+outoffset) = bcdtouint(userdata+offset, 2, 1);
+    offset+=2;
+    outoffset+=sizeof(XL_UINT64);
+    
+    //冷却方式
+    identifier = pmCoolingWay;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    
+    result=malloc(50);
+    memset(result, 0, strlen(result));
+    XL_UINT8 uint8Temp=(*(Byte*)(userdata+offset));
+    switch (uint8Temp) {
+        case 0:
+            break;
+        case 1:
+            result = "油浸自冷(ONAN)";
+            break;
+        case 2:
+            result = "油浸风冷(ONAF)";
+            break;
+        case 3:
+            result = "强迫油循环风冷(OFAF)";
+            break;
+        case 4:
+            result = "强迫油循环水冷(OFWF)";
+            break;
+        case 5:
+            result = "强迫导向油循环风冷(ODAF)";
+            break;
+        case 6:
+            result = "强迫导向油循环水冷(ODWF)";
+            break;
+        default:
+            break;
+    }
+    //长度
+    XL_UINT16 eventlen = strlen(result);
+    memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16)); outoffset+=2;
+    //内容
+    memcpy(buff + outoffset, result, eventlen);outoffset+= eventlen;
+    offset++;
+    free(result);
+    
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+}
+
 
 //wifi通信设置
 void AFNA_F170(){

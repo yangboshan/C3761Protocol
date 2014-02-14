@@ -84,7 +84,11 @@ enum frame_type{
     parameter_data_mtr,
     
     //终端参数 22
-    parameter_data_terminal
+    parameter_data_terminal,
+    
+    
+    //测量点通信参数
+    parameter_data_mtr_comm
     
 }FRAMETYPE;
 
@@ -2933,8 +2937,70 @@ enum parameter_data_terminal
     
     pmLatitude,//纬度
     
+    pmEpId,//设备编号
+    
+    pmEpType,//设备类型
+    
+    pmTerminalRatedVoltage,//额定电压
+    
+    pmTerminalRatedCurrent,//额定电流
+    
+    pmRatedCapital,//额定容量
+    
+    pmFullLoadLoss,//满载损耗
+    
+    pmNoLoadLoss,//空载损耗
+    
+    pmImpedanceVoltage,//阻抗电压
+    
+    pmRatedFrequency,//额定频率
+    
+    pmManufactureDate,//制造日期
+    
+    pmManufactureNo,//出厂编号
+    
+    pmConnGroups,//连接组别
+    
+    pmPhaseNum,//相数
+    
+    pmInsulationGrade,//绝热耐热等级
+    
+    pmTempratureRise,//温升
+    
+    pmCoolingWay,//冷却方式
+    
+    pmInsulationLevel,//绝缘水平
+    
+    pmTerminalCTRatio,//CT变比
+    
     
 }PARAMETER_DATA_TERMINAL;
+
+//测量点通信参数
+enum parameter_data_mtr_comm
+{
+    pmMtrNo,//测量点号
+    
+    pmMtrDeviceNo,//测量点装置序号
+    
+    pmCommSpeed,//通信速率
+    
+    pmCommPort,//通信端口号
+    
+    pmCommPrtlType,//通信协议类型
+    
+    pmCommAddr,//通信地址
+    
+    pmCommPassWord,//通信密码
+    
+    pmFeeNum,//电能费率个数
+    
+    pmIntegerNum,//有功电能示值整数位数
+    
+    pmDecimalNum,//有功电能示值小数位数
+    
+}PARAMETER_DATA_MTR_COMM;
+
 #endif
 
 
