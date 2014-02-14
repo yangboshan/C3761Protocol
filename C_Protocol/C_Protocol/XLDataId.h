@@ -114,7 +114,22 @@ enum terminal_rt_basic_sta {
     rtCommonEventCount,
     
     //当前日历时钟
-    rtCalendarClock
+    rtCalendarClock,
+    
+    //油温
+    rtOilTemperature,
+    
+    //A相绕组温度
+    rtAWindingTemperature,
+    
+    //B相绕组温度
+    rtBWindingTemperature,
+    
+    //C相绕组温度
+    rtCWindingTemperature,
+    
+    //剩余寿命
+    rtRealLifetime,
     
 }TERMINAL_RT_BASIC_STA;
 
@@ -1787,6 +1802,15 @@ typedef enum measure_curve_data
     cvCurvePowerFactor,//功率因素曲线
     
     cvCurveDireCurAnalog,//直流模拟量数据曲线
+    
+    /*chenbaiqing2014.2.13 增补*/
+    cvCurveOilTemp,   //油温曲线
+    cvCurveWindingTempA,//A相绕组温度曲线
+    cvCurveWindingTempB,//B相绕组温度曲线
+    cvCurveWindingTempC,//C相绕组温度曲线
+    cvCurveLoadRate,//负载率曲线
+    cvCurveVoltUnbRate,//电压不平衡旅曲线
+    cvCurveCurUnbRate,//电流不平衡旅曲线
 
 }MEASURE_CURVE_DATA;
 
@@ -1957,6 +1981,12 @@ typedef enum measure_day_sta
     
     hdAPZeroAccTmC,//C相有功功率为零时间
     
+    
+    /*chenbaiqing 2014.2.13 增补*/
+    hdOverloadTmA,//日冻结A相过载日累计时间
+    hdOverloadTmB,//日冻结B相过载日累计时间
+    hdOverloadTmC,//日冻结C相过载日累计时间
+    
 }MEASURE_DAY_STA;
 
 
@@ -2119,6 +2149,12 @@ typedef enum measure_month_sta
     hmAPZeroAccTmB,//B相有功功率为零时间
     
     hmAPZeroAccTmC,//C相有功功率为零时间
+    
+    /*chenbaiqing 2014.2.13 增补*/
+    hmOverloadTmA,//月冻结A相过载日累计时间
+    hmOverloadTmB,//月冻结B相过载日累计时间
+    hmOverloadTmC,//月冻结C相过载日累计时间
+    
     
 }MEASURE_MONTH_STA;
 

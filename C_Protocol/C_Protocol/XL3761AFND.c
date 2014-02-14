@@ -101,6 +101,35 @@ void AFND_F195();
 void AFND_F196();
 
 
+/*2014.1.13 增补规约*/
+//日冻结日过载统计
+void AFND_F221();
+
+//月冻结月过载统计
+void AFND_F222();
+
+//油温曲线
+void AFND_F223();
+
+//A相绕组温度曲线
+void AFND_F224();
+
+//B相绕组温度曲线
+void AFND_F225();
+
+//C相绕组温度曲线
+void AFND_F226();
+
+//负载率曲线
+void AFND_F233();
+
+//电压不平衡率曲线
+void AFND_F234();
+
+//电流不平衡率曲线
+void AFND_F235();
+
+
 
 void initUserDataForAfnd(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** outbuf){
     
@@ -354,6 +383,45 @@ void RecursiveParse(){
         case 196:
             AFND_F196();//月冻结反向无功最大需量及发生时间（总、费率1～m）
             break;
+            
+        /*2014.2.13新增*/
+        case 221:
+            AFND_F221();//日冻结日过载统计
+            break;
+            
+        case 222:
+            AFND_F222();//月冻结日过载统计
+            break;
+            
+        case 223:
+            AFND_F223();//油温曲线
+            break;
+            
+        case 224:
+            AFND_F224();//A相绕组温度曲线
+            break;
+            
+        case 225:
+            AFND_F225();//B相绕组温度曲线
+            break;
+            
+        case 226:
+            AFND_F226();//C相绕组温度曲线
+            break;
+            
+        case 233:
+            AFND_F233();//负载率曲线
+            break;
+            
+        case 234:
+            AFND_F234();//电压不平衡率曲线
+            break;
+            
+        case 235:
+            AFND_F235();//电流不平衡率曲线
+            break;
+            
+            
         default:
             *_output = XL_ERROR;
             return;
@@ -6772,10 +6840,644 @@ void AFND_F196()
     end = outoffset;
     len = end - begin;
     memcpy(buff + begin - 2,&len, 2);
+
+}
+
+/*chenbaiqing 2014.2.13 增补规约*/
+
+//日冻结日过载统计
+void AFND_F221()
+{
     
+    printf("执行F221\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_day_sta; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin=0;
+    XL_UINT16 end=0;
+    XL_UINT16 identifier=0;
+    //    int  i =0;
+    //    Byte rateCount =0;  //
+    //    XL_SINT64 temp  =0;  //
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;//数据长度起始位置
+    //标志 2个字节
+    identifier = hdDataTime_mds;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //内容 3个字节 日月年 bcd码
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //A相过载日累计时间
+    //标志
+    identifier =hdOverloadTmA;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据
+    memcpy(buff + outoffset, userdata+offset, 2);
+    outoffset+=2;
+    offset+=2;
+    
+    //B相过载日累计时间
+    //标志
+    identifier =hdOverloadTmB;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据
+    memcpy(buff + outoffset, userdata+offset, 2);
+    outoffset+=2;
+    offset+=2;
+    
+    //C相过载日累计时间
+    //标志
+    identifier =hdOverloadTmC;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据
+    memcpy(buff + outoffset, userdata+offset, 2);
+    outoffset+=2;
+    offset+=2;
+    
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+    
+}
+
+//月冻结月过载统计
+void AFND_F222()
+{
+    
+    printf("执行F222\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_month_sta; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin=0;
+    XL_UINT16 end=0;
+    XL_UINT16 identifier=0;
+    //    int  i =0;
+    //    Byte rateCount =0;  //
+    //    XL_SINT64 temp  =0;  //
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;//数据长度起始位置
+    //标志 2个字节
+    identifier = hmDataTime_mms;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //内容 2个字节 月年 bcd码
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //A相过载月累计时间
+    //标志
+    identifier =hmOverloadTmA;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据
+    memcpy(buff + outoffset, userdata+offset, 2);
+    outoffset+=2;
+    offset+=2;
+    
+    //B相过载月累计时间
+    //标志
+    identifier =hmOverloadTmB;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据
+    memcpy(buff + outoffset, userdata+offset, 2);
+    outoffset+=2;
+    offset+=2;
+    
+    //C相过载月累计时间
+    //标志
+    identifier =hmOverloadTmC;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据
+    memcpy(buff + outoffset, userdata+offset, 2);
+    outoffset+=2;
+    offset+=2;
+    
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+    
+}
+
+
+//油温曲线
+void AFND_F223()
+{
+    //与功率因素曲线相同
+    /**********数据格式 A5 有符号的精确到十分位的数据  2个字节 1个小数点***************/
+    printf("执行F223\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_curve_data; outoffset++;
+    
+    outoffset+=2;   //数据长度起始偏移
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 len=0;
+    XL_SINT64 temp =0;
+    Byte curCount =0;
+    begin = outoffset;
+    int i =0;
+    
+    
+    XL_UINT16 identifier;  //标志  2个字节
+    identifier = cvBeginData;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据  7个字节  5个字节时间＋1字节数据冻结密度＋1个字节数据点数
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //数据冻结密度
+    identifier = cvCurveDensity;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    //数据点数
+    identifier = cvCurveCount;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    curCount=*(userdata+offset);
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    
+    //具体曲线数据   根据数据点数进行绘制
+    for(i=0;i<curCount;i++)
+    {
+        //数据内容
+        //数据格式  A.5   有符号的数据 精确到十分位   2个字节
+        //置数据标志 2个字节
+        identifier = cvCurveOilTemp;
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        //数据内容
+        temp =bcdtosint(userdata+offset, 2, 1);
+        memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=2;
+    }
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+    
+}
+
+//A相绕组温度曲线
+void AFND_F224()
+{
+    printf("执行F224\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_curve_data; outoffset++;
+    
+    outoffset+=2;   //数据长度起始偏移
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 len=0;
+    XL_SINT64 temp =0;
+    Byte curCount =0;
+    begin = outoffset;
+    int i =0;
+    
+    
+    XL_UINT16 identifier;  //标志  2个字节
+    identifier = cvBeginData;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据  7个字节  5个字节时间＋1字节数据冻结密度＋1个字节数据点数
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //数据冻结密度
+    identifier = cvCurveDensity;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    //数据点数
+    identifier = cvCurveCount;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    curCount=*(userdata+offset);
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    
+    //具体曲线数据   根据数据点数进行绘制
+    for(i=0;i<curCount;i++)
+    {
+        //数据内容
+        //数据格式  A.5   有符号的数据 精确到十分位   2个字节
+        //置数据标志 2个字节
+        identifier = cvCurveWindingTempA;
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        //数据内容
+        temp =bcdtosint(userdata+offset, 2, 1);
+        memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=2;
+    }
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+    
+}
+
+
+//B相绕组温度曲线
+void AFND_F225()
+{
+    printf("执行F225\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_curve_data; outoffset++;
+    
+    outoffset+=2;   //数据长度起始偏移
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 len=0;
+    XL_SINT64 temp =0;
+    Byte curCount =0;
+    begin = outoffset;
+    int i =0;
+    
+    
+    XL_UINT16 identifier;  //标志  2个字节
+    identifier = cvBeginData;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据  7个字节  5个字节时间＋1字节数据冻结密度＋1个字节数据点数
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //数据冻结密度
+    identifier = cvCurveDensity;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    //数据点数
+    identifier = cvCurveCount;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    curCount=*(userdata+offset);
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    
+    //具体曲线数据   根据数据点数进行绘制
+    for(i=0;i<curCount;i++)
+    {
+        //数据内容
+        //数据格式  A.5   有符号的数据 精确到十分位   2个字节
+        //置数据标志 2个字节
+        identifier = cvCurveWindingTempB;
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        //数据内容
+        temp =bcdtosint(userdata+offset, 2, 1);
+        memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=2;
+    }
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+    
+}
+
+//C相绕组温度曲线
+void AFND_F226()
+{
+    printf("执行F226\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_curve_data; outoffset++;
+    
+    outoffset+=2;   //数据长度起始偏移
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 len=0;
+    XL_SINT64 temp =0;
+    Byte curCount =0;
+    begin = outoffset;
+    int i =0;
+    
+    
+    XL_UINT16 identifier;  //标志  2个字节
+    identifier = cvBeginData;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据  7个字节  5个字节时间＋1字节数据冻结密度＋1个字节数据点数
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //数据冻结密度
+    identifier = cvCurveDensity;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    //数据点数
+    identifier = cvCurveCount;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    curCount=*(userdata+offset);
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    
+    //具体曲线数据   根据数据点数进行绘制
+    for(i=0;i<curCount;i++)
+    {
+        //数据内容
+        //数据格式  A.5   有符号的数据 精确到十分位   2个字节
+        //置数据标志 2个字节
+        identifier = cvCurveWindingTempC;
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        //数据内容
+        temp =bcdtosint(userdata+offset, 2, 1);
+        memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=2;
+    }
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
     
     
 }
+
+//负载率曲线
+void AFND_F233()
+{
+    printf("执行F225\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_curve_data; outoffset++;
+    
+    outoffset+=2;   //数据长度起始偏移
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 len=0;
+    XL_SINT64 temp =0;
+    Byte curCount =0;
+    begin = outoffset;
+    int i =0;
+    
+    
+    XL_UINT16 identifier;  //标志  2个字节
+    identifier = cvBeginData;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据  7个字节  5个字节时间＋1字节数据冻结密度＋1个字节数据点数
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //数据冻结密度
+    identifier = cvCurveDensity;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    //数据点数
+    identifier = cvCurveCount;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    curCount=*(userdata+offset);
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    
+    //具体曲线数据   根据数据点数进行绘制
+    for(i=0;i<curCount;i++)
+    {
+        //数据内容
+        //数据格式  A.5   有符号的数据 精确到十分位   2个字节
+        //置数据标志 2个字节
+        identifier = cvCurveLoadRate;
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        //数据内容
+        temp =bcdtosint(userdata+offset, 2, 1);
+        memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=2;
+    }
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+    
+    
+}
+
+
+//电压不平衡率曲线
+void AFND_F234()
+{
+    printf("执行F234\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_curve_data; outoffset++;
+    
+    outoffset+=2;   //数据长度起始偏移
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 len=0;
+    XL_SINT64 temp =0;
+    Byte curCount =0;
+    begin = outoffset;
+    int i =0;
+    
+    
+    XL_UINT16 identifier;  //标志  2个字节
+    identifier = cvBeginData;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据  7个字节  5个字节时间＋1字节数据冻结密度＋1个字节数据点数
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //数据冻结密度
+    identifier = cvCurveDensity;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    //数据点数
+    identifier = cvCurveCount;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    curCount=*(userdata+offset);
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    
+    //具体曲线数据   根据数据点数进行绘制
+    for(i=0;i<curCount;i++)
+    {
+        //数据内容
+        //数据格式  A.5   有符号的数据 精确到十分位   2个字节
+        //置数据标志 2个字节
+        identifier = cvCurveVoltUnbRate;
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        //数据内容
+        temp =bcdtosint(userdata+offset, 2, 1);
+        memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=2;
+    }
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+}
+
+//电流不平衡率曲线
+void AFND_F235()
+{
+    printf("执行F235\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_curve_data; outoffset++;
+    
+    outoffset+=2;   //数据长度起始偏移
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 len=0;
+    XL_SINT64 temp =0;
+    Byte curCount =0;
+    begin = outoffset;
+    int i =0;
+    
+    
+    XL_UINT16 identifier;  //标志  2个字节
+    identifier = cvBeginData;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据  7个字节  5个字节时间＋1字节数据冻结密度＋1个字节数据点数
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //数据冻结密度
+    identifier = cvCurveDensity;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    //数据点数
+    identifier = cvCurveCount;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    curCount=*(userdata+offset);
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    
+    //具体曲线数据   根据数据点数进行绘制
+    for(i=0;i<curCount;i++)
+    {
+        //数据内容
+        //数据格式  A.5   有符号的数据 精确到十分位   2个字节
+        //置数据标志 2个字节
+        identifier = cvCurveCurUnbRate;
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        //数据内容
+        temp =bcdtosint(userdata+offset, 2, 1);
+        memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=2;
+    }
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+}
+
+
+
+
 //void AFND_F197()
 //{
 //

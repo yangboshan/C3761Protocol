@@ -35,6 +35,10 @@ void AFNC_F29();
 void AFNC_F49();
 void AFNC_F25();
 
+void AFNC_F181();
+void AFNC_F182();
+
+
 void initUserDataForAfnc(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** outbuf){
     
     
@@ -134,6 +138,15 @@ void AFNC_RecursiveParse(){
         case 73:
             //直流模拟量实时数据
             AFNC_F73();
+            break;
+            
+        case 181:
+            //温度
+            AFNC_F181();
+            break;
+        case 182:
+            //变压器剩余寿命
+            AFNC_F182();
             break;
         default:
             *_output = XL_ERROR;
@@ -243,8 +256,8 @@ void AFNC_F2()
     printf("%s",result);
     offset +=6;
     
-    XL_UINT8 stringlen = strlen(result);
-    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT8));outoffset++;
+    XL_UINT16 stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
     memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
     
     printf("\n");
@@ -270,18 +283,38 @@ void AFNC_F3()
     
     begin = outoffset;
     
+    XL_CHAR *result = malloc(500);//存放解析结果字符串
+    memset(result, 0, strlen(result));
+    
     XL_UINT16 identifier;
-    identifier = rtParameterStatus;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    int i = 0;
+    XL_SINT8 i = 0;
+    XL_SINT8 j = 0;
+    Byte temp = 0;
+    XL_CHAR chTemp[4];
     printf("解析1类数据,F3:");
+    
+    identifier = rtParameterStatus;//终端参数状态
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     for(i=0;i<31;i++)
     {
-        buff[outoffset] = *(Byte*)(userdata +offset);
-        printf("buff[%d]=%02x,",i,buff[outoffset]);
-        outoffset += 1;
-        offset += 1;
+        temp = *(Byte*)(userdata+offset+i);
+        
+        for(j=0;j<8;j++)
+        {
+            if(( temp & ( 0x01 << j ) ) > 0)
+            {
+                sprintf(chTemp,"%d",(i*8)+j+1);
+                strcat(chTemp,",");
+                strcat(result,chTemp);
+            }
+        }
     }
+    offset += 32;
+    printf("%s",result);
+    XL_UINT16 stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    free(result);
     printf("\n");
     
     end = outoffset;
@@ -289,6 +322,8 @@ void AFNC_F3()
     XL_UINT16 len = end -begin;
     memcpy(buff + begin -2, &len, 2);
 }
+
+
 
 /*终端事件计数器当前值*/
 void AFNC_F7()
@@ -335,31 +370,68 @@ void AFNC_F9()
     XL_UINT16 end;
     
     begin = outoffset;
- 
-    printf("解析1类数据,F9:");   
-    XL_UINT16 identifier;   
-
-    //状态量的状态
-    identifier = rtStateVarValue;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;        
-    buff[outoffset] = *(Byte*)(userdata +offset);
-    printf("状态量的状态:%02x\n",buff[outoffset]);
-    outoffset += 1;
-    offset += 1;
-    //状态量的变位标志
-    identifier = rtStateVarChangeFlag;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;        
-    buff[outoffset] = *(Byte*)(userdata +offset);
-    printf("状态量的变位标志:%02x\n",buff[outoffset]);
-    outoffset += 1;
-    offset += 1;
+    
+    printf("解析1类数据,F9:");
+    XL_UINT16 identifier;
+    
+    XL_CHAR *result = malloc(50);
+    
+    memset(result, 0, strlen(result));
+    XL_SINT8 i = 0;
+    //数据标志  2个字节
+    identifier = rtStateVarValue;//状态量状态（对应1～8路状态量）
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    Byte temp = *(Byte*)(userdata+offset);
+    XL_CHAR chTemp[4];
+    for(i=0;i<8;i++)
+    {
+        if(( temp & ( 0x01 << i ) ) > 0)
+        {
+            sprintf(chTemp,"%d",i+1);
+            strcat(chTemp,",");
+            strcat(result,chTemp);
+        }
+    }
+    printf("%s",result);
+    XL_UINT16 stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    free(result);
+    
+    offset+=1;
+    
+    //数据标志  2个字节
+    identifier = rtStateVarChangeFlag;//状态量变位标志（对应1～8路状态量）
+    
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    result = malloc(50);
+    
+    memset(result, 0, strlen(result));
+    for(i=0;i<8;i++)
+    {
+        if(( temp & ( 0x01 << i ) ) > 0)
+        {
+            sprintf(chTemp,"%d",i+1);
+            strcat(chTemp,",");
+            strcat(result,chTemp);
+        }
+    }
+    printf("%s",result);
+    stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    free(result);
+    
+    offset+=1;
     
     end = outoffset;
     
     XL_UINT16 len = end -begin;
     memcpy(buff + begin -2, &len, 2);
- 
+    
 }
+
+
 
 /*终端与主站当日、月通信流量*/
 void AFNC_F10()
@@ -1806,3 +1878,71 @@ void AFNC_F73()
     XL_UINT16 len = end -begin;
     memcpy(buff + begin -2, &len, 2);
 }
+
+/*温度*/
+void AFNC_F181()
+{
+    buff[outoffset] = terminal_rt_basic_sta; outoffset++;
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    
+    begin = outoffset;
+    
+    printf("解析1类数据,F181:");
+    XL_UINT16 identifier;
+    offset+=5;//终端抄表时间
+    //油温
+    identifier = rtOilTemperature;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
+
+    outoffset += sizeof(XL_SINT64);
+    offset += 2;
+    //绕组温度
+    XL_UINT8 i = 0;
+    for(i=0;i<3;i++)
+    {
+        identifier = rtAWindingTemperature+i;
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
+
+        outoffset += sizeof(XL_SINT64);
+        offset += 2;
+    }
+    
+    end = outoffset;
+    
+    XL_UINT16 len = end -begin;
+    memcpy(buff + begin -2, &len, 2);
+}
+
+/*变压器剩余寿命*/
+void AFNC_F182()
+{
+    buff[outoffset] = terminal_rt_basic_sta; outoffset++;
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    
+    begin = outoffset;
+    
+    printf("解析1类数据,F182:");
+    XL_UINT16 identifier;
+    offset+=5;//终端抄表时间
+    //变压器剩余寿命
+    identifier = rtRealLifetime;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
+
+    outoffset += sizeof(XL_SINT64);
+    offset += 2;
+    
+    end = outoffset;
+    
+    XL_UINT16 len = end -begin;
+    memcpy(buff + begin -2, &len, 2);
+}
+

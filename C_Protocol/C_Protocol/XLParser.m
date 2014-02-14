@@ -47,9 +47,9 @@ NSMutableArray *array;
     bytes = (Byte*)[data bytes];
     len = [data length];
     
-    for(int i =0;i<len;i++){
-        NSLog(@"%02x",bytes[i]);
-    }
+//    for(int i =0;i<len;i++){
+//        NSLog(@"%02x",bytes[i]);
+//    }
     
     _offset = 0;
     
@@ -62,7 +62,6 @@ NSMutableArray *array;
         
         _type = bytes[_offset];_offset++;
         
-//        NSString *typeStr = [NSString stringWithUTF8String:type_desc[_type]];
         NSString *key =  [NSString stringWithFormat:@"%@ %@",pStr,fStr];
         [dic setObject:subdic forKey:key];
         
@@ -192,7 +191,7 @@ COMPLEX_ITEM dtype;
             break;
     }
     
-    NSLog(@"-----------执行方法前offset:%d",_offset);
+//    NSLog(@"-----------执行方法前offset:%d",_offset);
     
     NSString *method = [NSString stringWithFormat:@"parse%d",dtype.datatype + 1];
     SEL selecter = NSSelectorFromString(method);
@@ -441,14 +440,14 @@ COMPLEX_ITEM dtype;
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
     
     
-//    XLDataItem *item = [[XLDataItem alloc] init];
-//    item.key = key;
-//    item.value = tdd;
-//    [array addObject:item];
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = tdd;
+    [array addObject:item];
     
     
-    [_subdic setObject:tdd
-                forKey:key];
+//    [_subdic setObject:tdd
+//                forKey:key];
 }
 
 //1字节 1位小数
@@ -616,17 +615,13 @@ COMPLEX_ITEM dtype;
 //字符串
 -(void)parse35{
     
-    NSInteger len = *(Byte*)(bytes + _offset);  _offset+=1;
+    NSInteger len = *(XL_UINT16*)(bytes + _offset);  _offset+=2;
     //    NSLog(@"%d",len);
     
     NSString *desc = [NSString stringWithUTF8String:(const char*)(bytes + _offset)];
 
-    NSLog(@"长度:%d",len);
-    NSLog(@"内容 %@",desc);
-    
-//    NSData *data = [NSData dataWithBytes:(bytes + _offset) length:len];
-//    NSLog(@"%@",[data description]);
-    
+//    NSLog(@"长度:%d",len);
+//    NSLog(@"内容 %@",desc);
     
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
     
