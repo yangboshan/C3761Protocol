@@ -91,6 +91,8 @@
 
 - (IBAction)set:(id)sender {
     
+    [self.activityView setHidden:NO];
+    
     PACKITEM_P array[6];
     
     PACKITEM_P item = BuildPackItem([self.m1.text integerValue], 2, 0, nil, 0, 0, 0);

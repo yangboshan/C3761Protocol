@@ -52,4 +52,8 @@
     [self performSegueWithIdentifier:@"setF26" sender:nil];
     
 }
+
+- (IBAction)setClock:(id)sender {
+[self performSegueWithIdentifier:@"setClock" sender:nil];
+}
 @end

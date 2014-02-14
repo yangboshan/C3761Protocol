@@ -55,6 +55,9 @@ void AFNA_F83();//直流模拟量冻结参数
 void AFNA_F90();//设置无线通信参数
 
 
+//增补
+void AFNA_F170();//wifi通信设置
+void AFNA_F172();//用户管理
 
 
 void initUserDataForAfna(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** outbuf){
@@ -174,6 +177,15 @@ void AFNA_RecursiveParse()
         case 90:
             AFNA_F90();//设置无线通信参数
             break;
+            
+            
+        case 170:
+            AFNA_F170();
+            break;
+        case 172:
+            AFNA_F172();
+            break;
+            
         default:
             break;
     }
@@ -713,15 +725,7 @@ void AFNA_F3()
     memcpy(buff + outoffset, userdata+offset, 1);
     outoffset+=1;
     offset+=1;
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     //数据标志  2个字节
     identifier = pmMasterStandbyPort;//主站备用端口
@@ -1018,22 +1022,61 @@ void AFNA_F16()
     
     begin = outoffset;
     
+    XL_CHAR *result = malloc(100);
+    memset(result, 0, strlen(result));
+    
     //数据标志  2个字节
     identifier = pmVPNUserName;//虚拟专网用户名
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //数据内容 32个字节 ascii格式
-    memcpy(buff + outoffset, userdata+offset, 32);
-    outoffset+=32;
-    offset+=32;
+    
+    char v[1];
+    for(int i = 0;i<32;i++){
+        int tmp = userdata[offset];
+        if (tmp) {
+            sprintf(v,"%c",tmp);
+            strcat(result, v);
+        }
+        offset++;
+    }
+    printf("%s",result);
+    XL_UINT16 eventlen = strlen(result);
+    memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=eventlen;
+    
+    free(result);
+    
+//    //数据内容 32个字节 ascii格式
+//    memcpy(buff + outoffset, userdata+offset, 32);
+//    outoffset+=32;
+//    offset+=32;
     
     
     //数据标志  2个字节
+    XL_CHAR *result1 = malloc(100);
+    memset(result1, 0, strlen(result1));
+    
     identifier = pmVPNPassWord;//虚拟专网密码
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //数据内容 32个字节 ascii格式
-    memcpy(buff + outoffset, userdata+offset, 32);
-    outoffset+=32;
-    offset+=32;
+
+    for(int i = 0;i<32;i++){
+        XL_UINT8 tmp = userdata[offset];
+        if (tmp) {
+            sprintf(v,"%c",tmp);
+            strcat(result1, v);
+        }
+        offset++;
+    }
+    printf("%s",result1);
+    eventlen = strlen(result1);
+    memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result1));outoffset+=eventlen;
+    
+    free(result1);
+
+//    //数据内容 32个字节 ascii格式
+//    memcpy(buff + outoffset, userdata+offset, 32);
+//    outoffset+=32;
+//    offset+=32;
     
     
     end = outoffset;
@@ -1717,6 +1760,140 @@ void AFNA_F90()//设置无线通信参数
     
 }
 
+//wifi通信设置
+void AFNA_F170(){
+
+    //1个字节长度  数据类型
+    buff[outoffset] = parameter_data_comm; outoffset++;
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    begin = outoffset;
+    
+    XL_CHAR *result = malloc(100);
+    memset(result, 0, strlen(result));
+    
+    //数据标志  2个字节
+    identifier = pmWifiSsid;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    
+    char v[1];
+    for(int i = 0;i<16;i++){
+        int tmp = userdata[offset];
+        if (tmp) {
+            sprintf(v,"%c",tmp);
+            strcat(result, v);
+        }
+        offset++;
+    }
+    printf("%s",result);
+    XL_UINT16 eventlen = strlen(result);
+    memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=eventlen;
+    
+    free(result);
+    
+    //数据标志  2个字节
+    XL_CHAR *result1 = malloc(100);
+    memset(result1, 0, strlen(result1));
+    
+    identifier = pmWifiPsw;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    
+    for(int i = 0;i<16;i++){
+        XL_UINT8 tmp = userdata[offset];
+        if (tmp) {
+            sprintf(v,"%c",tmp);
+            strcat(result1, v);
+        }
+        offset++;
+    }
+    printf("%s",result1);
+    eventlen = strlen(result1);
+    memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result1));outoffset+=eventlen;
+    
+    free(result1);
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+}
+
+
+//用户管理
+void AFNA_F172(){
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = parameter_data_comm; outoffset++;
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    begin = outoffset;
+    
+
+    
+    for(int i = 0;i<4;i++){
+        
+        XL_CHAR *result = malloc(100);
+        memset(result, 0, strlen(result));
+        
+        //数据标志  2个字节
+        identifier = pmUserName;
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        
+        char v[1];
+        for(int i = 0;i<16;i++){
+            int tmp = userdata[offset];
+            if (tmp) {
+                sprintf(v,"%c",tmp);
+                strcat(result, v);
+            }
+            offset++;
+        }
+        printf("%s",result);
+        XL_UINT16 eventlen = strlen(result);
+        memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16));outoffset+=2;
+        memcpy(buff + outoffset, result, strlen(result));outoffset+=eventlen;
+        
+        free(result);
+        
+        //数据标志  2个字节
+        XL_CHAR *result1 = malloc(100);
+        memset(result1, 0, strlen(result1));
+        
+        identifier = pmPsw;
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        
+        for(int i = 0;i<16;i++){
+            XL_UINT8 tmp = userdata[offset];
+            if (tmp) {
+                sprintf(v,"%c",tmp);
+                strcat(result1, v);
+            }
+            offset++;
+        }
+        printf("%s",result1);
+        eventlen = strlen(result1);
+        memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16));outoffset+=2;
+        memcpy(buff + outoffset, result, strlen(result1));outoffset+=eventlen;
+        
+        free(result1);
+    }
+
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+  
+}
 
 
 

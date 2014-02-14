@@ -174,10 +174,12 @@ const COMPLEX_ITEM parameter_data_comm[]=
     {BIN1_29,"终端代理服务器密码长度"},
     {V_ASCII_36,"终端代理服务器密码"},
     {BIN2_30,"终端侦听端口"},
-    {ASCII32_37,"虚拟专网用户名"},
-    {ASCII32_37,"虚拟专网密码"},
-    
-
+    {STRING_35,"虚拟专网用户名"},
+    {STRING_35,"虚拟专网密码"},
+    {STRING_35,"WIFI SSID"},
+    {STRING_35,"WIFI 密码"},
+    {STRING_35,"用户名"},
+    {STRING_35,"密码"},
 };
 
 //测量点参数

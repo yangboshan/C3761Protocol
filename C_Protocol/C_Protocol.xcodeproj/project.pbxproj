@@ -11,6 +11,7 @@
 		84EA6F4818AB260000E81AC2 /* XLSettingF26ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EA6F4718AB260000E81AC2 /* XLSettingF26ViewController.m */; };
 		C90DA1F818AA08FB00C5ACE4 /* XLMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90DA1F718AA08FB00C5ACE4 /* XLMenuViewController.m */; };
 		C90DA1FE18AA0BD700C5ACE4 /* XLSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90DA1FD18AA0BD700C5ACE4 /* XLSettingViewController.m */; };
+		C90DA20518ADE99A00C5ACE4 /* XLSetClockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90DA20418ADE99A00C5ACE4 /* XLSetClockViewController.m */; };
 		C923D14D1895DFF5006EC8C6 /* XL3761AFNA.c in Sources */ = {isa = PBXBuildFile; fileRef = C923D14C1895DFF5006EC8C6 /* XL3761AFNA.c */; };
 		C928AFCE188FC33300DA6592 /* XL3761AFN0.c in Sources */ = {isa = PBXBuildFile; fileRef = C928AFCD188FC33300DA6592 /* XL3761AFN0.c */; };
 		C96E66EA1897351F005E19FE /* XLDataItem.m in Sources */ = {isa = PBXBuildFile; fileRef = C96E66E91897351F005E19FE /* XLDataItem.m */; };
@@ -67,6 +68,8 @@
 		C90DA1F718AA08FB00C5ACE4 /* XLMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLMenuViewController.m; sourceTree = "<group>"; };
 		C90DA1FC18AA0BD700C5ACE4 /* XLSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLSettingViewController.h; sourceTree = "<group>"; };
 		C90DA1FD18AA0BD700C5ACE4 /* XLSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLSettingViewController.m; sourceTree = "<group>"; };
+		C90DA20318ADE99A00C5ACE4 /* XLSetClockViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLSetClockViewController.h; sourceTree = "<group>"; };
+		C90DA20418ADE99A00C5ACE4 /* XLSetClockViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLSetClockViewController.m; sourceTree = "<group>"; };
 		C923D14B1895DFE1006EC8C6 /* XL3761AFNA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XL3761AFNA.h; sourceTree = "<group>"; };
 		C923D14C1895DFF5006EC8C6 /* XL3761AFNA.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = XL3761AFNA.c; sourceTree = "<group>"; };
 		C928AFCC188FC2AE00DA6592 /* XL3761AFN0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XL3761AFN0.h; sourceTree = "<group>"; };
@@ -200,6 +203,8 @@
 				84EA6F4718AB260000E81AC2 /* XLSettingF26ViewController.m */,
 				84EA6F4318AB015200E81AC2 /* XLSettingF27ViewController.h */,
 				84EA6F4418AB015200E81AC2 /* XLSettingF27ViewController.m */,
+				C90DA20318ADE99A00C5ACE4 /* XLSetClockViewController.h */,
+				C90DA20418ADE99A00C5ACE4 /* XLSetClockViewController.m */,
 				C9C88AEC188E53E900F4D245 /* XLTestViewController.h */,
 				C9C88AED188E53E900F4D245 /* XLTestViewController.m */,
 				C9C88AF3188F4BB700F4D245 /* UIView+UIView___FindAndResignFirstResponder.h */,
@@ -418,6 +423,7 @@
 				C9C88AEF188E53E900F4D245 /* XLTestViewController.m in Sources */,
 				C9B38F711884BF92001BC9AB /* XLParser.m in Sources */,
 				84EA6F4518AB015200E81AC2 /* XLSettingF27ViewController.m in Sources */,
+				C90DA20518ADE99A00C5ACE4 /* XLSetClockViewController.m in Sources */,
 				C9B38FAD1885123D001BC9AB /* XL3761AFNE.c in Sources */,
 				C90DA1FE18AA0BD700C5ACE4 /* XLSettingViewController.m in Sources */,
 				C928AFCE188FC33300DA6592 /* XL3761AFN0.c in Sources */,

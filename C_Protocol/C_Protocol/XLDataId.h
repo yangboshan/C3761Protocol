@@ -2707,6 +2707,16 @@ typedef enum parameter_data_comm
     
     pmVPNPassWord,     //虚拟专网密码
     
+    
+    //*********************************
+    pmWifiSsid,        //Wifi ssid名称
+    
+    pmWifiPsw,         //Wifi 密码
+    
+    pmUserName,        //用户名
+    
+    pmPsw,             //密码
+    
 }PARAMETER_DATA_COMM;
 
 //测量点参数

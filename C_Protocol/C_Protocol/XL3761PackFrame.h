@@ -43,7 +43,7 @@ Byte* PackFrameForEvent(Byte afn,XL_UINT8 pn,XL_UINT8 fn,XL_UINT8 p1,XL_UINT8 p2
 Byte* PackFrameForAfn04(Byte afn,XL_UINT8 pn,XL_UINT8 fn,PACKITEM_P array[],XL_UINT8 itemcount,XL_UINT16* outlen);
 
 //生成对时
-Byte* PackFrameForClock(Byte afn,XL_UINT8 pn,XL_UINT8 fn,XL_UINT8 year,XL_UINT8 month,XL_UINT8 day,XL_UINT8 hour,XL_UINT8 mimute,XL_UINT8 second);
+Byte* PackFrameForClock(Byte afn,XL_UINT8 pn,XL_UINT8 fn,XL_UINT8 year,XL_UINT8 month,XL_UINT8 day,XL_UINT8 week,XL_UINT8 hour,XL_UINT8 mimute,XL_UINT8 second,XL_UINT16* outlen);
 
 //生成Pack项
 PACKITEM_P BuildPackItem(XL_FP64 value1,XL_UINT8 value1blen,XL_UINT8 value1dlen,XL_UINT8  value2[64],XL_UINT8  value2blen,XL_UINT8  shouldUseValue2,XL_UINT8  shouldUseBcd);

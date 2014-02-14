@@ -42,8 +42,18 @@
 
 - (void)viewDidLoad
 {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:(NSYearCalendarUnit|NSMonthCalendarUnit|
+                                                         NSDayCalendarUnit|NSHourCalendarUnit|
+                                                         NSMinuteCalendarUnit|NSSecondCalendarUnit|
+                                                         NSWeekdayCalendarUnit)
+                                               fromDate:[NSDate date]];
 
-
+    
+    self.year.text = [NSString stringWithFormat:@"%d",[components year]%2000];
+    self.month.text = [NSString stringWithFormat:@"%d",[components month]];
+    self.day.text = [NSString stringWithFormat:@"%d",[components day]];
+    
     
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(response:) name:@"test" object:nil];
@@ -168,7 +178,7 @@
         self.frame = PackFrameWithTdc(afn, pn, fn, year, month, day, 0, 0, 1, XL_CV96, &_outlen);
         
     } else {//13 14
-        self.frame = PackFrameForEvent(afn, pn, fn, 0, 30, &_outlen);
+        self.frame = PackFrameForEvent(afn, pn, fn, 0, 20, &_outlen);
         
     }
 }
@@ -181,6 +191,7 @@
     self.frameOriginal.text = @"";
     
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"data"];
+    
  
     Byte afn;
     XL_UINT8 fn;
@@ -188,7 +199,7 @@
     XL_UINT8 year;
     XL_UINT8 month;
     XL_UINT8 day;
-    
+ 
     fn =    [self.fn.text integerValue];
     pn =    [self.pn.text integerValue];
     year =  [self.year.text integerValue];

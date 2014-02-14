@@ -90,6 +90,8 @@
 }
 
 - (IBAction)set27:(id)sender {
+    
+    [self.activityView setHidden:NO];
     //设置参数
      PACKITEM_P array[12];
     

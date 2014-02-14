@@ -81,7 +81,7 @@
 }
 
 - (IBAction)setF26:(id)sender {
-    
+    [self.activityView setHidden:NO];
     PACKITEM_P array[31] = {
         BuildPackItem([self.v1.text doubleValue], 2, 1, nil, 0, 0, 1),
         BuildPackItem([self.v2.text doubleValue], 2, 1, nil, 0, 0, 1),

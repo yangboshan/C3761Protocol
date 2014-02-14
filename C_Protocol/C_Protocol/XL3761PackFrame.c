@@ -56,6 +56,7 @@ void setdata(XL_UINT16 num,XL_UINT8 ispn);
 //十进制转BCD
 void decimaltobcd(XL_FP64 dec,XL_UINT8 byteslen,XL_UINT8 digitlen);
 
+//PACKITEM_P BuildPackItem(XL_FP64 value1,XL_UINT8 value1blen,XL_UINT8 value1dlen,XL_UINT8  value2[64],XL_UINT8  value2blen,XL_UINT8  shouldUseValue2,XL_UINT8  shouldUseBcd);
 
 /*－－－－－－－－－－－－－－－－－
  组帧接口不带数据单元
@@ -146,10 +147,23 @@ PACKITEM_P BuildPackItem(XL_FP64 value1,XL_UINT8 value1blen,XL_UINT8 value1dlen,
 }
 
 //生成对时
-Byte* PackFrameForClock(Byte afn,XL_UINT8 pn,XL_UINT8 fn,XL_UINT8 year,XL_UINT8 month,XL_UINT8 day,XL_UINT8 hour,XL_UINT8 mimute,XL_UINT8 second){
+Byte* PackFrameForClock(Byte afn,XL_UINT8 pn,XL_UINT8 fn,XL_UINT8 year,XL_UINT8 month,XL_UINT8 day,XL_UINT8 week,XL_UINT8 hour,XL_UINT8 mimute,XL_UINT8 second,XL_UINT16* outlen){
     
+    // 星期四    1       2
+    //1  0  0   1  | 0 0 2 0 -->星期四 12月
+    XL_UINT8 weekmonth = ((week<<5 & 0xe0)|(month/10 <<4 & 0x10))|(month%10&0x0f);
+    XL_UINT8  value[1];value[0] = weekmonth;
     
-    return 0;
+    PACKITEM_P array[6] = {
+        BuildPackItem(second,    1, 0, 0, 0, 0, 1),
+        BuildPackItem(mimute,    1, 0, 0, 0, 0, 1),
+        BuildPackItem(hour,      1, 0, 0, 0, 0, 1),
+        BuildPackItem(day,       1, 0, 0, 0, 0, 1),
+        BuildPackItem(weekmonth, 0, 0, value, 1, 1, 0),
+        BuildPackItem(year,      1, 0, 0, 0, 0, 1),
+    };
+
+    return PackFrameForAfn04(afn, pn, fn, array, 6, outlen);
 }
 
 //参数设置组帧接口

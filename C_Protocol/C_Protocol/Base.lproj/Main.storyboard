@@ -158,7 +158,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-276" y="264"/>
+            <point key="canvasLocation" x="318" y="-8"/>
         </scene>
         <!--SettingF26 View Controller-->
         <scene sceneID="Hnb-Eo-wd2">
@@ -659,7 +659,63 @@ COmbtuW6j+eUtea1gei2iumZkOaMgee7reaXtumXtA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jqj-6k-Kg9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="62" y="215"/>
+            <point key="canvasLocation" x="304" y="-593"/>
+        </scene>
+        <!--Set Clock View Controller-->
+        <scene sceneID="B68-bt-C3B">
+            <objects>
+                <viewController id="CVP-jw-suy" customClass="XLSetClockViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="NzR-xy-67D"/>
+                        <viewControllerLayoutGuide type="bottom" id="nO5-2d-5Pt"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="S28-7K-Psn">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="obu-Ld-ZsX">
+                                <rect key="frame" x="137" y="150" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="21"/>
+                                <state key="normal" title="对时">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="setClock:" destination="CVP-jw-suy" eventType="touchUpInside" id="6df-Y7-Hm1"/>
+                                </connections>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="RbG-7C-dgH">
+                                <rect key="frame" x="40" y="195" width="240" height="62"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="308-hJ-JBM">
+                                <rect key="frame" x="11" y="438" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="返回">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="home:" destination="CVP-jw-suy" eventType="touchUpInside" id="0MV-P9-30z"/>
+                                </connections>
+                            </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="iEF-ua-bQ5">
+                                <rect key="frame" x="150" y="204" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="activityView" destination="iEF-ua-bQ5" id="pap-bn-40t"/>
+                        <outlet property="showResult" destination="RbG-7C-dgH" id="FBP-3v-O5H"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JS2-2G-9AJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-97" y="257"/>
         </scene>
         <!--Setting View Controller-->
         <scene sceneID="kDG-aN-uLG">
@@ -798,7 +854,7 @@ COmbtuW6j+eUtea1gei2iumZkOaMgee7reaXtumXtA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="boM-QQ-N47" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-183" y="-393"/>
+            <point key="canvasLocation" x="-469" y="-593"/>
         </scene>
         <!--SettingF27 View Controller-->
         <scene sceneID="nvr-qL-61W">
@@ -1022,7 +1078,7 @@ COmbtuW6j+eUtea1gei2iumZkOaMgee7reaXtumXtA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1ka-6p-Ds3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="201" y="-351"/>
+            <point key="canvasLocation" x="-87" y="-587"/>
         </scene>
         <!--Menu View Controller-->
         <scene sceneID="yAD-ie-rdF">
@@ -1047,7 +1103,7 @@ COmbtuW6j+eUtea1gei2iumZkOaMgee7reaXtumXtA
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c7C-YE-MwM">
-                                <rect key="frame" x="48" y="220" width="217" height="30"/>
+                                <rect key="frame" x="48" y="204" width="217" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="设置参数F25">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1057,7 +1113,7 @@ COmbtuW6j+eUtea1gei2iumZkOaMgee7reaXtumXtA
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lxe-D9-ThB">
-                                <rect key="frame" x="48" y="329" width="217" height="30"/>
+                                <rect key="frame" x="48" y="280" width="217" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="设置参数F27">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1066,15 +1122,24 @@ COmbtuW6j+eUtea1gei2iumZkOaMgee7reaXtumXtA
                                     <action selector="setF27:" destination="3Nd-la-odm" eventType="touchUpInside" id="NzD-rn-B54"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oa4-e1-Eb7">
+                                <rect key="frame" x="48" y="318" width="217" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="设置时钟">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="setClock:" destination="3Nd-la-odm" eventType="touchUpInside" id="h77-pp-jyd"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="12W-ir-TsA">
-                                <rect key="frame" x="48" y="273" width="217" height="30"/>
+                                <rect key="frame" x="48" y="242" width="217" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="设置参数F26">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="setF26:" destination="3Nd-la-odm" eventType="touchUpInside" id="s9M-Kc-hyh"/>
-                                    <segue destination="2WY-5w-DJb" kind="modal" identifier="setF26" id="2Dg-bc-iYy"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1084,6 +1149,8 @@ COmbtuW6j+eUtea1gei2iumZkOaMgee7reaXtumXtA
                         <segue destination="vXZ-lx-hvc" kind="modal" identifier="menutodetail" id="bM6-bP-I7M"/>
                         <segue destination="00v-Yk-Y94" kind="modal" identifier="setting" id="o4d-j4-qTT"/>
                         <segue destination="sxy-Gj-GcY" kind="modal" identifier="setF27" id="LtH-lQ-CTq"/>
+                        <segue destination="CVP-jw-suy" kind="modal" identifier="setClock" id="KkQ-xc-qCH"/>
+                        <segue destination="2WY-5w-DJb" kind="modal" identifier="setF26" id="EFv-xw-4xR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uft-R6-f54" userLabel="First Responder" sceneMemberID="firstResponder"/>
