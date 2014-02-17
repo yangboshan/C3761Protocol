@@ -191,7 +191,7 @@ COMPLEX_ITEM dtype;
             break;
     }
     
-//    NSLog(@"-----------执行方法前offset:%d",_offset);
+    NSLog(@"-----------执行方法前offset:%d",_offset);
     
     NSString *method = [NSString stringWithFormat:@"parse%d",dtype.datatype + 1];
     SEL selecter = NSSelectorFromString(method);
@@ -674,5 +674,35 @@ COMPLEX_ITEM dtype;
 //16字节ascii
 -(void)parse39{
     _offset+=16;
+}
+
+//6字节BIN
+-(void)parse40{
+    XL_UINT64 ivalue = *(XL_UINT64*)(bytes + _offset);  _offset+=8;
+    
+    NSString *results = [NSString stringWithFormat:@"%llu",ivalue];
+    
+    
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+}
+
+//3字节1位小数
+-(void)parse41{
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/10.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.1f",result];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
 }
 @end

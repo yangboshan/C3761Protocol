@@ -2027,6 +2027,10 @@ void AFNA_F169()//变压器基本参数设置
     outoffset++;
     offset++;
     
+    *(Byte*)(buff+outoffset) = bcdToTime(userdata +offset);//年
+    outoffset++;
+    offset++;
+    
     //出厂编号,16字节,ASCII码
     identifier = pmManufactureNo;
     memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
