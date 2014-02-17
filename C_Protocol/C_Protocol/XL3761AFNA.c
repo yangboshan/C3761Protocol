@@ -2018,9 +2018,6 @@ void AFNA_F169()//变压器基本参数设置
     //制造日期
     identifier = pmManufactureDate;
     memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
-    *(Byte*)(buff+outoffset) = bcdToTime(userdata +offset);//日
-    outoffset++;
-    offset++;
     
     *(Byte*)(buff+outoffset) = bcdToTime(userdata +offset);//月
     outoffset++;
