@@ -1114,6 +1114,14 @@ void AFNA_F10()
         memcpy(buff + outoffset, result, mtrcommlen);outoffset+= mtrcommlen;
         offset += 6;
         
+        identifier = pmCommPassWord;//通信密码
+        memcpy(buff + outoffset, &identifier, 2);outoffset += 2;
+        XL_UINT64 pwTemp = 0 ;
+        memcpy(&pwTemp, userdata+offset, 6);
+        *(XL_UINT64*)(buff + outoffset) = pwTemp;
+        offset += 6;
+        outoffset += sizeof(XL_UINT64);
+        
         identifier = pmFeeNum;//通信费率个数
         memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
         *(XL_UINT8*)(buff+outoffset) = (*(XL_UINT8*)(userdata + offset))&0x3F;
