@@ -15,4 +15,5 @@
 - (IBAction)setF27:(id)sender;
 - (IBAction)setF26:(id)sender;
 - (IBAction)setClock:(id)sender;
+- (IBAction)setCommon:(id)sender;
 @end

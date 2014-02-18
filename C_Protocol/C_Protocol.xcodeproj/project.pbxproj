@@ -10,6 +10,7 @@
 		84EA6F4518AB015200E81AC2 /* XLSettingF27ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EA6F4418AB015200E81AC2 /* XLSettingF27ViewController.m */; };
 		84EA6F4818AB260000E81AC2 /* XLSettingF26ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EA6F4718AB260000E81AC2 /* XLSettingF26ViewController.m */; };
 		84EF030F18B1F963008B6443 /* GCDAsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF030E18B1F963008B6443 /* GCDAsyncUdpSocket.m */; };
+		84EF031418B3153A008B6443 /* XLSettingCommonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EF031318B3153A008B6443 /* XLSettingCommonViewController.m */; };
 		C90DA1F818AA08FB00C5ACE4 /* XLMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90DA1F718AA08FB00C5ACE4 /* XLMenuViewController.m */; };
 		C90DA1FE18AA0BD700C5ACE4 /* XLSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90DA1FD18AA0BD700C5ACE4 /* XLSettingViewController.m */; };
 		C90DA20518ADE99A00C5ACE4 /* XLSetClockViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C90DA20418ADE99A00C5ACE4 /* XLSetClockViewController.m */; };
@@ -67,6 +68,8 @@
 		84EA6F4718AB260000E81AC2 /* XLSettingF26ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLSettingF26ViewController.m; sourceTree = "<group>"; };
 		84EF030D18B1F963008B6443 /* GCDAsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDAsyncUdpSocket.h; sourceTree = "<group>"; };
 		84EF030E18B1F963008B6443 /* GCDAsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDAsyncUdpSocket.m; sourceTree = "<group>"; };
+		84EF031218B3153A008B6443 /* XLSettingCommonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLSettingCommonViewController.h; sourceTree = "<group>"; };
+		84EF031318B3153A008B6443 /* XLSettingCommonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLSettingCommonViewController.m; sourceTree = "<group>"; };
 		C90DA1F618AA08FB00C5ACE4 /* XLMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLMenuViewController.h; sourceTree = "<group>"; };
 		C90DA1F718AA08FB00C5ACE4 /* XLMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XLMenuViewController.m; sourceTree = "<group>"; };
 		C90DA1FC18AA0BD700C5ACE4 /* XLSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XLSettingViewController.h; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 				84EA6F4418AB015200E81AC2 /* XLSettingF27ViewController.m */,
 				C90DA20318ADE99A00C5ACE4 /* XLSetClockViewController.h */,
 				C90DA20418ADE99A00C5ACE4 /* XLSetClockViewController.m */,
+				84EF031218B3153A008B6443 /* XLSettingCommonViewController.h */,
+				84EF031318B3153A008B6443 /* XLSettingCommonViewController.m */,
 				C9C88AEC188E53E900F4D245 /* XLTestViewController.h */,
 				C9C88AED188E53E900F4D245 /* XLTestViewController.m */,
 				C9C88AF3188F4BB700F4D245 /* UIView+UIView___FindAndResignFirstResponder.h */,
@@ -424,6 +429,7 @@
 				C96E66EA1897351F005E19FE /* XLDataItem.m in Sources */,
 				C9C88AE5188E4F1800F4D245 /* GCDAsyncSocket.m in Sources */,
 				84EF030F18B1F963008B6443 /* GCDAsyncUdpSocket.m in Sources */,
+				84EF031418B3153A008B6443 /* XLSettingCommonViewController.m in Sources */,
 				C9B38F7D18850606001BC9AB /* XLCommon.c in Sources */,
 				C999CF87187A9BAB00AD65D5 /* XL3761AFND.c in Sources */,
 				C9C88AEF188E53E900F4D245 /* XLTestViewController.m in Sources */,

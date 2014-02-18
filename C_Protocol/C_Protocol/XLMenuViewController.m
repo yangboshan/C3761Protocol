@@ -56,4 +56,8 @@
 - (IBAction)setClock:(id)sender {
 [self performSegueWithIdentifier:@"setClock" sender:nil];
 }
+
+- (IBAction)setCommon:(id)sender {
+        [self performSegueWithIdentifier:@"setCommon" sender:nil];
+}
 @end

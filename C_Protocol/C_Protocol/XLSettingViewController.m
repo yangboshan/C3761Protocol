@@ -92,59 +92,15 @@
 - (IBAction)set:(id)sender {
     
     [self.activityView setHidden:NO];
-    
-    PACKITEM_P array[6];
-    
-    PACKITEM_P item = BuildPackItem([self.m1.text integerValue], 2, 0, nil, 0, 0, 0);
-//    item.value1 = [self.m1.text integerValue];
-//    item.value1blen = 2;
-//    item.value1dlen = 0;
-//    item.shouldUseValue2 = 0;
-//    item.shouldUseBcd = 0;
-    array[0] = item;
-    
-    
-    PACKITEM_P item1 = BuildPackItem([self.m2.text integerValue], 2, 0, nil, 0, 0, 0);
-//    item1.value1 = [self.m2.text integerValue];
-//    item1.value1blen = 2;
-//    item1.value1dlen = 0;
-//    item1.shouldUseValue2 = 0;
-//    item1.shouldUseBcd = 0;
-    array[1] = item1;
-    
-    
-    PACKITEM_P item2 = BuildPackItem([self.v.text doubleValue], 2, 1, nil, 0, 0, 1);
-//    item2.value1 = [self.v.text doubleValue];
-//    item2.value1blen = 2;
-//    item2.value1dlen = 1;
-//    item2.shouldUseValue2 = 0;
-//    item2.shouldUseBcd = 1;
-    array[2] = item2;
-    
-    
-    PACKITEM_P item3 = BuildPackItem([self.c.text doubleValue], 1, 1, nil, 0, 0, 1);
-//    item3.value1 = [self.c.text doubleValue];
-//    item3.value1blen = 1;
-//    item3.value1dlen = 1;
-//    item3.shouldUseValue2 = 0;
-//    item3.shouldUseBcd = 1;
-    array[3] = item3;
-    
-    PACKITEM_P item4 = BuildPackItem([self.l.text doubleValue], 3, 4, nil, 0, 0, 1);
-//    item4.value1 = [self.l.text doubleValue];
-//    item4.value1blen = 3;
-//    item4.value1dlen = 4;
-//    item4.shouldUseValue2 = 0;
-//    item4.shouldUseBcd = 1;
-    array[4] = item4;
-    
     XL_UINT8  value[64];value[0] = 0x06;
     
-    PACKITEM_P item5 = BuildPackItem(0, 0, 0, value, 1, 1, 0);
-//    item5.value2blen = 1;
-//    item5.value2[0] = 0x06;
-//    item5.shouldUseValue2 = 1;
-    array[5] = item5;
+    PACKITEM_P array[6] = {BuildPackItem([self.m1.text integerValue], 2, 0, nil, 0, 0, 0),
+        BuildPackItem([self.m2.text integerValue], 2, 0, nil, 0, 0, 0),
+        BuildPackItem([self.v.text doubleValue], 2, 1, nil, 0, 0, 1),
+        BuildPackItem([self.c.text doubleValue], 1, 1, nil, 0, 0, 1),
+        BuildPackItem([self.l.text doubleValue], 3, 4, nil, 0, 0, 1),
+        BuildPackItem(0, 0, 0, value, 1, 1, 0)
+    };
     
     self.frame = PackFrameForAfn04(0x04, 1, 25, array, 6, &_outlen);
     self.data = [NSData dataWithBytes:self.frame length:self.outlen];

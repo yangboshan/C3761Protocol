@@ -178,7 +178,7 @@
         self.frame = PackFrameWithTdc(afn, pn, fn, year, month, day, 0, 0, 1, XL_CV96, &_outlen);
         
     } else {//13 14
-        self.frame = PackFrameForEvent(afn, pn, fn, 0, 20, &_outlen);
+        self.frame = PackFrameForEvent(afn, pn, fn, month, day, &_outlen);
         
     }
 }
