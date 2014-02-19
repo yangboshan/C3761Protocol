@@ -56,7 +56,7 @@ void initUserDataForAfnc(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** 
     buff = malloc(_frame->userlen*16 + 50);
     memset(buff,0,_frame->userlen*16 + 50);
     *_outbuf = buff;
-
+    
     AFNC_RecursiveParse();
     *outlen = outoffset;
     
@@ -70,14 +70,14 @@ void initUserDataForAfnc(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** 
 void AFNC_RecursiveParse(){
     
     XL_UINT16 fn = parsedadt((XL_UINT16)userdata[offset + 3],
-                                    (XL_UINT16)userdata[offset + 2],0);
+                             (XL_UINT16)userdata[offset + 2],0);
     
     //拷贝
     memcpy(buff + outoffset, userdata + offset, 1); offset+=2;outoffset++;
     
     memcpy(buff + outoffset, &fn, 1);                offset+=2;outoffset++;
     printf("fn=%d\n",fn);
-
+    
     switch (fn) {
         case 2:
             //终端日历时钟
@@ -163,7 +163,7 @@ void AFNC_RecursiveParse(){
     
     if (_frame->userlen - 8 > offset + auxlen) {
         AFNC_RecursiveParse();
-}
+    }
 }
 
 
@@ -335,7 +335,7 @@ void AFNC_F7()
     XL_UINT16 end;
     
     begin = outoffset;
-
+    
     printf("解析1类数据,F7:");
     
     XL_UINT16 identifier;
@@ -354,7 +354,7 @@ void AFNC_F7()
     printf("一般事件计数器的值:%02x\n",buff[outoffset]);
     offset++;
     outoffset++;
-
+    
     end = outoffset;
     
     XL_UINT16 len = end -begin;
@@ -443,10 +443,10 @@ void AFNC_F10()
     XL_UINT16 end;
     
     begin = outoffset;
- 
-    printf("解析1类数据,F10:");    
+    
+    printf("解析1类数据,F10:");
     XL_UINT16 identifier;
-
+    
     identifier = rtDayCommunicateFlows;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //终端与主站当日通信流量
@@ -454,7 +454,7 @@ void AFNC_F10()
     printf("日通信流量,%u\n",*(XL_UINT32*)(buff+outoffset));
     offset +=4;
     outoffset += sizeof(XL_UINT32);
-
+    
     identifier = rtMonCommunicateFlows;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //终端与主站当月通信流量
@@ -462,10 +462,10 @@ void AFNC_F10()
     printf("月通信流量,%u\n",*(XL_UINT32*)(buff+outoffset));
     offset +=4;
     outoffset += sizeof(XL_UINT32);
- 
-    end = outoffset;    
+    
+    end = outoffset;
     XL_UINT16 len = end -begin;
-    memcpy(buff + begin -2, &len, 2);   
+    memcpy(buff + begin -2, &len, 2);
 }
 
 
@@ -479,174 +479,183 @@ void AFNC_F25()
     XL_UINT16 end;
     
     begin = outoffset;
-    //终端抄表时间,5字节,暂时不用,直接跳过
-    offset += 5;
+    
     XL_UINT16 identifier;
+    
+    //终端抄表时间,5字节
+    identifier = rtMtrBasicMeterReadTime;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//分
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//时
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//日
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//月
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//年
+    
     identifier = rtTotalActivePower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float 总有功功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
     outoffset += sizeof(XL_SINT64);
-
+    
     identifier = rtAActivePower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float A相有功功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
-
+    
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtBActivePower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float B相有功功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtCActivePower;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float C相有功功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
-    outoffset +=sizeof(XL_SINT64);   
-
+    outoffset +=sizeof(XL_SINT64);
+    
     identifier = rtTotalReactivePower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float 总无功功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
-    outoffset +=sizeof(XL_SINT64); 
-
+    outoffset +=sizeof(XL_SINT64);
+    
     identifier = rtAReactivePower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float A相无功功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
-
+    
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtBReactivePower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float B相无功功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtCReactivePower;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float C相无功功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
     outoffset +=sizeof(XL_SINT64);
     
     identifier = rtTotalPowerFactor;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float 总功率因数
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 2, 1);
     offset +=2;
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtAPowerFactor;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float A相功率因数
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 2, 1);
     offset +=2;
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtBPowerFactor;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float B相功率因数
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 2, 1);
     offset +=2;
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtCPowerFactor;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float C相功率因数
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 2, 1);
     offset +=2;
     outoffset +=sizeof(XL_SINT64);
-
+    
     //A相电压
     identifier = rtAVolt;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 2, 1);
     offset +=2;
     outoffset +=sizeof(XL_UINT64);
-
+    
     //B相电压
     identifier = rtBVolt;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 2, 1);
     offset +=2;
     outoffset +=sizeof(XL_UINT64);
-
+    
     //C相电压
     identifier = rtCVolt;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 2, 1);
     offset +=2;
     outoffset +=sizeof(XL_UINT64);
-
+    
     //A相电流
     identifier = rtACurrent;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset,3,3);
     offset +=3;
     outoffset +=sizeof(XL_SINT64);
-
+    
     //B相电流
     identifier = rtBCurrent;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset,3,3);
     offset +=3;
     outoffset +=sizeof(XL_SINT64);
-
+    
     //C相电流
     identifier = rtCCurrent;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset,3,3);
     offset +=3;
     outoffset +=sizeof(XL_SINT64);
-
+    
     //零序电流
     identifier = rtZeroSequenceCurrent;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset,3,3);
     offset +=3;
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtTotalApparentPower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float 总视在功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
     outoffset += sizeof(XL_SINT64);
-
+    
     identifier = rtAApparentPower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float A相视在功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
-
+    
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtBApparentPower;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float B相视在功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtCApparentPower;
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2; 
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //float C相视在功率
     *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 3, 4);
     offset +=3;
     outoffset +=sizeof(XL_SINT64);
-
-    end = outoffset;    
+    
+    end = outoffset;
     XL_UINT16 len = end -begin;
     memcpy(buff + begin -2, &len, 2);
 }
@@ -662,9 +671,17 @@ void AFNC_F29()
     XL_UINT16 end;
     
     begin = outoffset;
-    //终端抄表时间,5字节,暂时不用,直接跳过
-    offset += 5;
     XL_UINT16 identifier;
+    
+    //终端抄表时间,5字节
+    identifier = rtMtrBasicMeterReadTime;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//分
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//时
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//日
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//月
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//年
+    
     identifier = rtCopperLossAEValueZ;//当前铜损有功总电能示值
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 5, 4);
@@ -692,20 +709,29 @@ void AFNC_F33()
     XL_UINT16 end;
     
     begin = outoffset;
-    //终端抄表时间,5字节,暂时不用,直接跳过
-    offset += 5;
+    
+    XL_UINT16 identifier;
+    
+    //终端抄表时间,5字节
+    identifier = rtPowerValueMeterReadTime;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//分
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//时
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//日
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//月
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//年
+    
     //费率数,bin格式,1字节
     offset += 1;
-    XL_UINT16 identifier;
     identifier = rtPosAEValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前正向有功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,5,4);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=5;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     
     identifier = rtRate1PosAEValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
@@ -713,45 +739,45 @@ void AFNC_F33()
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,5,4);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=5;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate2PosAEValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率2正向有功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,5,4);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=5;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate3PosAEValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率3正向有功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,5,4);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=5;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate4PosAEValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率4正向有功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,5,4);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=5;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtPosREValueG;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前正向无功（组合无功1）总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     
     identifier = rtRate1PosREValueG;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
@@ -759,45 +785,45 @@ void AFNC_F33()
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate2PosREValueG;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率2正向无功（组合无功1）总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate3PosREValueG;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率3正向无功（组合无功1）总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate4PosREValueG;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率4正向无功（组合无功1）总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtFirstQuarREValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前一象限无功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     
     identifier = rtFirstQuarRate1REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
@@ -805,61 +831,61 @@ void AFNC_F33()
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtFirstQuarRate2REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前一象限费率2无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtFirstQuarRate3REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前一象限费率3无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtFirstQuarRate4REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前一象限费率4无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
-    outoffset +=sizeof(XL_UINT64); 
-  
+    
+    outoffset +=sizeof(XL_UINT64);
+    
     identifier = rtForthQuarREValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前四象限无功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtForthQuarRate1REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前四象限费率1无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtForthQuarRate2REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前四象限费率2无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
     
     
@@ -869,19 +895,19 @@ void AFNC_F33()
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtForthQuarRate4REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前四象限费率4无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
-    end = outoffset;    
+    
+    end = outoffset;
     XL_UINT16 len = end -begin;
     memcpy(buff + begin -2, &len, 2);
 }
@@ -896,21 +922,30 @@ void AFNC_F34()
     XL_UINT16 end;
     
     begin = outoffset;
-    //终端抄表时间,5字节,暂时不用,直接跳过
-    offset += 5;
+    
+    XL_UINT16 identifier;
+    
+    //终端抄表时间,5字节
+    identifier = rtPowerValueMeterReadTime;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//分
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//时
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//日
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//月
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//年
+    
     //费率数,bin格式,1字节
     offset += 1;
-
-    XL_UINT16 identifier;
+    
     identifier = rtNegAEValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前反向有功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 5, 4);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=5;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     
     identifier = rtRate1NegAEValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
@@ -918,45 +953,45 @@ void AFNC_F34()
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 5, 4);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=5;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate2NegAEValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率2反向有功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 5, 4);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=5;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate3NegAEValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率3反向有功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 5, 4);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=5;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate4NegAEValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率4反向有功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 5, 4);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=5;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtNegREValueG;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前反向无功（组合无功2）总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     
     identifier = rtRate1NegREValueG;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
@@ -964,45 +999,45 @@ void AFNC_F34()
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate2PosREValueG;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率2反向无功（组合无功2）总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate3NegREValueG;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率3反向无功（组合无功2）总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtRate4NegREValueG;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率4反向无功（组合无功2）总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtSecQuarREValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前二象限无功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     
     identifier = rtSecQuarRate1REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
@@ -1010,60 +1045,60 @@ void AFNC_F34()
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtSecQuarRate2REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前二象限费率2无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtSecQuarRate3REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前二象限费率3无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtSecQuarRate4REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前二象限费率4无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     offset +=4;
-
-    outoffset +=sizeof(XL_UINT64); 
-  
+    
+    outoffset +=sizeof(XL_UINT64);
+    
     identifier = rtThirdQuarREValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前三象限无功总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtThirdQuarRate1REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前三象限费率1无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtThirdQuarRate2REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前三象限费率2无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
     
     
@@ -1073,19 +1108,19 @@ void AFNC_F34()
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtThirdQuarRate4REValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前三象限费率4无功电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=4;
-
+    
     outoffset +=sizeof(XL_UINT64);
-
-    end = outoffset;    
+    
+    end = outoffset;
     XL_UINT16 len = end -begin;
     memcpy(buff + begin -2, &len, 2);
 }
@@ -1100,20 +1135,29 @@ void AFNC_F35()
     XL_UINT16 end;
     
     begin = outoffset;
-    //终端抄表时间,5字节,暂时不用,直接跳过
-    offset += 5;
+    
+    XL_UINT16 identifier;
+    
+    //终端抄表时间,5字节
+    identifier = rtPowerNeedsMeterReadTime;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//分
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//时
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//日
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//月
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//年
+    
     //费率数,bin格式,1字节
     offset += 1;
-
-    XL_UINT16 identifier;
+    
     identifier = rtMonPosAETotalMaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向有功总最大需量
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 3, 4);
-    printf("%llu\n",*(XL_UINT64*)(buff+outoffset));    
+    printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonPosAERate1MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向有功费率1最大需量
@@ -1121,7 +1165,7 @@ void AFNC_F35()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonPosAERate2MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向有功费率2最大需量
@@ -1129,8 +1173,8 @@ void AFNC_F35()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
-
+    
+    
     identifier = rtMonPosAERate3MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向有功费率3最大需量
@@ -1138,7 +1182,7 @@ void AFNC_F35()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonPosAERate4MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向有功费率4最大需量
@@ -1146,7 +1190,7 @@ void AFNC_F35()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonPosAETotalMaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向有功总最大需量发生时间
@@ -1162,7 +1206,7 @@ void AFNC_F35()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonPosAERate1MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向有功费率1最大需量发生时间
@@ -1178,7 +1222,7 @@ void AFNC_F35()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonPosAERate2MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向有功费率2最大需量发生时间
@@ -1194,7 +1238,7 @@ void AFNC_F35()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonPosAERate3MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向有功费率3最大需量发生时间
@@ -1210,7 +1254,7 @@ void AFNC_F35()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonPosAERate4MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向有功费率4最大需量发生时间
@@ -1226,7 +1270,7 @@ void AFNC_F35()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonPosRETotalMaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向无功总最大需量
@@ -1234,7 +1278,7 @@ void AFNC_F35()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonPosRERate1MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向无功费率1最大需量
@@ -1242,7 +1286,7 @@ void AFNC_F35()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonPosRERate2MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向无功费率2最大需量
@@ -1250,8 +1294,8 @@ void AFNC_F35()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
-
+    
+    
     identifier = rtMonPosRERate3MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向无功费率3最大需量
@@ -1259,7 +1303,7 @@ void AFNC_F35()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonPosRERate4MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向无功费率4最大需量
@@ -1267,7 +1311,7 @@ void AFNC_F35()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonPosRETotalMaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向无功总最大需量发生时间
@@ -1283,7 +1327,7 @@ void AFNC_F35()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonPosRERate1MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向无功费率1最大需量发生时间
@@ -1299,7 +1343,7 @@ void AFNC_F35()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonPosRERate2MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向无功费率2最大需量发生时间
@@ -1315,7 +1359,7 @@ void AFNC_F35()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonPosRERate3MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向无功费率3最大需量发生时间
@@ -1331,7 +1375,7 @@ void AFNC_F35()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonPosRERate4MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月正向无功费率4最大需量发生时间
@@ -1346,11 +1390,11 @@ void AFNC_F35()
     outoffset ++;
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
-    outoffset ++;   
-
-    end = outoffset;    
+    outoffset ++;
+    
+    end = outoffset;
     XL_UINT16 len = end -begin;
-    memcpy(buff + begin -2, &len, 2);    
+    memcpy(buff + begin -2, &len, 2);
 }
 
 /*当月反向有/无功最大需量及发生时间（总、费率1～M，1≤M≤12）*/
@@ -1363,12 +1407,21 @@ void AFNC_F36()
     XL_UINT16 end;
     
     begin = outoffset;
-    //终端抄表时间,5字节,暂时不用,直接跳过
-    offset += 5;
+    
+    XL_UINT16 identifier;
+    
+    //终端抄表时间,5字节
+    identifier = rtPowerNeedsMeterReadTime;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//分
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//时
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//日
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//月
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//年
+    
     //费率数,bin格式,1字节
     offset += 1;
-
-    XL_UINT16 identifier;
+    
     identifier = rtMonNegAETotalMaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向有功总最大需量
@@ -1376,7 +1429,7 @@ void AFNC_F36()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonNegAERate1MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向有功费率1最大需量
@@ -1384,7 +1437,7 @@ void AFNC_F36()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonNegAERate2MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向有功费率2最大需量
@@ -1392,7 +1445,7 @@ void AFNC_F36()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonNegAERate3MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向有功费率3最大需量
@@ -1400,7 +1453,7 @@ void AFNC_F36()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonNegAERate4MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向有功费率4最大需量
@@ -1408,7 +1461,7 @@ void AFNC_F36()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonNegAETotalMaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向有功总最大需量发生时间
@@ -1424,7 +1477,7 @@ void AFNC_F36()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonNegAERate1MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向有功费率1最大需量发生时间
@@ -1440,7 +1493,7 @@ void AFNC_F36()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonNegAERate2MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向有功费率2最大需量发生时间
@@ -1456,7 +1509,7 @@ void AFNC_F36()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonNegAERate3MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向有功费率3最大需量发生时间
@@ -1472,7 +1525,7 @@ void AFNC_F36()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonNegAERate4MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向有功费率4最大需量发生时间
@@ -1488,7 +1541,7 @@ void AFNC_F36()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonNegRETotalMaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向无功总最大需量
@@ -1496,7 +1549,7 @@ void AFNC_F36()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonNegRERate1MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向无功费率1最大需量
@@ -1504,7 +1557,7 @@ void AFNC_F36()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonNegRERate2MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向无功费率2最大需量
@@ -1512,7 +1565,7 @@ void AFNC_F36()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonNegRERate3MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向无功费率3最大需量
@@ -1520,7 +1573,7 @@ void AFNC_F36()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonNegRERate4MaxNeed;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向无功费率4最大需量
@@ -1528,7 +1581,7 @@ void AFNC_F36()
     printf("%llu\n",*(XL_UINT64*)(buff+outoffset));
     offset +=3;
     outoffset +=sizeof(XL_UINT64);
-
+    
     identifier = rtMonNegRETotalMaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向无功总最大需量发生时间
@@ -1544,7 +1597,7 @@ void AFNC_F36()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonNegRERate1MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向无功费率1最大需量发生时间
@@ -1560,7 +1613,7 @@ void AFNC_F36()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonNegRERate2MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向无功费率2最大需量发生时间
@@ -1576,7 +1629,7 @@ void AFNC_F36()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonNegRERate3MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向无功费率3最大需量发生时间
@@ -1592,7 +1645,7 @@ void AFNC_F36()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
+    
     identifier = rtMonNegRERate4MaxNeedTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当月反向无功费率4最大需量发生时间
@@ -1608,10 +1661,10 @@ void AFNC_F36()
     *(Byte*)(buff+outoffset)=(bcdToTime(userdata+offset));
     offset ++;
     outoffset ++;
-
-    end = outoffset;    
+    
+    end = outoffset;
     XL_UINT16 len = end -begin;
-    memcpy(buff + begin -2, &len, 2);   
+    memcpy(buff + begin -2, &len, 2);
 }
 
 /*当前电压、电流相位角*/
@@ -1624,7 +1677,7 @@ void AFNC_F49()
     XL_UINT16 end;
     
     begin = outoffset;
-
+    
     XL_UINT16 identifier;
     identifier = rtAVoltPhaseAngle;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
@@ -1633,8 +1686,8 @@ void AFNC_F49()
     printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
     offset +=2;
     outoffset +=sizeof(XL_SINT64);
-
-
+    
+    
     identifier = rtBVoltPhaseAngle;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //B相电压相角
@@ -1642,7 +1695,7 @@ void AFNC_F49()
     printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
     offset +=2;
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtCVoltPhaseAngle;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //C相电压相角
@@ -1650,7 +1703,7 @@ void AFNC_F49()
     printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
     offset +=2;
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtACurrentPhaseAngle;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //A相电流相角
@@ -1658,8 +1711,8 @@ void AFNC_F49()
     printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
     offset +=2;
     outoffset +=sizeof(XL_SINT64);
-
-
+    
+    
     identifier = rtBCurrentPhaseAngle;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //B相电流相角
@@ -1667,7 +1720,7 @@ void AFNC_F49()
     printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
     offset +=2;
     outoffset +=sizeof(XL_SINT64);
-
+    
     identifier = rtCCurrentPhaseAngle;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //C相电流相角
@@ -1675,11 +1728,11 @@ void AFNC_F49()
     printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
     offset +=2;
     outoffset +=sizeof(XL_SINT64);
-
-
-    end = outoffset;    
+    
+    
+    end = outoffset;
     XL_UINT16 len = end -begin;
-    memcpy(buff + begin -2, &len, 2);   
+    memcpy(buff + begin -2, &len, 2);
 }
 
 /*当前A、B、C三相电压、电流2～N次谐波有效值*/
@@ -1692,14 +1745,22 @@ void AFNC_F57()
     XL_UINT16 end;
     
     begin = outoffset;
-
+    
     XL_UINT16 identifier;
     XL_CHAR harmoCnt=0;
+    //谐波次数
+    identifier =  rtHarmoTimes;
+    memcpy(buff + outoffset, &identifier, 2);outoffset += 2;
+    
     harmoCnt = *(Byte*)(userdata+offset);
-    offset++;
-    int i=0;        
+    
+    memcpy(buff + outoffset, userdata + offset, 1);outoffset++;offset++;
+    
+    
+    
+    int i=0;
     printf("harmoCnt =%d\n",harmoCnt);
-
+    
     //A相电压谐波有效值
     for(i=0;i<harmoCnt-1;i++)
     {
@@ -1730,7 +1791,7 @@ void AFNC_F57()
         offset+=2;
         outoffset+= sizeof(XL_UINT64);
     }
-
+    
     //A相电流谐波有效值
     for(i=0;i<harmoCnt-1;i++)
     {
@@ -1761,8 +1822,8 @@ void AFNC_F57()
         offset+=2;
         outoffset+= sizeof(XL_SINT64);
     }
-
-    end = outoffset;    
+    
+    end = outoffset;
     XL_UINT16 len = end -begin;
     printf("len=%d,begin=%d,end=%d\n",len,begin,end);
     memcpy(buff + begin -2, &len, 2);
@@ -1777,12 +1838,18 @@ void AFNC_F58()
     XL_UINT16 end;
     
     begin = outoffset;
-
+    
     XL_UINT16 identifier;
     XL_CHAR harmoCnt=0;
+    
+    //谐波次数
+    identifier = rtHarmoTimes;
+    memcpy(buff + outoffset, &identifier, 2);outoffset += 2;
+    
     harmoCnt = *(Byte*)(userdata+offset);
-    offset++;
-
+    
+    memcpy(buff + outoffset, userdata + offset, 1);outoffset++;offset++;
+  
     int i=0;
     //A相电压谐波含有率
     for(i=0;i<harmoCnt;i++)
@@ -1814,11 +1881,11 @@ void AFNC_F58()
         offset+=2;
         outoffset+= sizeof(XL_SINT64);
     }
-
+    
     //A相电流谐波含有率
-    for(i=0;i<harmoCnt;i++)
+    for(i=0;i<harmoCnt - 1;i++)//没有总谐波含有率,从2到N次,所以是到harmoCnt -1
     {
-        identifier = rtCurrentAHarmoRateZ+i;
+        identifier = rtCurrentA2HarmoRate+i;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
         printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
@@ -1826,9 +1893,9 @@ void AFNC_F58()
         outoffset+= sizeof(XL_SINT64);
     }
     //B相电流谐波含有率
-    for(i=0;i<harmoCnt;i++)
+    for(i=0;i<harmoCnt - 1;i++)
     {
-        identifier = rtCurrentBHarmoRateZ+i;
+        identifier = rtCurrentB2HarmoRate+i;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
         printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
@@ -1836,16 +1903,16 @@ void AFNC_F58()
         outoffset+= sizeof(XL_SINT64);
     }
     //C相电流谐波含有率
-    for(i=0;i<harmoCnt;i++)
+    for(i=0;i<harmoCnt - 1;i++)
     {
-        identifier = rtCurrentCHarmoRateZ+i;
+        identifier = rtCurrentC2HarmoRate+i;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
         printf("%lld\n",*(XL_SINT64*)(buff+outoffset));
         offset+=2;
         outoffset+= sizeof(XL_SINT64);
     }
-    end = outoffset;    
+    end = outoffset;
     XL_UINT16 len = end -begin;
     memcpy(buff + begin -2, &len, 2);
 }
@@ -1860,9 +1927,9 @@ void AFNC_F73()
     XL_UINT16 end;
     
     begin = outoffset;
-
+    
     XL_UINT16 identifier;
-
+    
     identifier = rtDcAnalogValue;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //直流模拟量实时数据
@@ -1873,8 +1940,8 @@ void AFNC_F73()
     printf("%d\n",*(XL_SINT16*)(buff+outoffset));
     offset +=2;
     outoffset +=sizeof(XL_SINT16);
-
-    end = outoffset;    
+    
+    end = outoffset;
     XL_UINT16 len = end -begin;
     memcpy(buff + begin -2, &len, 2);
 }
@@ -1892,12 +1959,21 @@ void AFNC_F181()
     
     printf("解析1类数据,F181:");
     XL_UINT16 identifier;
-    offset+=5;//终端抄表时间
+    
+    //终端抄表时间,5字节
+    identifier = rtTermBasicMeterReadTime;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//分
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//时
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//日
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//月
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//年
+    
     //油温
     identifier = rtOilTemperature;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
-
+    
     outoffset += sizeof(XL_SINT64);
     offset += 2;
     //绕组温度
@@ -1907,7 +1983,7 @@ void AFNC_F181()
         identifier = rtAWindingTemperature+i;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
-
+        
         outoffset += sizeof(XL_SINT64);
         offset += 2;
     }
@@ -1931,12 +2007,21 @@ void AFNC_F182()
     
     printf("解析1类数据,F182:");
     XL_UINT16 identifier;
-    offset+=5;//终端抄表时间
+    
+    //终端抄表时间,5字节
+    identifier = rtTermBasicMeterReadTime;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//分
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//时
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//日
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//月
+    *(Byte*)(buff + outoffset) = bcdToTime(userdata + offset);offset++;outoffset++;//年
+    
     //变压器剩余寿命
     identifier = rtRealLifetime;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     *(XL_SINT64*)(buff+outoffset) = bcdtosint(userdata+offset, 2, 1);
-
+    
     outoffset += sizeof(XL_SINT64);
     offset += 2;
     

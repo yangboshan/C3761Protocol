@@ -96,6 +96,9 @@ enum frame_type{
 //终端基本实时数据
 enum terminal_rt_basic_sta {
     
+    //终端抄表时间
+    rtTermBasicMeterReadTime,
+    
     //终端参数状态
     rtParameterStatus,
     
@@ -140,8 +143,11 @@ enum terminal_rt_basic_sta {
 //测量点基本实时数据
 enum mtr_rt_basic_sta
 {
+    //终端抄表时间
+    rtMtrBasicMeterReadTime,
+    
     //当前总有功功率
-    rtTotalActivePower=0,
+    rtTotalActivePower,
     
     //当前A相有功功率
     rtAActivePower,
@@ -235,8 +241,11 @@ enum mtr_rt_basic_sta
 
 enum rt_power_value_sta{
     
+    //终端抄表时间
+    rtPowerValueMeterReadTime,
+    
     //当前正向有功总电能示值
-    rtPosAEValue=0,
+    rtPosAEValue,
     
     //当前费率1正向有功总电能示值
     rtRate1PosAEValue,
@@ -359,8 +368,12 @@ enum rt_power_value_sta{
 
 enum rt_power_needs_sta
 {
+    
+    //终端抄表时间
+    rtPowerNeedsMeterReadTime,
+    
     //当月正向有功总最大需量
-    rtMonPosAETotalMaxNeed = 0,
+    rtMonPosAETotalMaxNeed,
     
     //当月正向有功费率1最大需量
     rtMonPosAERate1MaxNeed,
@@ -490,6 +503,8 @@ enum rt_dc_analog
 
 enum mtr_rt_harmonic
 {
+    //谐波次数
+    rtHarmoTimes,
     //A相电压2次谐波有效值
     rtHarmoVoltA2EffecValue,
     
@@ -984,10 +999,7 @@ enum mtr_rt_harmonic
     
     //当前C相电压19次谐波含有率
     rtVoltC19HarmoRate,
-    
-    //当前A相电流总谐波含有率
-    rtCurrentAHarmoRateZ,
-    
+
     //当前A相电流2次谐波含有率
     rtCurrentA2HarmoRate,
     
@@ -1042,9 +1054,6 @@ enum mtr_rt_harmonic
     //当前A相电流19次谐波含有率
     rtCurrentA19HarmoRate,
     
-    //当前B相电流总谐波含有率
-    rtCurrentBHarmoRateZ,
-    
     //当前B相电流2次谐波含有率
     rtCurrentB2HarmoRate,
     
@@ -1098,9 +1107,6 @@ enum mtr_rt_harmonic
     
     //当前B相电流19次谐波含有率
     rtCurrentB19HarmoRate,
-    
-    //当前C相电流总谐波含有率
-    rtCurrentCHarmoRateZ,
     
     //当前C相电流2次谐波含有率
     rtCurrentC2HarmoRate,
@@ -1168,7 +1174,7 @@ typedef enum dcanalog_day_data
     
     //直流模拟量端口号
     hdDCPort,
- 
+    
     //直流模拟量越上限日/月累计时间
     hdDCAnalogDHiAccTm,
     
@@ -1198,7 +1204,7 @@ typedef enum dcanalog_month_data
     
     //直流模拟量端口号
     hmDCPort,
- 
+    
     //直流模拟量越上限日/月累计时间
     hmDCAnalogDHiAccTm,
     
@@ -1795,7 +1801,7 @@ typedef enum measure_curve_data
     cvCurveDensity, //密度
     
     cvCurveCount,   //点数
-
+    
     //曲线类型
     cvCurvePower, //功率曲线类型
     
@@ -1815,7 +1821,7 @@ typedef enum measure_curve_data
     cvCurveLoadRate,//负载率曲线
     cvCurveVoltUnbRate,//电压不平衡旅曲线
     cvCurveCurUnbRate,//电流不平衡旅曲线
-
+    
 }MEASURE_CURVE_DATA;
 
 
@@ -1830,7 +1836,7 @@ typedef enum measure_day_sta
 {
     
     hdDataTime_mds,//数据时标
-
+    
     hdAVoltOverHHAccTm, //A相电压越上上限日/月累计时间
     
     hdAVoltDownLLAccTm, //A相电压越下下限日/月累计时间
@@ -1999,7 +2005,7 @@ typedef enum measure_month_sta
 {
     
     hmDataTime_mms,    //数据时标
- 
+    
     hmAVoltOverHHAccTm,//A相电压越上上限日/月累计时间
     
     hmAVoltDownLLAccTm,//A相电压越下下限日/月累计时间
@@ -2236,7 +2242,7 @@ typedef enum measure_day_powervalue
     
     hdNegREValue4,//反向无功费率4电能示值
     
-
+    
     hdSecondREValueZ,//二象限无功总电能示值
     
     hdSecondREValue1,//二象限无功费率1电能示值
@@ -2331,7 +2337,7 @@ typedef enum measure_month_powervalue
     hmFourREValue3,//四象限无功费率3电能示值
     
     hmFourREValue4,//四象限无功费率4电能示值
-
+    
     
     hmNegAEValueZ,//反向有功总电能示值
     
@@ -2407,15 +2413,15 @@ typedef enum history_day_powerneeds
     hdDataTime_hdp,   //数据时标
     
     hdPosADMaxZ,//正向有功总最大需量
-
+    
     hdPosADMax1,//费率1正向有功最大需量
-
+    
     hdPosADMax2,//费率2正向有功最大需量
-
+    
     hdPosADMax3,//费率3正向有功最大需量
-
+    
     hdPosADMax4,//费率4正向有功最大需量
-
+    
     
     hdPosADMaxZTm,//正向有功总最大需量发生时间
     
@@ -2429,15 +2435,15 @@ typedef enum history_day_powerneeds
     
     
     hdPosRDMaxZ,//正向无功总最大需量
-
+    
     hdPosRDMax1,//费率1正向无功最大需量
-
+    
     hdPosRDMax2,//费率2正向无功最大需量
-
+    
     hdPosRDMax3,//费率3正向无功最大需量
-
+    
     hdPosRDMax4,//费率4正向无功最大需量
-
+    
     
     hdPosRDMaxZTm,//正向无功总最大需量发生时间
     
@@ -2448,17 +2454,17 @@ typedef enum history_day_powerneeds
     hdPosRDMax3Tm,//费率3正向无功最大需量发生时间
     
     hdPosRDMax4Tm,//费率4正向无功最大需量发生时间
-
+    
     hdNegADMaxZ,//反向有功总最大需量
-
+    
     hdNegADMax1,//费率1反向有功最大需量
-
+    
     hdNegADMax2,//费率2反向有功最大需量
-
+    
     hdNegADMax3,//费率3反向有功最大需量
-
+    
     hdNegADMax4,//费率4反向有功最大需量
-
+    
     hdNegADMaxZTm,//反向有功总最大需量发生时间
     
     hdNegADMax1Tm,//费率1反向有功最大需量发生时间
@@ -2471,15 +2477,15 @@ typedef enum history_day_powerneeds
     
     
     hdNegRDMaxZ,//反向无功总最大需量
-
+    
     hdNegRDMax1,//费率1反向无功最大需量
-
+    
     hdNegRDMax2,//费率2反向无功最大需量
-
+    
     hdNegRDMax3,//费率3反向无功最大需量
-
+    
     hdNegRDMax4,//费率4反向无功最大需量
-
+    
     
     hdNegRDMaxZTm,//反向无功总最大需量发生时间
     
@@ -2507,26 +2513,26 @@ typedef enum history_day_powerneeds
     hdADMaxC,  //C相有功最大需量
     
     hdADMaxCTm,//C相有功最大需量发生时间,
-
+    
 }HISTORY_DAY_POWERNEEDS;
 
 
 //测量点月需量数据
 typedef enum history_month_powerneeds
 {
-
+    
     hmDataTime_hmp,   //数据时标
-
+    
     hmPosADMaxZ,//正向有功总最大需量
-
+    
     hmPosADMax1,//费率1正向有功最大需量
-
+    
     hmPosADMax2,//费率2正向有功最大需量
-
+    
     hmPosADMax3,//费率3正向有功最大需量
-
+    
     hmPosADMax4, //费率4正向有功最大需量
-
+    
     hmPosADMaxZTm,//正向有功总最大需量发生时间
     
     hmPosADMax1Tm,//费率1正向有功最大需量发生时间
@@ -2536,15 +2542,15 @@ typedef enum history_month_powerneeds
     hmPosADMax3Tm,//费率3正向有功最大需量发生时间
     
     hmPosADMax4Tm,//费率4正向有功最大需量发生时间
-
+    
     hmPosRDMaxZ,//正向无功总最大需量
-
+    
     hmPosRDMax1,//费率1正向无功最大需量
-
+    
     hmPosRDMax2,//费率2正向无功最大需量
-
+    
     hmPosRDMax3,//费率3正向无功最大需量
-
+    
     hmPosRDMax4,//费率4正向无功最大需量
     
     hmPosRDMaxZTm,//正向无功总最大需量发生时间
@@ -2556,17 +2562,17 @@ typedef enum history_month_powerneeds
     hmPosRDMax3Tm,//费率3正向无功最大需量发生时间
     
     hmPosRDMax4Tm,//费率4正向无功最大需量发生时间
-
+    
     hmNegADMaxZ,//反向有功总最大需量
-
+    
     hmNegADMax1,//费率1反向有功最大需量
-
+    
     hmNegADMax2,//费率2反向有功最大需量
-
+    
     hmNegADMax3,//费率3反向有功最大需量
-
+    
     hmNegADMax4,//费率4反向有功最大需量
-
+    
     hmNegADMaxZTm,//反向有功总最大需量发生时间
     
     hmNegADMax1Tm,//费率1反向有功最大需量发生时间
@@ -2577,17 +2583,17 @@ typedef enum history_month_powerneeds
     
     hmNegADMax4Tm,//费率4反向有功最大需量发生时间
     
-
+    
     hmNegRDMaxZ,//反向无功总最大需量
-
+    
     hmNegRDMax1,//费率1反向无功最大需量
-
+    
     hmNegRDMax2,//费率2反向无功最大需量
-
+    
     hmNegRDMax3,//费率3反向无功最大需量
-
+    
     hmNegRDMax4,//费率4反向无功最大需量
-
+    
     
     hmNegRDMaxZTm,//反向无功总最大需量发生时间
     
@@ -2598,7 +2604,7 @@ typedef enum history_month_powerneeds
     hmNegRDMax3Tm,//费率3反向无功最大需量发生时间
     
     hmNegRDMax4Tm,//费率3反向无功最大需量发生时间
-
+    
     hmADMaxZ,  //三相总有功最大需量
     
     hmADMaxZTm,//三相总有功最大需量发生时间
@@ -2614,7 +2620,7 @@ typedef enum history_month_powerneeds
     hmADMaxC,  //C相有功最大需量
     
     hmADMaxCTm,//C相有功最大需量发生时间,
-
+    
 }HISTORY_MONTH_POWERNEEDS;
 
 //终端日统计数据

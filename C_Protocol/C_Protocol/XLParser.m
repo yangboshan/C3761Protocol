@@ -191,7 +191,7 @@ COMPLEX_ITEM dtype;
             break;
     }
     
-    NSLog(@"-----------执行方法前offset:%d",_offset);
+//    NSLog(@"-----------执行方法前offset:%d",_offset);
     
     NSString *method = [NSString stringWithFormat:@"parse%d",dtype.datatype + 1];
     SEL selecter = NSSelectorFromString(method);
@@ -227,7 +227,9 @@ COMPLEX_ITEM dtype;
     
     NSString *results = [NSString stringWithFormat:@"%.1f",result];
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
-    
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
     XLDataItem *item = [[XLDataItem alloc] init];
     item.key = key;
     item.value = results;
@@ -250,7 +252,9 @@ COMPLEX_ITEM dtype;
     NSString *results = [NSString stringWithFormat:@"%.2f",result];
     
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
-    
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
     XLDataItem *item = [[XLDataItem alloc] init];
     item.key = key;
     item.value = results;
@@ -268,7 +272,9 @@ COMPLEX_ITEM dtype;
     
     NSString *results = [NSString stringWithFormat:@"%.1f",result];
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
-    
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
     XLDataItem *item = [[XLDataItem alloc] init];
     item.key = key;
     item.value = results;
@@ -293,7 +299,9 @@ COMPLEX_ITEM dtype;
     
     NSString *results = [NSString stringWithFormat:@"%.4f",result];
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
-    
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
     XLDataItem *item = [[XLDataItem alloc] init];
     item.key = key;
     item.value = results;
@@ -317,7 +325,9 @@ COMPLEX_ITEM dtype;
     
     NSString *results = [NSString stringWithFormat:@"%.2f",result];
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
-
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
     XLDataItem *item = [[XLDataItem alloc] init];
     item.key = key;
     item.value = results;
@@ -336,7 +346,9 @@ COMPLEX_ITEM dtype;
     
     NSString *results = [NSString stringWithFormat:@"%.4f",result];
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
-    
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
     XLDataItem *item = [[XLDataItem alloc] init];
     item.key = key;
     item.value = results;
@@ -459,7 +471,9 @@ COMPLEX_ITEM dtype;
     NSString *results = [NSString stringWithFormat:@"%.1f",result];
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
     
-    
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
     XLDataItem *item = [[XLDataItem alloc] init];
     item.key = key;
     item.value = results;
@@ -481,7 +495,9 @@ COMPLEX_ITEM dtype;
     NSString *results = [NSString stringWithFormat:@"%.4f",result];
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
     
-    
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
     XLDataItem *item = [[XLDataItem alloc] init];
     item.key = key;
     item.value = results;
@@ -502,6 +518,10 @@ COMPLEX_ITEM dtype;
     
     NSString *results = [NSString stringWithFormat:@"%.3f",result];
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
     
     
     XLDataItem *item = [[XLDataItem alloc] init];
@@ -527,7 +547,9 @@ COMPLEX_ITEM dtype;
     
     NSString *results = [NSString stringWithFormat:@"%.3f",result];
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
-    
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
     
     XLDataItem *item = [[XLDataItem alloc] init];
     item.key = key;
@@ -698,7 +720,9 @@ COMPLEX_ITEM dtype;
     
     NSString *results = [NSString stringWithFormat:@"%.1f",result];
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
-    
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
     
     XLDataItem *item = [[XLDataItem alloc] init];
     item.key = key;

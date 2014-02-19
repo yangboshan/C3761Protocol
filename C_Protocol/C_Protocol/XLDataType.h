@@ -64,6 +64,7 @@ typedef signed long  long       XL_SINT64_4;//8字节 有符号 四位小数×10
 #define DEFAULT_EN_PARA	 99999990000LL
 #define DEFAULT_EN_PARA1 999999999999LL
 
+
 #define XL_INLINE inline
 #define XL_TRUE 1
 #define XL_FALSE 0
@@ -73,7 +74,7 @@ typedef signed long  long       XL_SINT64_4;//8字节 有符号 四位小数×10
 #define XL_NORMAL 1
 #define XL_CONFIRM 1
 #define XL_DENY 2
-
+#define ERRORDATA 0xFFFFFFFFFFFFFFFF
 #define XL_CV96 60
 
 

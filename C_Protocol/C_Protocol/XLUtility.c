@@ -59,6 +59,31 @@ XL_UINT64 bcdtouint(Byte* value,XL_UINT8 byteslen,XL_UINT8 digitlen)
     XL_UINT64 temp = 0;
     
     XL_UINT8 i =0;
+    
+    //判断是否是非法报文
+    for(i = 0;i<byteslen; i++)
+    {
+        if(*(value + i) != 0xFF)//判断是否全部是FF
+        {
+            break;
+        }
+    }
+    if(i == byteslen)
+    {
+        return ERRORDATA;
+    }
+    for(i = 0;i<byteslen; i++)
+    {
+        if(*(value + i) != 0xEE)//判断是否全部是EE
+        {
+            break;
+        }
+    }
+    if(i == byteslen)
+    {
+        return ERRORDATA;
+    }
+    
     for(i =0;i<byteslen;i++)
     {
         temp   = (*(value + i)>>4 & 0x0f)*10 + (*(value + i) & 0x0f);
@@ -82,6 +107,31 @@ XL_SINT64 bcdtosint(Byte* value,XL_UINT8 byteslen,XL_UINT8 digitlen){
     XL_UINT8 sign = 0;
     
     XL_UINT8 i =0;
+    
+    //判断是否是非法报文
+    for(i = 0;i<byteslen; i++)
+    {
+        if(*(value + i) != 0xFF)//判断是否全部是FF
+        {
+            break;
+        }
+    }
+    if(i == byteslen)
+    {
+        return ERRORDATA;
+    }
+    for(i = 0;i<byteslen; i++)
+    {
+        if(*(value + i) != 0xEE)//判断是否全部是EE
+        {
+            break;
+        }
+    }
+    if(i == byteslen)
+    {
+        return ERRORDATA;
+    }
+    
     for(i =0;i<byteslen;i++)
     {
         if (i == byteslen -1) {
