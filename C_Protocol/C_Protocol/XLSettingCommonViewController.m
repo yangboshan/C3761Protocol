@@ -233,4 +233,123 @@
     free(self.frame);
     [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
 }
+
+- (IBAction)setF3:(id)sender {
+    [self.activityView setHidden:NO];
+    
+    NSString *apn = self.v11.text;
+    XL_UINT8 apn_[16];
+    
+    for(int i = 0;i<16;i++){
+        if ([apn length]-1<i) {
+            apn_[i] = '\0';
+        }else{
+            apn_[i] = (XL_UINT8)[apn characterAtIndex:i];
+        }
+    }
+    
+    PACKITEM_P array[11] = {
+        BuildPackItem([self.v1.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v2.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v3.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v4.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v5.text integerValue], 2, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v6.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v7.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v8.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v9.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v10.text integerValue], 2, 0, 0, 0, 0, 0),
+        
+        BuildPackItem(0, 0, 0, apn_, 16, 1, 0),
+    };
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 3, array, 11, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
+}
+
+
+- (IBAction)setF7:(id)sender {
+    [self.activityView setHidden:NO];
+    
+    NSString *apn = self.v11.text;
+    XL_UINT8 apn_[16];
+    
+    for(int i = 0;i<16;i++){
+        if ([apn length]-1<i) {
+            apn_[i] = '\0';
+        }else{
+            apn_[i] = (XL_UINT8)[apn characterAtIndex:i];
+        }
+    }
+    
+    NSInteger userNameLen = [self.v20.text integerValue];
+    NSInteger pswLen = [self.v22.text integerValue];
+    
+    NSString *userName = self.v21.text;
+    XL_UINT8 userName_[userNameLen];
+    for(int i = 0;i<userNameLen;i++){
+        userName_[i] = (XL_UINT8)[userName characterAtIndex:i];
+    }
+    
+    NSString *psw = self.v23.text;
+    XL_UINT8 psw_[pswLen];
+    for(int i = 0;i<pswLen;i++){
+        psw_[i] = (XL_UINT8)[psw characterAtIndex:i];
+    }
+
+    
+    PACKITEM_P array[24] = {
+        //IP
+        BuildPackItem([self.v1.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v2.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v3.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v4.text integerValue], 1, 0, 0, 0, 0, 0),
+
+        //子网掩码
+        BuildPackItem([self.v5.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v6.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v7.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v8.text integerValue], 1, 0, 0, 0, 0, 0),
+        
+        //网关
+        BuildPackItem([self.v9.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v10.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v11.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v12.text integerValue], 1, 0, 0, 0, 0, 0),
+        
+        //代理服务器
+        BuildPackItem([self.v13.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v14.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v15.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v16.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v17.text integerValue], 1, 0, 0, 0, 0, 0),
+        
+        //连接方式
+        BuildPackItem([self.v18.text integerValue], 2, 0, 0, 0, 0, 0),
+        BuildPackItem([self.v19.text integerValue], 1, 0, 0, 0, 0, 0),
+        
+        BuildPackItem(0, 0, 0, userName_, userNameLen, 1, 0),
+        BuildPackItem(0, 0, 0, psw_, pswLen, 1, 0),
+        
+        BuildPackItem([self.v24.text integerValue], 2, 0, 0, 0, 0, 0),
+        
+    };
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 3, array, 11, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
+}
+
+- (IBAction)setF9:(id)sender {
+}
+
+- (IBAction)setF10:(id)sender {
+}
 @end

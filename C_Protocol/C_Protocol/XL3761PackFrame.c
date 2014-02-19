@@ -162,7 +162,7 @@ Byte* PackFrameForClock(Byte afn,XL_UINT8 pn,XL_UINT8 fn,XL_UINT8 year,XL_UINT8 
         BuildPackItem(weekmonth, 0, 0, value, 1, 1, 0),
         BuildPackItem(year,      1, 0, 0, 0, 0, 1),
     };
-
+    
     return PackFrameForAfn04(afn, pn, fn, array, 6, outlen);
 }
 
@@ -291,7 +291,7 @@ void setuserdatafor4(PACKITEM_P* userdata,XL_UINT8 count){
                     *(frame + offset_) = (XL_UINT16)item.value1;offset_+=2;
                     
                 } else if (item.value1blen == 4){
-                    *(frame + offset_) = (XL_UINT64)item.value1;offset_+=2;
+                    *(frame + offset_) = (XL_UINT64)item.value1;offset_+=4;
                     
                 } else {
                     

@@ -29,6 +29,13 @@
 @property (strong, nonatomic) IBOutlet UITextField *v18;
 @property (strong, nonatomic) IBOutlet UITextField *v19;
 @property (strong, nonatomic) IBOutlet UITextField *v20;
+@property (strong, nonatomic) IBOutlet UITextField *v21;
+@property (strong, nonatomic) IBOutlet UITextField *v22;
+@property (strong, nonatomic) IBOutlet UITextField *v23;
+@property (strong, nonatomic) IBOutlet UITextField *v24;
+@property (strong, nonatomic) IBOutlet UITextField *v25;
+
+
 @property (strong, nonatomic) IBOutlet UITextView *showResult;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *activityView;
 
@@ -37,4 +44,8 @@
 - (IBAction)setF170:(id)sender;
 - (IBAction)setF169:(id)sender;
 - (IBAction)setF28:(id)sender;
+- (IBAction)setF3:(id)sender;
+- (IBAction)setF7:(id)sender;
+- (IBAction)setF9:(id)sender;
+- (IBAction)setF10:(id)sender;
 @end

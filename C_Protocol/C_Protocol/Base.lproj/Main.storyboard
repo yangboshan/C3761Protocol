@@ -897,30 +897,42 @@ COmbtuW6j+eUtea1gei2iumZkOaMgee7reaXtumXtA
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uPg-1t-phZ">
                                 <rect key="frame" x="264" y="134" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="FXX">
+                                <state key="normal" title="F3">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="setF3:" destination="g0M-e7-I1a" eventType="touchUpInside" id="DXC-sV-wb2"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XZC-YI-TzL">
                                 <rect key="frame" x="264" y="172" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="FXX">
+                                <state key="normal" title="F7">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="setF7:" destination="g0M-e7-I1a" eventType="touchUpInside" id="DRj-Cj-i5L"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpz-6I-rUx">
                                 <rect key="frame" x="264" y="210" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="FXX">
+                                <state key="normal" title="F9">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="setF9:" destination="g0M-e7-I1a" eventType="touchUpInside" id="P4t-X2-Ju0"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4xp-D3-2mn">
                                 <rect key="frame" x="264" y="248" width="46" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="FXX">
+                                <state key="normal" title="F10">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="setF10:" destination="g0M-e7-I1a" eventType="touchUpInside" id="vpV-cl-weW"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ck-EP-Nde">
                                 <rect key="frame" x="264" y="286" width="46" height="30"/>
@@ -973,6 +985,11 @@ COmbtuW6j+eUtea1gei2iumZkOaMgee7reaXtumXtA
                         <outlet property="v19" destination="XZJ-D2-SRg" id="xx0-5u-eWE"/>
                         <outlet property="v2" destination="LSx-r1-ObV" id="YLW-7A-sH1"/>
                         <outlet property="v20" destination="cjJ-r5-YDP" id="LTd-hI-DLn"/>
+                        <outlet property="v21" destination="qME-Pc-ghU" id="VjM-tL-Ey2"/>
+                        <outlet property="v22" destination="cdy-tI-zKF" id="Eht-bj-F4d"/>
+                        <outlet property="v23" destination="T0A-4V-FUE" id="crn-P2-wa6"/>
+                        <outlet property="v24" destination="yXk-th-vVU" id="zOE-bR-zR2"/>
+                        <outlet property="v25" destination="BA4-9g-Cdo" id="nSg-WW-y7X"/>
                         <outlet property="v3" destination="3Ju-Ma-pye" id="UPy-6h-6eZ"/>
                         <outlet property="v4" destination="EsZ-Cb-3ue" id="Xb6-Zd-JGE"/>
                         <outlet property="v5" destination="7Qn-hF-PUb" id="26c-O1-R8T"/>
@@ -984,7 +1001,7 @@ COmbtuW6j+eUtea1gei2iumZkOaMgee7reaXtumXtA
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3ee-Ix-DsO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-673" y="266"/>
+            <point key="canvasLocation" x="-684" y="242"/>
         </scene>
         <!--Set Clock View Controller-->
         <scene sceneID="B68-bt-C3B">
