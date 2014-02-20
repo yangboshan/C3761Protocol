@@ -159,7 +159,11 @@ XL_SINT64 bcdtosint(Byte* value,XL_UINT8 byteslen,XL_UINT8 digitlen){
 Byte bcdToTime(Byte* value)
 {
     Byte result =0;
-
+    if((*value == 0xee) |(*value==0xff))
+    {
+        return 0xff;
+    }
+    
     result   = (Byte)(*(value)>>4 & 0x0f)*10 + (*(value) & 0x0f);
     return result;
 }

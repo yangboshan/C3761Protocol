@@ -362,11 +362,41 @@ COMPLEX_ITEM dtype;
 //5字节 分时日月年
 -(void)parse15{
     
-    NSString *minute =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
-    NSString *hour =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
-    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
-    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
-    NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
+    NSString *minute =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        minute=@"";
+    }
+    _offset++;
+    
+    NSString *hour =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        hour=@"";
+    }
+    _offset++;
+    
+    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        day=@"";
+    }
+    _offset++;
+    
+    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        month=@"";
+    }
+    _offset++;
+    
+    NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        year=@"";
+    }
+    _offset++;
+    
     NSString *tdd = [NSString stringWithFormat:@"%@年%@月%@日%@时%@分",year,month,day,hour,minute];
     
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
@@ -384,10 +414,35 @@ COMPLEX_ITEM dtype;
 //分时日月
 -(void)parse17{
     
-    NSString *minute =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
-    NSString *hour =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
-    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
-    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
+  
+    NSString *minute =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        minute=@"";
+    }
+    _offset++;
+ 
+    NSString *hour =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        hour=@"";
+    }
+    _offset++;
+
+    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        day=@"";
+    }
+    _offset++;
+    
+    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        month=@"";
+    }
+    _offset++;
+    
     NSString *tdd = [NSString stringWithFormat:@"%@月%@日%@时%@分",month,day,hour,minute];
     
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
@@ -406,9 +461,27 @@ COMPLEX_ITEM dtype;
 
 //分时日
 -(void)parse18{
-    NSString *minute =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
-    NSString *hour =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
-    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
+    NSString *minute =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        minute=@"";
+    }
+    _offset++;
+    
+    NSString *hour =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        hour=@"";
+    }
+    _offset++;
+    
+    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        day=@"";
+    }
+    _offset++;
+    
     NSString *tdd = [NSString stringWithFormat:@"%@日%@时%@分",day,hour,minute];
     
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
@@ -426,9 +499,27 @@ COMPLEX_ITEM dtype;
 
 //日月年
 -(void)parse20{
-    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];    _offset++;
-    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
-    NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
+    NSString *day =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        day=@"";
+    }
+    _offset++;
+    
+    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        month=@"";
+    }
+    _offset++;
+    
+    NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        year=@"";
+    }
+    _offset++;
+    
     NSString *tdd = [NSString stringWithFormat:@"%@年%@月%@日",year,month,day];
     
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
@@ -445,8 +536,20 @@ COMPLEX_ITEM dtype;
 
 //月年
 -(void)parse21{
-    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];  _offset++;
-    NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];   _offset++;
+    NSString *month =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        month=@"";
+    }
+    _offset++;
+    
+    NSString *year =[NSString stringWithFormat:@"%d",bytes[_offset]];
+    if(bytes[_offset]==0xff)
+    {
+        year=@"";
+    }
+    _offset++;
+    
     NSString *tdd = [NSString stringWithFormat:@"%@年%@月",year,month];
     
     NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];

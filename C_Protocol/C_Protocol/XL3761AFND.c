@@ -2651,7 +2651,6 @@ void AFND_F34()
     outoffset++;offset++;
     
     
-    
     //A相有功最大需量  3个字节 四个小数位数
     //标志 2个字节
     identifier = hmADMaxA;// 数据时标
@@ -2659,8 +2658,6 @@ void AFND_F34()
     //数据
     temp=bcdtouint(userdata+offset, 3, 4);
     memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
-    
-    
     
     //时间标志
     identifier = hmADMaxATm;// 数据时标
