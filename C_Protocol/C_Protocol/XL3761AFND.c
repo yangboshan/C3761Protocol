@@ -2425,7 +2425,7 @@ void AFND_F30()
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //内容
     temp_value=*(XL_UINT16*)(userdata+offset);
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;offset+=2;
+    memcpy(buff + outoffset, &temp_value, 2);outoffset+=2;offset+=2;
     
     //视在功率越上限累计时间
     //标志 2个字节
@@ -2433,7 +2433,7 @@ void AFND_F30()
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //内容
     temp_value=*(XL_UINT16*)(userdata+offset);
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;offset+=2;
+    memcpy(buff + outoffset, &temp_value, 2);outoffset+=2;offset+=2;
     
     end = outoffset;
     len = end - begin;
@@ -3205,8 +3205,8 @@ void AFND_F36()
     identifier = hmCurUnbalMax;//
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容 2个字节 1个小数点 十分位
-    temp=bcdtouint(userdata+offset, 2, 1);
-    memcpy(buff + outoffset, &temp_value, 8);outoffset+=8;offset+=2;
+    temp=bcdtosint(userdata+offset, 2, 1);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=2;
     
     //电流不平衡最大值发生时间
     identifier = hmCurUnbalMaxTm;//
@@ -3214,12 +3214,19 @@ void AFND_F36()
     //数据内容 3个字节  分时日
     //分
     buff[outoffset]=bcdToTime(userdata+offset);
+       printf("%d\n", buff[outoffset]);
     outoffset++;offset++;
     //时
     buff[outoffset]=bcdToTime(userdata+offset);
+       printf("%d\n", buff[outoffset]);
     outoffset++;offset++;
     //日
     buff[outoffset]=bcdToTime(userdata+offset);
+       printf("%d\n", buff[outoffset]);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+       printf("%d\n", buff[outoffset]);
     outoffset++;offset++;
     
     //电压不平衡度最大值   1个小数点
@@ -3227,8 +3234,8 @@ void AFND_F36()
     identifier = hmVoltUnbalMax;//
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容 2个字节 1个小数点 十分位
-    temp=bcdtouint(userdata+offset, 2, 1);
-    memcpy(buff + outoffset, &temp_value, 8);outoffset+=8;offset+=2;
+    temp=bcdtosint(userdata+offset, 2, 1);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=2;
     
     //电压不平衡最大值发生时间
     identifier = hmVoltUnbalMaxTm;//
@@ -3236,12 +3243,19 @@ void AFND_F36()
     //数据内容 3个字节  分时日
     //分
     buff[outoffset]=bcdToTime(userdata+offset);
+    printf("%d\n", buff[outoffset]);
     outoffset++;offset++;
     //时
     buff[outoffset]=bcdToTime(userdata+offset);
+    printf("%d\n", buff[outoffset]);
     outoffset++;offset++;
     //日
     buff[outoffset]=bcdToTime(userdata+offset);
+    printf("%d\n", buff[outoffset]);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    printf("%d\n", buff[outoffset]);
     outoffset++;offset++;
     
     
@@ -3480,7 +3494,7 @@ void AFND_F38()
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //内容
     temp_value=*(XL_UINT16*)(userdata+offset);
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;offset+=2;
+    memcpy(buff + outoffset, &temp_value, 2);outoffset+=2;offset+=2;
     
     //视在功率越上限累计时间
     //标志 2个字节
@@ -3488,7 +3502,7 @@ void AFND_F38()
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //内容
     temp_value=*(XL_UINT16*)(userdata+offset);
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;offset+=2;
+    memcpy(buff + outoffset, &temp_value, 2);outoffset+=2;offset+=2;
     
     end = outoffset;
     len = end - begin;
@@ -3701,21 +3715,21 @@ void AFND_F49(){
     
     //    buff[outoffset] = terminal_day_sta; outoffset++;
     
+    //终端日供电时间
     XL_UINT16 tempvalue = 0;
     
     identifier = hdPowerOnAccTm;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    
     tempvalue = *(XL_UINT16*)(userdata + offset);offset += 2;
-    
     memcpy(buff + outoffset, &tempvalue, 2);outoffset+=2;
     
     
-    //    buff[outoffset] = terminal_day_sta; outoffset++;
+    
+    //终端日复位累计次数
     identifier = hdResetAccCnt;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     tempvalue = *(XL_UINT16*)(userdata + offset);offset += 2;
-    memcpy(buff + outoffset, (XL_UINT16*)(userdata + offset), 2);outoffset+=2;
+    memcpy(buff + outoffset,&tempvalue, 2);outoffset+=2;
     
     end = outoffset;
     
