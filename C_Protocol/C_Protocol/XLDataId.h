@@ -1997,6 +1997,9 @@ typedef enum measure_day_sta
     hdOverloadTmB,//日冻结B相过载日累计时间
     hdOverloadTmC,//日冻结C相过载日累计时间
     
+    hdCuAPValueZ,  //日冻结铜损有功总电能示值
+	hdFeAPValueZ, //日冻结铁损有功总电能示值
+    
 }MEASURE_DAY_STA;
 
 
@@ -2164,6 +2167,10 @@ typedef enum measure_month_sta
     hmOverloadTmA,//月冻结A相过载日累计时间
     hmOverloadTmB,//月冻结B相过载日累计时间
     hmOverloadTmC,//月冻结C相过载日累计时间
+    
+    /*chenbaiqing2.21 新增*/
+	hmCuAPValueZ,  //月冻结铜损有功总电能示值
+	hmFeAPValueZ,  //月冻结铁损有功总电能示值
     
     
 }MEASURE_MONTH_STA;

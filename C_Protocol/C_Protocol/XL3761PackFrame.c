@@ -38,6 +38,7 @@
 Byte* frame;
 XL_UINT8 length = 0;
 XL_UINT8 offset_ = 0;
+static XL_UINT8 seqfield = 0;
 
 //设置用户数据区DADT
 void setuserdata(PACKITEM* userdata,XL_UINT8 count);
@@ -52,6 +53,8 @@ void setchecksum(Byte* userdata);
 void setdadt(XL_UINT16 pn,XL_UINT16 fn);
 
 void setdata(XL_UINT16 num,XL_UINT8 ispn);
+
+Byte getseq();
 
 //十进制转BCD
 void decimaltobcd(XL_FP64 dec,XL_UINT8 byteslen,XL_UINT8 digitlen);
@@ -229,7 +232,7 @@ Byte* PackFrameForAfn04(Byte afn,XL_UINT8 pn,XL_UINT8 fn,PACKITEM_P array[],XL_U
     frame[offset_++] = afn;
     
     //设置SEQ
-    frame[offset_++] = SEQ;
+    frame[offset_++] = getseq();
     
     setdadt(pn, fn);
     
@@ -359,7 +362,7 @@ Byte* PackFrame(Byte afn,PACKITEM array[],XL_UINT8 itemcount,XL_UINT16* outlen){
     frame[offset_++] = afn;
     
     //设置SEQ
-    frame[offset_++] = SEQ;
+    frame[offset_++] = getseq();
     
     //设置用户数据
     setuserdata(array,itemcount);
@@ -490,4 +493,11 @@ void setdata(XL_UINT16 num,XL_UINT8 ispn){
     }
     
     frame[offset_++] = group;
+}
+
+Byte getseq(){
+    
+    seqfield++;
+    
+    return 0x60|(seqfield & 0x0f);
 }

@@ -159,7 +159,7 @@ void initUserDataForAfne(XL_SINT16 *output,void *frame,XL_UINT16* outlen,Byte** 
 void AFNE_RecursiveParse(){
     
     XL_UINT16 fn = parsedadt((XL_UINT16)userdata[offset + 3],
-                                    (XL_UINT16)userdata[offset + 2],0);
+                             (XL_UINT16)userdata[offset + 2],0);
     
     
     memcpy(buff + outoffset, userdata + offset, 1); offset+=2;outoffset++;
@@ -194,7 +194,7 @@ void AFNE_RecursiveParse(){
 /*－－－－－－－－－－－－－－/
  请求重要事件
  
-/－－－－－－－－－－－－－－*/
+ /－－－－－－－－－－－－－－*/
 void AFNE_F1(){
     parseEvents();
 }
@@ -210,9 +210,9 @@ void AFNE_F2(){
 
 void parseEvents(){
     
-//    for(int i =0;i<30;i++){
-//        printf("%2d\n",userdata[i]);
-//    }
+    //    for(int i =0;i<30;i++){
+    //        printf("%2d\n",userdata[i]);
+    //    }
     
     //表名
     buff[outoffset] = eventlist; outoffset++;
@@ -224,12 +224,12 @@ void parseEvents(){
     XL_UINT16 end;
     
     begin = outoffset;
- 
+    
     //重要事件计数器
-//    XL_UINT8 ec1 = buff[offset];offset++;
+    //    XL_UINT8 ec1 = buff[offset];offset++;
     
     //一般事件计数器
-//    XL_UINT8 ec2 = buff[offset];offset++;
+    //    XL_UINT8 ec2 = buff[offset];offset++;
     
     offset+=2;
     
@@ -249,48 +249,48 @@ void parseEvents(){
             case 1:
                 geterc1();
                 break;
-//            case 2:
-//                geterc2();
-//                break;
+                //            case 2:
+                //                geterc2();
+                //                break;
             case 3:
                 geterc3();
                 break;
-//            case 4:
-//                geterc4();
-//                break;
-//            case 5:
-//                geterc5();
-//                break;
-//            case 8:
-//                geterc8();
-//                break;
+                //            case 4:
+                //                geterc4();
+                //                break;
+                //            case 5:
+                //                geterc5();
+                //                break;
+                //            case 8:
+                //                geterc8();
+                //                break;
             case 10:
                 geterc10();
                 break;
             case 11:
                 geterc11();
                 break;
-//            case 12:
-//                geterc12();
-//                break;
-//            case 13:
-//                geterc13();
-//                break;
+                //            case 12:
+                //                geterc12();
+                //                break;
+                //            case 13:
+                //                geterc13();
+                //                break;
             case 14:
                 geterc14();
                 break;
             case 15:
                 geterc15();
                 break;
-//            case 16:
-//                geterc16();
-//                break;
+                //            case 16:
+                //                geterc16();
+                //                break;
             case 17:
                 geterc17();
                 break;
-//            case 21:
-//                geterc21();
-//                break;
+                //            case 21:
+                //                geterc21();
+                //                break;
             case 24:
                 geterc24();
                 break;
@@ -300,21 +300,21 @@ void parseEvents(){
             case 26:
                 geterc26();
                 break;
-//            case 27:
-//                geterc27();
-//                break;
-//            case 28:
-//                geterc28();
-//                break;
-//            case 29:
-//                geterc29();
-//                break;
-//            case 30:
-//                geterc30();
-//                break;
-//            case 31:
-//                geterc31();
-//                break;
+                //            case 27:
+                //                geterc27();
+                //                break;
+                //            case 28:
+                //                geterc28();
+                //                break;
+                //            case 29:
+                //                geterc29();
+                //                break;
+                //            case 30:
+                //                geterc30();
+                //                break;
+                //            case 31:
+                //                geterc31();
+                //                break;
             case 32:
                 geterc32();
                 break;
@@ -345,19 +345,19 @@ void parseEvents(){
  /－－－－－－－－－－－－－－*/
 XL_CHAR * gettimestr(XL_UINT8 len){
     
-//    XL_UINT8 hlen = strlen("年");
+    //    XL_UINT8 hlen = strlen("年");
     XL_CHAR time[2*len];
     XL_CHAR *timec = malloc(2*len);
     memset(timec, 0, 2*len);
     XL_UINT8 vtime;
-
+    
     for(XL_UINT8 i =len;i>0;i--){
         
         for(int k =0;k<2*len;k++){time[k] = '\0';}
         
         vtime = (userdata[offset + i-1]>>4 & 0x0f) * 10 + (userdata [offset + i-1]&0x0f);
         sprintf(time,"%02d",vtime);
- 
+        
         switch (i) {
             case 5:
                 strcat(time, "-");
@@ -377,9 +377,9 @@ XL_CHAR * gettimestr(XL_UINT8 len){
         }
         strcat(timec, time);
     }
- 
-//    timec[len*(hlen+1)+1] = '\0';
-//    printf("%d",(int)strlen(timec));
+    
+    //    timec[len*(hlen+1)+1] = '\0';
+    //    printf("%d",(int)strlen(timec));
     return timec;
 }
 
@@ -389,7 +389,7 @@ XL_CHAR * gettimestr(XL_UINT8 len){
  
  /－－－－－－－－－－－－－－*/
 XL_CHAR * getasciistr(XL_UINT8 len){
-
+    
     XL_CHAR *asciistr = malloc(len+1);
     memset(asciistr, 0, len);
     
@@ -406,17 +406,17 @@ XL_CHAR * getasciistr(XL_UINT8 len){
  
  /－－－－－－－－－－－－－－*/
 void geterc1(){
-
+    
     //2字节标识
     XL_UINT8 flag = 0;
     XL_UINT16 identifier = event;
     memcpy(buff + outoffset, &identifier, sizeof(XL_UINT16));outoffset+=2;
-
+    
     offset++;
     
     //初始化/版本变更时间
     XL_CHAR* time = gettimestr(5);offset+=5;
-
+    
     //事件标志
     if ((*(Byte*)(userdata + offset) & 0x01 )) {
         flag = 1;
@@ -425,7 +425,7 @@ void geterc1(){
         flag = 0;
     }
     offset++;
-
+    
     //变更前软件版本号
     XL_CHAR* pversion = getasciistr(4); offset+=4;
     
@@ -440,10 +440,10 @@ void geterc1(){
     }else{
         strcat(result, "终端版本变更,变更前软件版本号:");
         
-//        printf("长度%d",(int)strlen(pversion));
+        //        printf("长度%d",(int)strlen(pversion));
         strcat(result, pversion);
         strcat(result, " 变更后软件版本号:");
-//        printf("长度%d",(int)strlen(pversion));
+        //        printf("长度%d",(int)strlen(pversion));
         strcat(result, nversion);
     }
     strcat(result, " 发生时间:");
@@ -471,7 +471,7 @@ void geterc3(){
     //2字节标识
     XL_UINT16 identifier = event;
     memcpy(buff + outoffset, &identifier, sizeof(XL_UINT16));outoffset+=2;
-
+    
     int len = userdata[offset];offset++;
     int _len = 0;
     
@@ -488,38 +488,36 @@ void geterc3(){
     
     strcat(result, "终端参数变更,");
     
-//    printf("\n%s\n",result);
+    //    printf("\n%s\n",result);
     
     strcat(result, "启动站地址:");
     
     printf("\n%s\n",result);
     strcat(result, address_);
     
-//    printf("\n%s\n",result);
+    //    printf("\n%s\n",result);
     
     XL_UINT32 dataid;
     char dataid_[50];
     
     while (len>_len) {
         strcat(result, " 变更参数数据单元标示:");
-//        printf("\n%s\n",result);
+        //        printf("\n%s\n",result);
         
         //变更参数数据单元标识
         dataid = *(XL_UINT32*)(userdata+offset);offset+=4 ;_len+=4;
         sprintf(dataid_, "%d",dataid);
-//        printf("\n%s\n",dataid_);
+        //        printf("\n%s\n",dataid_);
         
         strcat(result, dataid_);
         
-//        printf("\n%s\n",result);
-        
-        _len+=4;
+        //        printf("\n%s\n",result);
     };
     
     strcat(result, " 参数更新时间:");
     strcat(result, time);
     
-//    printf("\n%s\n",result);
+    //    printf("\n%s\n",result);
     
     XL_UINT16 eventlen = strlen(result);
     
@@ -591,7 +589,7 @@ void geterc10(){
     if (type == 2) {
         strcat(result, "异常类型:失压");
     }
-
+    
     //发生时Ua/Uab
     XL_FP32 uauab = bcdtouint(userdata + offset, 2, 1)/10.0;offset+=2;
     
@@ -800,9 +798,9 @@ void geterc15(){
     strcat(result, mpoint_);
     
     if (status>>7&0x01) {
-        strcat(result, " 类型:谐波电压越限 ");
-    }else{
         strcat(result, " 类型:谐波电流越限 ");
+    }else{
+        strcat(result, " 类型:谐波电压越限 ");
     }
     
     strcat(result, " 越限次数:");
@@ -830,12 +828,12 @@ void geterc15(){
         }
         
         if (status>>7&0x01){
-            XL_FP64 value = bcdtosint(userdata + offset, 2, 1)/10.0;
-            XL_CHAR value_[50];sprintf(value_, "%.1f",value);
-            strcat(result, value_);
-        }else{
             XL_FP64 value = bcdtosint(userdata + offset, 2, 2)/100.0;
             XL_CHAR value_[50];sprintf(value_, "%.2f",value);
+            strcat(result, value_);
+        }else{
+            XL_FP64 value = bcdtosint(userdata + offset, 2, 1)/10.0;
+            XL_CHAR value_[50];sprintf(value_, "%.1f",value);
             strcat(result, value_);
         }
         offset+=2;
@@ -897,10 +895,10 @@ void geterc17(){
     }
     
     //发生时的电压不平衡度(%)
-    XL_FP32 unbalancei = bcdtosint(userdata, 2, 1)/10.0;offset+=2;
+    XL_FP32 unbalancei = bcdtosint(userdata + offset, 2, 1)/10.0;offset+=2;
     
     //发生时的电流不平衡度(%)
-    XL_FP32 unbalancev = bcdtosint(userdata, 2, 1)/10.0;offset+=2;
+    XL_FP32 unbalancev = bcdtosint(userdata + offset, 2, 1)/10.0;offset+=2;
     
     XL_CHAR unbalancei_[50];sprintf(unbalancei_, "%.1f",unbalancei);
     XL_CHAR unbalancev_[50];sprintf(unbalancev_, "%.1f",unbalancev);
@@ -1030,7 +1028,7 @@ void geterc24(){
     
     strcat(result, " 发生时的Ua/Uab:");strcat(result, uauab_);
     strcat(result, " 发生时的Ub:");    strcat(result, ub_);
-    strcat(result, " 发生时的UcUcb");  strcat(result, ucucb_);
+    strcat(result, " 发生时的Uc/Ucb");  strcat(result, ucucb_);
     
     strcat(result, "发生时间:");
     strcat(result, time);
@@ -1103,9 +1101,9 @@ void geterc25(){
         strcat(result, "越限类型:越上上限");
     }
     
-    //越限类型:越下下限
+    //越限类型:越上限
     if (type == 2) {
-        strcat(result, "越限类型:越下下限");
+        strcat(result, "越限类型:越上限");
     }
     
     //发生时的Ia
@@ -1186,10 +1184,10 @@ void geterc26(){
     }
     
     //发生时的视在功率
-    XL_FP32 apower =   bcdtouint(userdata, 3, 4)/10000.0; offset+=3;
+    XL_FP32 apower =   bcdtouint(userdata + offset, 3, 4)/10000.0; offset+=3;
     
     //发生时的视在功率限值
-    XL_FP32 apowerlm = bcdtouint(userdata, 3, 4)/10000.0; offset+=3;
+    XL_FP32 apowerlm = bcdtouint(userdata + offset, 3, 4)/10000.0; offset+=3;
     
     
     XL_CHAR apower_[50];  sprintf(apower_, "%.4f",apower);
@@ -1391,7 +1389,7 @@ void geterc46(){
         XL_CHAR tempaA_[50];sprintf(tempaA_,"%.1f",tempaA);
         strcat(result, " 发生时A相绕组温度:");
         strcat(result, tempaA_);
-     
+        
         XL_FP32 tempaB = bcdtosint(userdata + offset, 2, 1)/10.0;offset+=2;
         XL_CHAR tempaB_[50];sprintf(tempaB_,"%.1f",tempaB);
         strcat(result, " 发生时B相绕组温度:");
@@ -1450,7 +1448,7 @@ void geterc2(){
     memcpy(buff + outoffset, &identifier, sizeof(XL_UINT16));outoffset+=2;
     
     //事件长度
-//    XL_UINT8 len = userdata[offset];offset++;
+    //    XL_UINT8 len = userdata[offset];offset++;
     offset++;
     
     //事件发生时间
@@ -1459,13 +1457,13 @@ void geterc2(){
     //终端参数丢失
     if ((*(Byte*)(userdata + offset) & 0x01 )) {
         flag = 1;
-     
-    //测量点参数丢失
+        
+        //测量点参数丢失
     } else if ((*(Byte*)(userdata + offset)>>1 & 0x01 )){
         flag = 0;
     }
     offset++;
-
+    
     XL_CHAR *result = (XL_CHAR *) malloc(500);
     memset(result, 0, strlen(result));
     
@@ -1511,7 +1509,7 @@ void geterc4(){
     XL_CHAR *result = (XL_CHAR *) malloc(500);
     memset(result, 0, strlen(result));
     XL_CHAR statusid[sizeof(XL_CHAR)];
-
+    
     for(XL_UINT8 i = 0;i<8;i++){
         if((status>>i)&0x01){
             sprintf(statusid, "%d",i);
@@ -1660,7 +1658,7 @@ void geterc12(){
     //事件长度
     offset++;
     
-   //事件发生时间
+    //事件发生时间
     XL_CHAR* time = gettimestr(5);offset+=5;
     
     //测量点号
@@ -1737,7 +1735,7 @@ void geterc13(){
     if (status>>4&0x01) {
         strcat(result, " 电能表电池欠压 ");
     }
-
+    
     strcat(result, "发生时间:");
     strcat(result, time);
     
@@ -1895,7 +1893,7 @@ void geterc27(){
     //下降后电能表正向有功总电能示值
     XL_FP64 power2 = bcdtouint(userdata, 5, 4);offset+=5;
     XL_CHAR power2_[sizeof(XL_FP64)];sprintf(power2_, "%.4f",power2);
-
+    
     XL_CHAR* result = malloc(500);
     memset(result, 0, strlen(result));
     
@@ -2114,7 +2112,7 @@ void geterc31(){
     //最近一次抄表成功正向无功总电能示值
     XL_FP64 power2 = bcdtouint(userdata, 4, 2);offset+=4;
     XL_CHAR power2_[sizeof(XL_FP64)];sprintf(power2_, "%.2f",power2);
- 
+    
     XL_CHAR* result = malloc(500);
     memset(result, 0, strlen(result));
     

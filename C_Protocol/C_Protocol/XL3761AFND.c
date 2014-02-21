@@ -41,6 +41,10 @@ void AFND_F38();
 
 void AFND_F43();
 void AFND_F44();
+
+/*2014.2.21 chenbaiqing新增F45 F46*/
+void AFND_F45();
+void AFND_F46();
 void AFND_F49();
 
 
@@ -230,6 +234,15 @@ void RecursiveParse(){
         case 44:
             AFND_F44();//月冻结月功率因素区段累计时间
             break;
+            
+        case 45:
+            AFND_F45();//日冻结铜损、铁损有功电能数据
+            break;
+            
+        case 46:
+            AFND_F46();//月冻结铜损、铁损友有功电能示值
+            break;
+            
         case 49:
             AFND_F49();//日冻结终端月供电时间+日复位累计次数
             break;
@@ -3660,6 +3673,125 @@ void AFND_F44()
     len = end - begin;
     memcpy(buff + begin - 2,&len, 2);
 }
+
+//日冻结铜损、铁损有功电能示值
+void AFND_F45()
+{
+    printf("执行F45\n");
+    //1个字节长度  数据类型  测量点统计数据
+    buff[outoffset] = measure_day_sta; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin=0;
+    XL_UINT16 end=0;
+    XL_UINT16 identifier=0;
+    //XL_UINT16 temp_value=0;//
+    //    int  i =0;
+    //    Byte rateCount =0;  //费率数
+    XL_UINT64 temp  =0;  //将小数转换城成整数保存
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;//数据长度起始位置
+    //标志 2个字节
+    identifier = hdDataTime_mds;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //内容  3个字节 日月年
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //铜损有功总电能示值  2个字节
+    //标志
+    identifier = hdCuAPValueZ;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //内容 A14格式  5个字节 无符号 4个小数点
+    temp =bcdtouint(userdata+offset, 5, 4);
+    memcpy(buff + outoffset, &temp, 8);
+    outoffset+=8;
+    offset+=5;
+    
+    //铁损有功总电能示值  2个字节
+    //标志
+    identifier = hdFeAPValueZ;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //内容 A14格式  5个字节 无符号 4个小数点
+    temp =bcdtouint(userdata+offset, 5, 4);
+    memcpy(buff + outoffset, &temp, 8);
+    outoffset+=8;
+    offset+=5;
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+    
+}
+//月冻结铜损、铁损有功电能示值
+void AFND_F46()
+{
+    printf("执行F46\n");
+    
+    //1个字节长度  数据类型  测量点统计数据
+    buff[outoffset] = measure_month_sta; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin=0;
+    XL_UINT16 end=0;
+    XL_UINT16 identifier=0;
+    //XL_UINT16 temp_value=0;//
+    //    int  i =0;
+    //    Byte rateCount =0;  //费率数
+    XL_UINT64 temp  =0;  //将小数转换城成整数保存
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;//数据长度起始位置
+    //标志 2个字节
+    identifier = hmDataTime_mms;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //内容  2字节 月年
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //铜损有功总电能示值  2个字节
+    //标志
+    identifier = hmCuAPValueZ;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //内容 A14格式  5个字节 无符号 4个小数点
+    temp =bcdtouint(userdata+offset, 5, 4);
+    memcpy(buff + outoffset, &temp, 8);
+    outoffset+=8;
+    offset+=5;
+    
+    //铁损有功总电能示值  2个字节
+    //标志
+    identifier = hmFeAPValueZ;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //内容 A14格式  5个字节 无符号 4个小数点
+    temp =bcdtouint(userdata+offset, 5, 4);
+    memcpy(buff + outoffset, &temp, 8);
+    outoffset+=8;
+    offset+=5;
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+    
+}
+
 //日冻结铜损、铁损有功电能示值
 //void AFND_F45()
 //{
