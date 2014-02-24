@@ -3758,7 +3758,6 @@ void AFND_F46()
     identifier = hmDataTime_mms;// 数据时标
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //内容  2字节 月年
-    outoffset++;offset++;
     //月
     buff[outoffset]=bcdToTime(userdata+offset);
     outoffset++;offset++;
