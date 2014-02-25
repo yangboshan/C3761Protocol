@@ -497,7 +497,7 @@ void geterc3(){
     
     //    printf("\n%s\n",result);
     
-    XL_UINT32 dataid;
+    //XL_UINT32 dataid;
     char dataid_[50];
     
     while (len>_len) {
@@ -505,13 +505,27 @@ void geterc3(){
         //        printf("\n%s\n",result);
         
         //变更参数数据单元标识
-        dataid = *(XL_UINT32*)(userdata+offset);offset+=4 ;_len+=4;
-        sprintf(dataid_, "%d",dataid);
-        //        printf("\n%s\n",dataid_);
-        
+        //dataid = *(XL_UINT32*)(userdata+offset);offset+=4 ;_len+=4;
+        //sprintf(dataid_, "%d",dataid);
+        //strcat(result, dataid_);
+        strcat(result, " DA1:");
+        sprintf(dataid_ , "%d",*(XL_UINT8*)(userdata+offset));
         strcat(result, dataid_);
+        offset++;
+        strcat(result, " DA2:");
+        sprintf(dataid_ , "%d ",*(XL_UINT8*)(userdata+offset));
+        strcat(result, dataid_);
+        offset++;
+        strcat(result, " DT1:");
+        sprintf(dataid_ , "%d ",*(XL_UINT8*)(userdata+offset));
+        strcat(result, dataid_);
+        offset++;
+        strcat(result, " DT2:");
+        sprintf(dataid_ , "%d ",*(XL_UINT8*)(userdata+offset));
+        strcat(result, dataid_);
+        offset++;
+        _len+=4;
         
-        //        printf("\n%s\n",result);
     };
     
     strcat(result, " 参数更新时间:");
@@ -524,6 +538,7 @@ void geterc3(){
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16)); outoffset+=2;
     memcpy(buff + outoffset, result, eventlen);outoffset+= eventlen;
     
+    printf("\n%s\n",result);
     
     free(result);
     free(time);
@@ -895,10 +910,10 @@ void geterc17(){
     }
     
     //发生时的电压不平衡度(%)
-    XL_FP32 unbalancei = bcdtosint(userdata + offset, 2, 1)/10.0;offset+=2;
+    XL_FP32 unbalancev = bcdtosint(userdata + offset, 2, 1)/10.0;offset+=2;
     
     //发生时的电流不平衡度(%)
-    XL_FP32 unbalancev = bcdtosint(userdata + offset, 2, 1)/10.0;offset+=2;
+    XL_FP32 unbalancei = bcdtosint(userdata + offset, 2, 1)/10.0;offset+=2;
     
     XL_CHAR unbalancei_[50];sprintf(unbalancei_, "%.1f",unbalancei);
     XL_CHAR unbalancev_[50];sprintf(unbalancev_, "%.1f",unbalancev);
@@ -1175,11 +1190,11 @@ void geterc26(){
     strcat(result, mpoint_);
     
     //越视在功率上上限
-    if ((status>>6 & 0x02) == 1) {
+    if ((status>>6 & 0x03) == 1) {
         strcat(result, " 类型:越上上限 ");
     }
     //越视在功率上限
-    if ((status>>6 & 0x02) == 2) {
+    if ((status>>6 & 0x03) == 2) {
         strcat(result, " 类型:越上限 ");
     }
     
@@ -1304,6 +1319,7 @@ void geterc46(){
     memcpy(buff + outoffset, &identifier, sizeof(XL_UINT16));outoffset+=2;
     
     //事件长度
+
     offset++;
     
     //事件发生时间
@@ -1381,10 +1397,12 @@ void geterc46(){
         XL_CHAR tempa_[50];sprintf(tempa_,"%.1f",tempa);
         strcat(result, " 发生时油温:");
         strcat(result, tempa_);
+        offset += 6;//油变,三相绕组温度不需解析
     }
-    offset+=2;
+    //offset+=2;
     
     if (type == 2) {
+        offset += 2;//油温,干变不需解析,直接跳过
         XL_FP32 tempaA = bcdtosint(userdata + offset, 2, 1)/10.0;offset+=2;
         XL_CHAR tempaA_[50];sprintf(tempaA_,"%.1f",tempaA);
         strcat(result, " 发生时A相绕组温度:");
@@ -1400,7 +1418,7 @@ void geterc46(){
         strcat(result, " 发生时C相绕组温度:");
         strcat(result, tempaC_);
     }
-    offset+=6;
+    //offset+=6;
     
     
     strcat(result, "发生时间:");
@@ -1412,6 +1430,7 @@ void geterc46(){
     
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16)); outoffset+=2;
     memcpy(buff + outoffset, result, eventlen);outoffset+= eventlen;
+
     
     free(result);
     free(time);
