@@ -48,4 +48,13 @@
 - (IBAction)setF7:(id)sender;
 - (IBAction)setF9:(id)sender;
 - (IBAction)setF10:(id)sender;
+- (IBAction)setF1:(id)sender;
+- (IBAction)setF12:(id)sender;
+- (IBAction)setF16:(id)sender;
+- (IBAction)setF36:(id)sender;
+- (IBAction)setF60:(id)sender;
+- (IBAction)setF61:(id)sender;
+- (IBAction)setF91:(id)sender;
+- (IBAction)setF172:(id)sender;
+
 @end

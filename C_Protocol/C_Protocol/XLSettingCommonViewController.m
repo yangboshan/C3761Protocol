@@ -90,6 +90,212 @@
 - (IBAction)set:(id)sender {
 }
 
+- (IBAction)setF36:(id)sender {
+    
+    [self.activityView setHidden:NO];
+    
+    PACKITEM_P array[1] = {
+        BuildPackItem([self.v1.text integerValue], 4, 0, 0, 0, 0, 1),
+    };
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 36, array, 1, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
+}
+
+- (IBAction)setF60:(id)sender {
+    [self.activityView setHidden:NO];
+    NSLog(@"%.1f",[self.v1.text floatValue]);
+    
+    PACKITEM_P array[40] = {
+        BuildPackItem([self.v1.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v2.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v3.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v4.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v5.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v6.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v7.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v8.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v9.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v10.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v11.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v12.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v13.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v14.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v15.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v16.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v17.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v18.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v19.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v20.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v21.text floatValue], 2, 1, 0, 0, 0, 1),
+        BuildPackItem([self.v22.text floatValue], 2, 2, 0, 0, 0, 1),
+        BuildPackItem([self.v23.text floatValue], 2, 2, 0, 0, 0, 1),
+        BuildPackItem([self.v24.text floatValue], 2, 2, 0, 0, 0, 1),
+        BuildPackItem([self.v25.text floatValue], 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        BuildPackItem(0, 2, 2, 0, 0, 0, 1),
+        
+    };
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 60, array, 40, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
+}
+
+- (IBAction)setF61:(id)sender {
+    [self.activityView setHidden:NO];
+
+    
+    PACKITEM_P array[1] = {
+        BuildPackItem([self.v1.text integerValue], 1, 0, 0, 0, 0, 0),
+    };
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 61, array, 1, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
+}
+
+- (IBAction)setF91:(id)sender {
+    
+    [self.activityView setHidden:NO];
+    
+    PACKITEM_P array[6] = {
+        BuildPackItem([self.v1.text floatValue], 2, 2, 0, 0, 0, 1),//秒
+        BuildPackItem([self.v2.text integerValue], 1, 0, 0, 0, 0, 1),//分
+        BuildPackItem([self.v3.text integerValue]&0x8FFF, 2, 0, 0, 0, 0, 1),//度
+        BuildPackItem([self.v4.text floatValue], 2, 2, 0, 0, 0, 1),//秒
+        BuildPackItem([self.v5.text integerValue], 1, 0, 0, 0, 0, 1),//分
+        BuildPackItem([self.v6.text integerValue]&0x8FFF, 2, 0, 0, 0, 0, 1),//度
+    };
+    
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 91, array, 6, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
+}
+
+- (IBAction)setF172:(id)sender {
+    [self.activityView setHidden:NO];
+    
+    NSString *userName1 = self.v1.text;
+    NSString *psw1 = self.v2.text;
+    XL_UINT8  userName1_[16];
+    XL_UINT8  psw1_[16];
+    
+    for(int i = 0;i<16;i++){
+        if ([userName1 length]-1<i) {
+            userName1_[i] = '\0';
+        }else{
+            userName1_[i] = (XL_UINT8)[userName1 characterAtIndex:i];
+        }
+        if ([psw1 length]-1<i) {
+            psw1_[i] = '\0';
+        }else{
+            psw1_[i] = (XL_UINT8)[psw1 characterAtIndex:i];
+        }
+    }
+    
+    NSString *userName2 = self.v3.text;
+    NSString *psw2 = self.v4.text;
+    XL_UINT8  userName2_[16];
+    XL_UINT8  psw2_[16];
+    
+    for(int i = 0;i<16;i++){
+        if ([userName2 length]-1<i) {
+            userName2_[i] = '\0';
+        }else{
+            userName2_[i] = (XL_UINT8)[userName2 characterAtIndex:i];
+        }
+        if ([psw2 length]-1<i) {
+            psw2_[i] = '\0';
+        }else{
+            psw2_[i] = (XL_UINT8)[psw2 characterAtIndex:i];
+        }
+    }
+    
+    
+    NSString *userName3 = self.v5.text;
+    NSString *psw3 = self.v6.text;
+    XL_UINT8  userName3_[16];
+    XL_UINT8  psw3_[16];
+    
+    for(int i = 0;i<16;i++){
+        if ([userName3 length]-1<i) {
+            userName3_[i] = '\0';
+        }else{
+            userName3_[i] = (XL_UINT8)[userName3 characterAtIndex:i];
+        }
+        if ([psw3 length]-1<i) {
+            psw3_[i] = '\0';
+        }else{
+            psw3_[i] = (XL_UINT8)[psw3 characterAtIndex:i];
+        }
+    }
+    
+    
+    NSString *userName4 = self.v7.text;
+    NSString *psw4 = self.v8.text;
+    XL_UINT8  userName4_[16];
+    XL_UINT8  psw4_[16];
+    
+    for(int i = 0;i<16;i++){
+        if ([userName4 length]-1<i) {
+            userName4_[i] = '\0';
+        }else{
+            userName4_[i] = (XL_UINT8)[userName4 characterAtIndex:i];
+        }
+        if ([psw4 length]-1<i) {
+            psw4_[i] = '\0';
+        }else{
+            psw4_[i] = (XL_UINT8)[psw4 characterAtIndex:i];
+        }
+    }
+    
+    PACKITEM_P array[8] = {
+        BuildPackItem(0, 0, 0, userName1_, 16, 1, 0),
+        BuildPackItem(0, 0, 0, psw1_, 16, 1, 0),
+        BuildPackItem(0, 0, 0, userName2_, 16, 1, 0),
+        BuildPackItem(0, 0, 0, psw2_, 16, 1, 0),
+        BuildPackItem(0, 0, 0, userName3_, 16, 1, 0),
+        BuildPackItem(0, 0, 0, psw3_, 16, 1, 0),
+        BuildPackItem(0, 0, 0, userName4_, 16, 1, 0),
+        BuildPackItem(0, 0, 0, psw4_, 16, 1, 0),
+    };
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 172, array, 8, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
+}
+
 - (IBAction)setF170:(id)sender {
     
     [self.activityView setHidden:NO];
@@ -205,7 +411,7 @@
         BuildPackItem([self.v16.text integerValue], 1, 0, 0, 0, 0, 0),
         
         //绝缘水平
-        BuildPackItem([self.v17.text integerValue], 1, 0, 0, 0, 0, 0),
+        BuildPackItem(0, 0, 0, class17_, 1, 1, 0),
         
         BuildPackItem([self.v18.text integerValue], 2, 0, 0, 0, 0, 0)
     };
@@ -332,14 +538,20 @@
         BuildPackItem([self.v18.text integerValue], 2, 0, 0, 0, 0, 0),
         BuildPackItem([self.v19.text integerValue], 1, 0, 0, 0, 0, 0),
         
+        //用户名长度
+        BuildPackItem(userNameLen, 1, 0, 0, 0, 0, 0),
+        //用户名
         BuildPackItem(0, 0, 0, userName_, userNameLen, 1, 0),
+        //密码长度
+        BuildPackItem(pswLen, 1, 0, 0, 0, 0, 0),
+        //密码
         BuildPackItem(0, 0, 0, psw_, pswLen, 1, 0),
         
         BuildPackItem([self.v24.text integerValue], 2, 0, 0, 0, 0, 0),
         
     };
     
-    self.frame = PackFrameForAfn04(0x04, 0, 3, array, 11, &_outlen);
+    self.frame = PackFrameForAfn04(0x04, 0, 7, array, 24, &_outlen);
     self.data = [NSData dataWithBytes:self.frame length:self.outlen];
     NSLog(@"%@",[self.data description]);
     
@@ -348,8 +560,201 @@
 }
 
 - (IBAction)setF9:(id)sender {
+    [self.activityView setHidden:NO];
+    
+    XL_UINT8 index=0;
+    
+    XL_UINT8 apn_[8];
+    int inTemp = [self.v1.text integerValue];
+    apn_[index++] = inTemp;
+    inTemp =[self.v2.text integerValue];
+    apn_[index++] = inTemp;
+    inTemp =[self.v3.text integerValue];
+    apn_[index++] = inTemp;
+    inTemp =[self.v4.text integerValue];
+    apn_[index++] = inTemp;
+    inTemp =[self.v5.text integerValue];
+    apn_[index++] = inTemp;
+    inTemp =[self.v6.text integerValue];
+    apn_[index++] = inTemp;
+    inTemp =[self.v7.text integerValue];
+    apn_[index++] = inTemp;
+    inTemp =[self.v8.text integerValue];
+    apn_[index++] = inTemp;
+    
+    XL_UINT8 apn1_[8];
+    index = 0;
+    inTemp =[self.v9.text integerValue];
+    apn1_[index++] = inTemp;
+    inTemp =[self.v10.text integerValue];
+    apn1_[index++] = inTemp;
+    inTemp =[self.v11.text integerValue];
+    apn1_[index++] = inTemp;
+    inTemp =[self.v12.text integerValue];
+    apn1_[index++] = inTemp;
+    inTemp =[self.v13.text integerValue];
+    apn1_[index++] = inTemp;
+    inTemp =[self.v14.text integerValue];
+    apn1_[index++] = inTemp;
+    inTemp =[self.v15.text integerValue];
+    apn1_[index++] = inTemp;
+    inTemp =[self.v16.text integerValue];
+    apn1_[index++] = inTemp;
+    
+    
+    
+    PACKITEM_P array[2] = {
+        BuildPackItem(0, 0, 0, apn_, 8, 1, 0),
+        BuildPackItem(0, 0, 0, apn1_, 8, 1, 0),
+        
+    };
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 9, array, 2, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
 }
 
 - (IBAction)setF10:(id)sender {
+    [self.activityView setHidden:NO];
+    
+    XL_UINT8 commSpeedPort = 0;
+    switch ([self.v3.text integerValue]) {
+        case 600:
+            commSpeedPort |= 0x20;
+            break;
+        case 1200:
+            commSpeedPort |= 0x40;
+            break;
+        case 2400:
+            commSpeedPort |= 0x60;
+            break;
+        case 4800:
+            commSpeedPort |= 0x80;
+            break;
+        case 7200:
+            commSpeedPort |= 0xA0;
+            break;
+        case 9600:
+            commSpeedPort |= 0xC0;
+            break;
+        case 19200:
+            commSpeedPort |= 0xE0;
+            break;
+            
+        default:
+            break;
+    }
+    XL_UINT8 commPort = [self.v4.text integerValue];
+    if(commPort > 31 || commPort <=0)
+    {
+        commPort = 0;
+    }
+    commSpeedPort |= commPort;
+    
+    printf("密码=%d\n",[self.v7.text integerValue]);
+    
+    PACKITEM_P array[11] = {
+        BuildPackItem(1, 2, 0, 0, 0, 0, 0),//设置测量点个数
+        BuildPackItem([self.v1.text integerValue], 2, 0, 0, 0, 0, 0),//装置序号
+        BuildPackItem([self.v2.text integerValue], 2, 0, 0, 0, 0, 0),//测量点号
+        BuildPackItem(commSpeedPort, 1, 0, 0, 0, 0, 0),//通信速率和端口号
+        BuildPackItem([self.v5.text integerValue], 1, 0, 0, 0, 0, 0),//通信协议类型
+        BuildPackItem([self.v6.text integerValue], 6, 0, 0, 0, 0, 1),//通信地址
+        BuildPackItem([self.v7.text integerValue], 6, 0, 0, 0, 0, 0),//通信密码
+        BuildPackItem([self.v8.text integerValue], 1, 0, 0, 0, 0, 0),//电能费率个数
+        BuildPackItem([self.v9.text integerValue], 1, 0, 0, 0, 0, 0),//有功电能示值整数和小数位数
+        BuildPackItem([self.v10.text integerValue], 6, 0, 0, 0, 0, 1),//所属采集器通信地址
+        BuildPackItem([self.v11.text integerValue], 1, 0, 0, 0, 0, 0),//大类号和小类号
+        
+        
+    };
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 10, array, 11, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
+}
+
+- (IBAction)setF1:(id)sender {
+    [self.activityView setHidden:NO];
+    
+    
+    PACKITEM_P array[6] = {
+        BuildPackItem([self.v1.text integerValue], 1, 0, 0, 0, 0, 0),//数传机延时时间
+        BuildPackItem([self.v2.text integerValue], 1, 0, 0, 0, 0, 0),//终端作为启动站发送传输延时时间
+        BuildPackItem([self.v3.text integerValue], 1, 0, 0, 0, 0, 0),//终端等待从动站相应延时时间
+        BuildPackItem(([self.v4.text integerValue]<<4) & 0x30, 1, 0, 0, 0, 0, 0),//重发次数
+        BuildPackItem([self.v5.text integerValue], 1, 0, 0, 0, 0, 0),//需要主站确认的通信通知服务标志
+        BuildPackItem([self.v6.text integerValue], 1, 0, 0, 0, 0, 0),//心跳周期
+        
+    };
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 1, array, 6, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
+}
+
+- (IBAction)setF12:(id)sender {
+    [self.activityView setHidden:NO];
+    
+    PACKITEM_P array[2] = {
+        BuildPackItem([self.v1.text integerValue], 1, 0, 0, 0, 0, 0),//状态量接入标志位
+        BuildPackItem([self.v2.text integerValue], 1, 0, 0, 0, 0, 0),//状态量变位标志位
+        
+    };
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 12, array, 2, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
+}
+
+- (IBAction)setF16:(id)sender {
+    [self.activityView setHidden:NO];
+    
+    NSString *vpnUserName = self.v1.text;
+    XL_UINT8 vpnUserName_[32];
+    
+    for(int i = 0;i<32;i++){
+        if ([vpnUserName length]-1<i) {
+            vpnUserName_[i] = '\0';
+        }else{
+            vpnUserName_[i] = (XL_UINT8)[vpnUserName characterAtIndex:i];
+        }
+    }
+    NSString *vpnPw = self.v2.text;
+    XL_UINT8 vpnPw_[32];
+    
+    for(int i = 0;i<32;i++){
+        if ([vpnPw length]-1<i) {
+            vpnPw_[i] = '\0';
+        }else{
+            vpnPw_[i] = (XL_UINT8)[vpnPw characterAtIndex:i];
+        }
+    }
+    
+    PACKITEM_P array[2] = {
+        BuildPackItem(0, 0, 0, vpnUserName_, 32, 1, 0),
+        BuildPackItem(0, 0, 0, vpnPw_, 32, 1, 0),
+        
+    };
+    
+    
+    self.frame = PackFrameForAfn04(0x04, 0, 16, array, 2, &_outlen);
+    self.data = [NSData dataWithBytes:self.frame length:self.outlen];
+    NSLog(@"%@",[self.data description]);
+    
+    free(self.frame);
+    [[XLSocketManager sharedXLSocketManager] packRequestFrame:self.data];
 }
 @end

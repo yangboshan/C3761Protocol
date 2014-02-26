@@ -180,6 +180,9 @@ void AFNA_RecursiveParse()
         case 90:
             AFNA_F90();//设置无线通信参数
             break;
+        case 91:
+            AFNA_F91();//终端经纬度信息
+            break;
             
         case 169:
             AFNA_F169();
@@ -507,43 +510,96 @@ void AFNA_F91()//终端地理位置信息
     
     begin = outoffset;
     
+    XL_CHAR *result = malloc(50);//存放解析结果字符串
+    memset(result, 0, strlen(result));
+    
+
+    
     //数据标志  2个字节
     identifier = pmLongitude;//经度,秒
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 2, 2);
+    XL_UINT64 second=bcdtouint(userdata+offset, 2, 2);
 
-    outoffset+=sizeof(XL_UINT64);
     offset+=2;
     //经度,分
-    *(Byte*)(buff+outoffset)=bcdToTime(userdata+offset);
+    Byte minute =bcdToTime(userdata+offset);
     printf("%d\n",bcdToTime(userdata+offset));
-    outoffset+=sizeof(Byte);
     offset+=1;
     //经度,度
-    *(Byte*)(userdata+offset+1) &= 0x8F;
-    *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 2, 0);
-
-    outoffset+=sizeof(XL_SINT64);
+    if((*(Byte*)(userdata+offset+1) & 0x80)>0)
+    {
+        strcat(result, "西经 ");
+    }
+    else
+    {
+        strcat(result, "东经 ");
+    }
+    *(Byte*)(userdata+offset+1) &= 0x0F;
+    XL_SINT64 degree = bcdtosint(userdata+offset, 2, 0);
+    
     offset+=2;
+    
+    XL_CHAR chTemp[10];
+    sprintf(chTemp, "%lld",degree);
+    strcat(result, chTemp);
+    strcat(result, "度 ");
+    sprintf(chTemp, "%d",minute);
+    strcat(result, chTemp);
+    strcat(result, "分 ");
+    sprintf(chTemp, "%lld",second);
+    strcat(result, chTemp);
+    strcat(result, "秒 ");
+    
+    XL_UINT16 stringlen = strlen(result);
+    
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    free(result);
+    
+    result = malloc(50);//存放解析结果字符串
+    memset(result, 0, strlen(result));
+    
+    
     
     //数据标志  2个字节
     identifier = pmLatitude;//纬度,秒
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset, 2, 2);
-
-    outoffset+=sizeof(XL_UINT64);
+    second=bcdtouint(userdata+offset, 2, 2);
+    
     offset+=2;
     //经度,分
-    *(Byte*)(buff+outoffset)=bcdToTime(userdata+offset);
-    printf("%d分\n",bcdToTime(userdata+offset));
-    outoffset+=sizeof(Byte);
+    minute =bcdToTime(userdata+offset);
+    printf("%d\n",bcdToTime(userdata+offset));
     offset+=1;
     //经度,度
-    *(Byte*)(userdata+offset+1) &= 0x8F;
-    *(XL_SINT64*)(buff+outoffset)=bcdtosint(userdata+offset, 2, 0);
-
-    outoffset+=sizeof(XL_SINT64);
+    if((*(Byte*)(userdata+offset+1) & 0x80)>0)
+    {
+        strcat(result, "南纬 ");
+    }
+    else
+    {
+        strcat(result, "北纬 ");
+    }
+    *(Byte*)(userdata+offset+1) &= 0x0F;
+    degree = bcdtosint(userdata+offset, 2, 0);
+    
     offset+=2;
+    
+    sprintf(chTemp, "%lld",degree);
+    strcat(result, chTemp);
+    strcat(result, "度 ");
+    sprintf(chTemp, "%d",minute);
+    strcat(result, chTemp);
+    strcat(result, "分 ");
+    sprintf(chTemp, "%lld",second);
+    strcat(result, chTemp);
+    strcat(result, "秒 ");
+    
+    stringlen = strlen(result);
+    
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    free(result);
     
     end = outoffset;
     len = end -begin;
@@ -746,14 +802,27 @@ void AFNA_F3()
     identifier = pmMasterAPN;//主站APN
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //主站端口  2个字节
-    memcpy(buff + outoffset, userdata+offset, 16);
-    outoffset+=16;
-    offset+=16;
+    XL_CHAR *result = malloc(100);
+    memset(result, 0, strlen(result));
+    char chTemp[1];
+    XL_UINT8 i = 0;
+    for (i = 0; i<16; i++)
+    {
+        sprintf(chTemp, "%c", userdata[offset]);
+        strcat(result, chTemp);
+        offset++;
+    }
+    XL_UINT16 eventlen = strlen(result);
+    memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=eventlen;
+    
+    free(result);
     
     
     end = outoffset;
     len = end - begin;
     memcpy(buff + begin - 2,&len, 2);
+    
 
     
 }
@@ -1099,19 +1168,24 @@ void AFNA_F10()
         
         free(result);
         
+        //identifier = pmCommAddr;//通信地址
+        //memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        //XL_CHAR chTemp[7];
+        //for(i = 0; i < 6; i++)
+        //{
+        //    chTemp[i] = bcdToTime(userdata + offset+i);
+        //}
+        //chTemp[6] ='\0';
+        //
+        //mtrcommlen = strlen(chTemp);
+        //memcpy(buff + outoffset, &mtrcommlen, sizeof(XL_UINT16)); outoffset+=2;
+        ////内容
+        //memcpy(buff + outoffset, chTemp, mtrcommlen);outoffset+= mtrcommlen;
+        //offset += 6;
         identifier = pmCommAddr;//通信地址
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-        XL_CHAR chTemp[7];
-        for(i = 0; i < 6; i++)
-        {
-            chTemp[i] = bcdToTime(userdata + offset+i);
-        }
-        chTemp[6] ='\0';
-        
-        mtrcommlen = strlen(chTemp);
-        memcpy(buff + outoffset, &mtrcommlen, sizeof(XL_UINT16)); outoffset+=2;
-        //内容
-        memcpy(buff + outoffset, result, mtrcommlen);outoffset+= mtrcommlen;
+        *(XL_UINT64*)(buff + outoffset) = bcdtouint(userdata + offset, 6, 0);
+        outoffset += sizeof(XL_UINT64);
         offset += 6;
         
         identifier = pmCommPassWord;//通信密码
@@ -1136,7 +1210,7 @@ void AFNA_F10()
         
         identifier = pmDecimalNum;//小数位个数
         memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
-        *(XL_UINT8*)(buff + outoffset) = (temp&0x03)+1;
+        *(XL_UINT8*)(buff + outoffset) = (temp&0x03)+1;outoffset++;
         
         offset++;
         
@@ -1166,7 +1240,7 @@ void AFNA_F15()
 void AFNA_F16()
 {
     
-    printf("执行F7\n");
+    printf("执行F16\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = parameter_data_comm; outoffset++;
@@ -1193,11 +1267,12 @@ void AFNA_F16()
     identifier = pmVPNUserName;//虚拟专网用户名
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     
-    char v[1];
+    char v[2];
     for(int i = 0;i<32;i++){
         int tmp = userdata[offset];
         if (tmp) {
             sprintf(v,"%c",tmp);
+            v[1]='\0';
             strcat(result, v);
         }
         offset++;
@@ -1226,6 +1301,7 @@ void AFNA_F16()
         XL_UINT8 tmp = userdata[offset];
         if (tmp) {
             sprintf(v,"%c",tmp);
+            v[1]='\0';
             strcat(result1, v);
         }
         offset++;
@@ -1447,7 +1523,8 @@ void AFNA_F26()
     identifier = pmVoltHHLmtDuration;//越限持续时间
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  1个字节
-    memcpy(buff + outoffset,userdata+offset , 1);
+    Byte byteTemp = bcdToTime(userdata + offset);
+    memcpy(buff + outoffset,&byteTemp , 1);
     outoffset+=1;
     offset+=1;
     
@@ -1476,7 +1553,8 @@ void AFNA_F26()
     identifier = pmVoltLLLmtDuration;//欠压越限持续时间
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  1个字节
-    memcpy(buff + outoffset,userdata+offset , 1);
+    byteTemp = bcdToTime(userdata+offset);
+    memcpy(buff + outoffset,&byteTemp , 1);
     outoffset+=1;
     offset+=1;
     
@@ -1503,7 +1581,8 @@ void AFNA_F26()
     identifier = pmCurHHLmtDuration;//上上限越限持续时间
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  1个字节
-    memcpy(buff + outoffset,userdata+offset , 1);
+    byteTemp = bcdToTime(userdata +offset);
+    memcpy(buff + outoffset,&byteTemp , 1);
     outoffset+=1;
     offset+=1;
     
@@ -1536,7 +1615,8 @@ void AFNA_F26()
     identifier = pmCurHiLmtDuration;//上限越限持续时间
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  1个字节
-    memcpy(buff + outoffset,userdata+offset , 1);
+    byteTemp = bcdToTime(userdata +offset);
+    memcpy(buff + outoffset,&byteTemp , 1);
     outoffset+=1;
     offset+=1;
     
@@ -1565,7 +1645,8 @@ void AFNA_F26()
     identifier = pmZeroCurHiLmtDuration;//零序电流越限限持续时间
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  1个字节
-    memcpy(buff + outoffset,userdata+offset , 1);
+    byteTemp = bcdToTime(userdata +offset);
+    memcpy(buff + outoffset,&byteTemp , 1);
     outoffset+=1;
     offset+=1;
     
@@ -1592,7 +1673,8 @@ void AFNA_F26()
     identifier = pmAPHHDuration;//视在功率上上限越限限持续时间
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  1个字节
-    memcpy(buff + outoffset,userdata+offset , 1);
+    byteTemp = bcdToTime(userdata +offset);
+    memcpy(buff + outoffset,&byteTemp , 1);
     outoffset+=1;
     offset+=1;
     
@@ -1620,7 +1702,8 @@ void AFNA_F26()
     identifier = pmAPHiDuration;//视在功率上限越限限持续时间
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  1个字节
-    memcpy(buff + outoffset,userdata+offset , 1);
+    byteTemp = bcdToTime(userdata +offset);
+    memcpy(buff + outoffset,&byteTemp , 1);
     outoffset+=1;
     offset+=1;
     
@@ -1648,7 +1731,8 @@ void AFNA_F26()
     identifier = pmUnbalVoltDuration;//三相电压不平衡值越限限持续时间
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  1个字节
-    memcpy(buff + outoffset,userdata+offset , 1);
+    byteTemp = bcdToTime(userdata +offset);
+    memcpy(buff + outoffset,&byteTemp , 1);
     outoffset+=1;
     offset+=1;
     
@@ -1676,7 +1760,8 @@ void AFNA_F26()
     identifier = pmUnbalCurDuration;//三相电流不平衡值越限限持续时间
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  1个字节
-    memcpy(buff + outoffset,userdata+offset , 1);
+    byteTemp = bcdToTime(userdata +offset);
+    memcpy(buff + outoffset,&byteTemp , 1);
     outoffset+=1;
     offset+=1;
     
@@ -1694,7 +1779,8 @@ void AFNA_F26()
     identifier = pmLostVoltTmLmt;//三相电流不平衡值越限限持续时间
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  1个字节
-    memcpy(buff + outoffset,userdata+offset , 1);
+    byteTemp = bcdToTime(userdata +offset);
+    memcpy(buff + outoffset,&byteTemp , 1);
     outoffset+=1;
     offset+=1;
     
@@ -1921,7 +2007,6 @@ void AFNA_F83()//直流模拟量冻结参数
 void AFNA_F90()//设置无线通信参数
 {
     
-    
 }
 
 void AFNA_F169()//变压器基本参数设置
@@ -2064,7 +2149,7 @@ void AFNA_F169()//变压器基本参数设置
     stringlen = strlen(result);
     memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
     memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
-    offset += 16;
+    offset += 8;
     free(result);
     
     //相数
@@ -2102,7 +2187,7 @@ void AFNA_F169()//变压器基本参数设置
     memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
     
     result=malloc(50);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 50);
     XL_UINT8 uint8Temp=(*(Byte*)(userdata+offset));
     switch (uint8Temp) {
         case 0:
@@ -2136,6 +2221,28 @@ void AFNA_F169()//变压器基本参数设置
     offset++;
     free(result);
     
+    //绝缘水平
+    identifier = pmInsulationLevel;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    result=malloc(20);
+    
+    memset(result, 0, strlen(result));
+    sprintf(chTemp, "%c", *(XL_CHAR*)(userdata + offset));
+    
+    strcat(result, chTemp);
+    
+    stringlen = strlen(result);
+    memcpy(buff + outoffset, &stringlen, sizeof(XL_UINT16));outoffset+=2;
+    memcpy(buff + outoffset, result, strlen(result));outoffset+=stringlen;
+    offset += 1;
+    free(result);
+    
+    //CT变比
+    identifier = pmTerminalCTRatio;
+    memcpy(buff+outoffset, &identifier, 2);outoffset += 2;
+    *(XL_UINT16*)(buff+outoffset) = *(XL_UINT16*)(userdata + offset);
+    offset+=2;
+    outoffset+=sizeof(XL_UINT16);
     
     end = outoffset;
     len = end - begin;
@@ -2157,23 +2264,24 @@ void AFNA_F170(){
     XL_UINT16 len=0;  //输出缓冲区数据长度
     begin = outoffset;
     
-    XL_CHAR *result = malloc(100);
-    memset(result, 0, strlen(result));
+    XL_CHAR *result = (XL_CHAR*)malloc(100);
+    memset(result, 0, 100);
     
     //数据标志  2个字节
     identifier = pmWifiSsid;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     
-    char v[1];
+    char v[2];
     for(int i = 0;i<16;i++){
         int tmp = userdata[offset];
         if (tmp) {
-            sprintf(v,"%c",tmp);
+            sprintf(v,"%c",userdata[offset]);
+            v[1] = '\0';
             strcat(result, v);
         }
         offset++;
     }
-    printf("%s",result);
+    printf("%s\n",result);
     XL_UINT16 eventlen = strlen(result);
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16));outoffset+=2;
     memcpy(buff + outoffset, result, strlen(result));outoffset+=eventlen;
@@ -2181,24 +2289,25 @@ void AFNA_F170(){
     free(result);
     
     //数据标志  2个字节
-    XL_CHAR *result1 = malloc(100);
-    memset(result1, 0, strlen(result1));
+    XL_CHAR *result1 = (XL_CHAR*)malloc(100);
+    memset(result1, 0, 100);
     
     identifier = pmWifiPsw;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    
+
     for(int i = 0;i<16;i++){
-        XL_UINT8 tmp = userdata[offset];
+        int tmp = userdata[offset];
         if (tmp) {
-            sprintf(v,"%c",tmp);
+            sprintf(v,"%c",userdata[offset]);
+            v[1]='\0';
             strcat(result1, v);
         }
         offset++;
     }
-    printf("%s",result1);
     eventlen = strlen(result1);
+    printf("%s,len=%lu\n",result1,strlen(result1));
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT16));outoffset+=2;
-    memcpy(buff + outoffset, result, strlen(result1));outoffset+=eventlen;
+    memcpy(buff + outoffset, result1, strlen(result1));outoffset+=eventlen;
     
     free(result1);
     
@@ -2233,11 +2342,12 @@ void AFNA_F172(){
         identifier = pmUserName;
         memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
         
-        char v[1];
+        char v[2];
         for(int i = 0;i<16;i++){
             int tmp = userdata[offset];
             if (tmp) {
                 sprintf(v,"%c",tmp);
+                v[1]='\0';
                 strcat(result, v);
             }
             offset++;
@@ -2260,6 +2370,7 @@ void AFNA_F172(){
             XL_UINT8 tmp = userdata[offset];
             if (tmp) {
                 sprintf(v,"%c",tmp);
+                v[1]='\0';
                 strcat(result1, v);
             }
             offset++;

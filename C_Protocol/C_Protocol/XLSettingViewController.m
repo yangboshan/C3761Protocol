@@ -94,12 +94,40 @@
     [self.activityView setHidden:NO];
     XL_UINT8  value[64];value[0] = 0x06;
     
+    XL_UINT8 type = 0;
+    NSRange range = [self.type.text rangeOfString:@"四"];
+    if(range.length > 0)//三相四线
+    {
+        type |= 0x02;
+    }
+    else if([self.type.text rangeOfString:@"单"].length >0)
+    {
+        type |= 0x03;
+    }
+    else if([self.type.text rangeOfString:@"三"].length > 0)
+    {
+        type |= 0x01;
+    }
+    
+    if([self.type.text rangeOfString:@"A"].length > 0)
+    {
+        type |= 0x4;
+    }
+    else if([self.type.text rangeOfString:@"B"].length > 0)
+    {
+        type |= 0x8;
+    }
+    else if([self.type.text rangeOfString:@"C"].length > 0)
+    {
+        type |= 0xC;
+    }
+    
     PACKITEM_P array[6] = {BuildPackItem([self.m1.text integerValue], 2, 0, nil, 0, 0, 0),
         BuildPackItem([self.m2.text integerValue], 2, 0, nil, 0, 0, 0),
         BuildPackItem([self.v.text doubleValue], 2, 1, nil, 0, 0, 1),
         BuildPackItem([self.c.text doubleValue], 1, 1, nil, 0, 0, 1),
         BuildPackItem([self.l.text doubleValue], 3, 4, nil, 0, 0, 1),
-        BuildPackItem(0, 0, 0, value, 1, 1, 0)
+        BuildPackItem(type, 1, 0, 0, 0, 0, 0),
     };
     
     self.frame = PackFrameForAfn04(0x04, 1, 25, array, 6, &_outlen);

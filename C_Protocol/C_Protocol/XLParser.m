@@ -187,6 +187,10 @@ COMPLEX_ITEM dtype;
             dtype  = parameter_data_terminal[_identifier];
         }
             break;
+        case 23:{
+            dtype  = parameter_data_mtr_comm[_identifier];
+        }
+            break;
         default:
             break;
     }
@@ -743,7 +747,9 @@ COMPLEX_ITEM dtype;
     NSInteger len = *(XL_UINT16*)(bytes + _offset);  _offset+=2;
     //    NSLog(@"%d",len);
     
-    NSString *desc = [NSString stringWithUTF8String:(const char*)(bytes + _offset)];
+//    NSString *desc = [NSString stringWithUTF8String:(const char*)(bytes + _offset)];
+ 
+    NSString *desc1 = [[NSString alloc] initWithBytes:(const char*)(bytes + _offset) length:len encoding:NSUTF8StringEncoding];
 
 //    NSLog(@"长度:%d",len);
 //    NSLog(@"内容 %@",desc);
@@ -752,7 +758,7 @@ COMPLEX_ITEM dtype;
     
     XLDataItem *item = [[XLDataItem alloc] init];
     item.key = key;
-    item.value = desc;
+    item.value = desc1;
     [array addObject:item];
     
     

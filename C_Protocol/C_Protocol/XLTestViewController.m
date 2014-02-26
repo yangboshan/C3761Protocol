@@ -165,6 +165,19 @@
                     :(NSInteger)month
                     :(NSInteger)day
 {
+    if(afn == AFN0A &&  (fn == 10) ){
+    
+        
+        PACKITEM dataitem;
+        dataitem.fn = fn;dataitem.pn = pn;
+        dataitem.data[0] = 1;dataitem.data[1] = 0;
+        dataitem.data[2] = 1;dataitem.data[3] = 0;dataitem.datalen = 4;
+        dataitem.shouldUseByte = 1;
+        self.frame= PackFrame(afn, &dataitem, 1, &_outlen);
+        return;
+        
+    }
+    
     if (type == NoPara) {
         self.frame = PackFrameWithDadt(afn, pn, fn, &_outlen);
         

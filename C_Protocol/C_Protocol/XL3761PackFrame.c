@@ -291,12 +291,14 @@ void setuserdatafor4(PACKITEM_P* userdata,XL_UINT8 count){
                     *(frame + offset_) = (XL_UINT8)item.value1;offset_++;
                     
                 } else if (item.value1blen == 2){
-                    *(frame + offset_) = (XL_UINT16)item.value1;offset_+=2;
+                    *(XL_UINT16*)(frame + offset_) = (XL_UINT16)item.value1;offset_+=2;
                     
                 } else if (item.value1blen == 4){
-                    *(frame + offset_) = (XL_UINT64)item.value1;offset_+=4;
+                    *(XL_UINT64*)(frame + offset_) = (XL_UINT64)item.value1;offset_+=4;
                     
-                } else {
+                } else if(item.value1blen == 6){
+                    *(XL_UINT64*)(frame + offset_) = (XL_UINT64)item.value1;
+                    offset_ += 6;
                     
                 }
             }

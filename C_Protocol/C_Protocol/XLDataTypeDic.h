@@ -174,7 +174,7 @@ const COMPLEX_ITEM parameter_data_comm[]=
     
     {BIN1_29,"主站备用IP"},
     {BIN2_30,"主站备用端口"},
-    {ASCII16_39,"主站APN"},
+    {STRING_35,"主站APN"},
     {BIN1_29,"终端IP地址"},
     {BIN1_29,"终端子网掩码"},
     {BIN1_29,"终端网关"},
@@ -2602,9 +2602,9 @@ const COMPLEX_ITEM parameter_data_terminal[] =
     
     {STRING_35,"直流模拟量接入参数"},
     
-    {A28, "经度"},
+    {STRING_35, "经度"},
     
-    {A28,"纬度"},
+    {STRING_35,"纬度"},
     
     {STRING_35,"设备编号"},
     
@@ -2659,7 +2659,7 @@ const COMPLEX_ITEM parameter_data_mtr_comm[] =
     
     {STRING_35, "通信协议类型"},
     
-    {A12, "通信地址"},
+    {BIN6_40, "通信地址"},
     
     {BIN6_40, "通信密码"},
     
