@@ -92,7 +92,8 @@
                                                          NSWeekdayCalendarUnit)
                                                fromDate:[NSDate date]];
 
-    self.frame = PackFrameForClock(0x05, 0, 31, [components year]%2000,[components month], [components day], [components weekday]-1, [components hour], [components minute], [components second], &_outlen);
+    //self.frame = PackFrameForClock(0x05, 0, 31, [components year]%2000,[components month], [components day], [components weekday]-1, [components hour], [components minute], [components second], &_outlen);
+    self.frame = PackFrameForClock(0x05, 0, 31, [self.year.text integerValue],[self.month.text integerValue], [self.day.text integerValue], 3, [self.hour.text integerValue], [self.minute.text integerValue], [self.second.text integerValue], &_outlen);
     self.data = [NSData dataWithBytes:self.frame length:self.outlen];
     NSLog(@"%@",[self.data description]);
     

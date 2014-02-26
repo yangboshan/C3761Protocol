@@ -24,9 +24,11 @@ void AFND_F1();
 void AFND_F2();
 void AFND_F3();
 
-
+void AFND_F5();
 void AFND_F17();
 void AFND_F18();
+void AFND_F21();
+void AFND_F25();
 void AFND_F26();
 void AFND_F27();
 void AFND_F28();
@@ -186,11 +188,20 @@ void RecursiveParse(){
         case 3:
             AFND_F3();//日冻结正向有／无功最大需量及发生时间（总、费率1～m）
             break;
+        case 5:
+            AFND_F5();
+            break;
         case 17:
             AFND_F17();//月冻结正向有／无功电能示值、一／四象限无功电能示值（总、费率1～m）
             break;
         case 18:
             AFND_F18();//月冻结反向有／无功电能示值、二／三象限无功电能示值（总、费率1～m）
+            break;
+        case 21:
+            AFND_F21();
+            break;
+        case 25:
+            AFND_F25();//日冻结日总及分享最大有功功率及发生时间、有功功率为零时间
             break;
         case 26:
             AFND_F26();//日冻结日总及分相最大需量及发生时间
@@ -1067,12 +1078,55 @@ void AFND_F3()
 //
 //
 //}
-////日冻结正向有功电能量（总、费率1～m）
-//void AFND_F5()
-//{
-//
-//
-//}
+
+//日冻结正向有功电能量 总，费率
+void AFND_F5(){
+    
+    printf("执行F5\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_day_powervalue; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    XL_UINT16 len;
+    XL_SINT64 temp;
+    
+    begin = outoffset;
+    
+    identifier = hdDataTime_mdp;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    
+    buff[outoffset] = bcdToTime(userdata+offset);outoffset++;offset++;
+    buff[outoffset] = bcdToTime(userdata+offset);outoffset++;offset++;
+    buff[outoffset] = bcdToTime(userdata+offset);outoffset++;offset++;
+    
+    XL_UINT8 rate = *(XL_UINT8*)(userdata+offset);offset++;
+    
+    for(int i = 0;i<=rate;i++){
+        
+        if(i==0)
+            identifier =hdPosAEPowerValueZ;
+        else
+            identifier++;
+        
+        memcpy(buff+outoffset, &identifier, 2);  outoffset+=2;
+        
+        temp = bcdtouint(userdata+offset, 4, 4);
+        memcpy(buff+outoffset, &temp, 8);
+        outoffset+=8;offset+=4;
+    }
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+    
+}
+
+
 ////日冻结正向无功电能量（总、费率1～m）
 //void AFND_F6()
 //{
@@ -1521,12 +1575,51 @@ void AFND_F18()
 //
 //
 //}
-////月冻结正向有功电能量（总、费率1～m）
-//void AFND_F21()
-//{
-//
-//
-//}
+
+//月冻结正向有功电能量 总，费率
+void AFND_F21(){
+    printf("执行F21\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_month_powervalue; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    XL_UINT16 len;
+    XL_SINT64 temp;
+    
+    begin = outoffset;
+    
+    identifier = hmDataTime_mmp;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    
+    buff[outoffset] = bcdToTime(userdata+offset);outoffset++;offset++;
+    buff[outoffset] = bcdToTime(userdata+offset);outoffset++;offset++;
+    
+    XL_UINT8 rate = *(XL_UINT8*)(userdata+offset);offset++;
+    
+    for(int i = 0;i<=rate;i++){
+        
+        if(i==0)
+            identifier =hmPosAEPowerValueZ;
+        else
+            identifier++;
+        
+        memcpy(buff+outoffset, &identifier, 2);  outoffset+=2;
+        
+        temp = bcdtouint(userdata+offset, 4, 4);
+        memcpy(buff+outoffset, &temp, 8);
+        outoffset+=8;offset+=4;
+    }
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+}
+
 ////月冻结正向无功电能量（总、费率1～m）
 //void AFND_F22()
 //{
@@ -1547,11 +1640,161 @@ void AFND_F18()
 //
 //}
 //日冻结日总及分享最大有功功率及发生时间、有功功率为零时间
-//void AFND_F25()
-//{
-//
-//
-//}
+void AFND_F25()
+{
+    printf("执行F25\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_day_sta; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin=0;
+    XL_UINT16 end=0;
+    XL_UINT16 identifier=0;
+    
+    XL_SINT64 temp  =0;  //将小数转换城成整数保存
+    XL_UINT16 len=0;  //输出缓冲区数据长度
+    
+    
+    begin = outoffset;//数据长度起始位置
+    //标志 2个字节
+    identifier = hdDataTime_mds;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //内容 3个字节 日月年 bcd码
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    
+    //三相总最大有功功率  3个字节  4个小数点，精确到万分位
+    //置标志
+    identifier = hdAPMaxZ;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    
+    //三相总最大有功功率发生时间  3个字节 分时日
+    //置标志
+    identifier = hdAPMaxZTm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    
+    //A相有功最大功率  3个字节  4个小数点，精确到万分位
+    //置标志
+    identifier = hdAPMaxA;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    
+    //A相有功最大有功功率发生时间  3个字节 分时日
+    //置标志
+    identifier = hdAPMaxATm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //B相有功最大有功功率  3个字节  4个小数点，精确到万分位
+    //置标志
+    identifier = hdAPMaxB;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    
+    //B相有功最大有功功率发生时间  3个字节 分时日
+    //置标志
+    identifier = hdAPMaxBTm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //C相有功最大有功功率  3个字节  4个小数点，精确到万分位
+    //置标志
+    identifier = hdAPMaxC;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    
+    //C相有功最大有功功率发生时间  3个字节 分时日
+    //置标志
+    identifier = hdAPMaxCTm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //三相总有功功率为零时间
+    identifier = hdAPZeroAccTmZ;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(XL_UINT16*)(buff + outoffset) = *(XL_UINT16*)(userdata + offset);
+    outoffset +=2;offset +=2;
+    
+    //A相有功功率为零时间
+    identifier = hdAPZeroAccTmA;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(XL_UINT16*)(buff + outoffset) = *(XL_UINT16*)(userdata + offset);
+    outoffset +=2;offset +=2;
+    
+    //B相有功功率为零时间
+    identifier = hdAPZeroAccTmB;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(XL_UINT16*)(buff + outoffset) = *(XL_UINT16*)(userdata + offset);
+    outoffset +=2;offset +=2;
+    
+    //C相有功功率为零时间
+    identifier = hdAPZeroAccTmC;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    *(XL_UINT16*)(buff + outoffset) = *(XL_UINT16*)(userdata + offset);
+    outoffset +=2;offset +=2;
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+
+}
 //日冻结日总及分相最大需量及发生时间
 void AFND_F26()
 {

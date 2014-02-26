@@ -1975,11 +1975,11 @@ typedef enum measure_day_sta
     
     hdAPMaxATm,//A相最大有功功率发生时间
     
-    HdAPMaxB,  //B相最大有功功率
+    hdAPMaxB,  //B相最大有功功率
     
     hdAPMaxBTm,//B相最大有功功率发生时间
     
-    HdAPMaxC,  //C相最大有功功率
+    hdAPMaxC,  //C相最大有功功率
     
     hdAPMaxCTm,//C相最大有功功率发生时间
     
@@ -2292,6 +2292,16 @@ typedef enum measure_day_powervalue
     
     hdNegREValueG4,//费率4反向无功（组合无功1）电能示值
     
+    hdPosAEPowerValueZ, //日正向有功总电能量
+    
+    hdPosAEPowerValue1, //日费率1正向有功电能量
+    
+    hdPosAEPowerValue2, //日费率2正向有功电能量
+    
+    hdPosAEPowerValue3, //日费率3正向有功电能量
+    
+    hdPosAEPowerValue4, //日费率4正向有功电能量
+    
 }MEASURE_DAY_POWERVALUE;
 
 
@@ -2409,6 +2419,16 @@ typedef enum measure_month_powervalue
     hmNegREValueG3,//费率3反向无功（组合无功1）电能示值
     
     hmNegREValueG4,//费率4反向无功（组合无功1）电能示值
+    
+    hmPosAEPowerValueZ, //正向有功总电能量
+    
+    hmPosAEPowerValue1, //费率1正向有功电能量
+    
+    hmPosAEPowerValue2, //费率2正向有功电能量
+    
+    hmPosAEPowerValue3, //费率3正向有功电能量
+    
+    hmPosAEPowerValue4, //费率4正向有功电能量
     
 }MEASURE_MONTH_POWERVALUE;
 

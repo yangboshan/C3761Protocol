@@ -342,6 +342,29 @@ COMPLEX_ITEM dtype;
     
 }
 
+//4字节 4位小数
+-(void)parse13{
+    
+    long long  ivalue = *(XL_SINT64*)(bytes+_offset); _offset+=8;
+    double result = ivalue/10000.0;
+    
+    NSString *results = [NSString stringWithFormat:@"%.4f",result];
+    NSString *key = [NSString stringWithUTF8String:(const char*)dtype.desc];
+    
+    if (ivalue == ERRORDATA) {
+        results = @"";
+    }
+    XLDataItem *item = [[XLDataItem alloc] init];
+    item.key = key;
+    item.value = results;
+    [array addObject:item];
+    
+    
+    //    [_subdic setObject:results
+    //                forKey:key];
+    
+}
+
 //5字节 4位小数
 -(void)parse14{
     
