@@ -121,7 +121,10 @@ void geterc30();
 //**终端不支持
 void geterc31();
 
-
+//重要/一般事件字符串
+XL_CHAR *importantFlag=NULL;
+//分隔符
+XL_CHAR *separator = "@@";
 
 XL_CHAR * gettimestr(XL_UINT8 len);
 XL_CHAR * getasciistr(XL_UINT8 len);
@@ -167,9 +170,11 @@ void AFNE_RecursiveParse(){
     
     switch (fn) {
         case 1:
+            importantFlag = "重要";
             AFNE_F1();
             break;
         case 2:
+            importantFlag = "一般";
             AFNE_F2();
             break;
         default:
@@ -188,6 +193,7 @@ void AFNE_RecursiveParse(){
     if (_frame->userlen - 8 > offset + auxlen) {
         AFNE_RecursiveParse();
     }
+    //buff = NULL;
 }
 
 
@@ -438,18 +444,35 @@ void geterc1(){
     if (flag) {
         strcat(result, "终端进行参数及数据区初始化 ");
     }else{
-        strcat(result, "终端版本变更,变更前软件版本号:");
+        //strcat(result, "终端版本变更,变更前软件版本号:");
+        strcat(result, "终端版本变更 ");
         
         //        printf("长度%d",(int)strlen(pversion));
-        strcat(result, pversion);
-        strcat(result, " 变更后软件版本号:");
+        //strcat(result, pversion);
+        //strcat(result, " 变更后软件版本号:");
         //        printf("长度%d",(int)strlen(pversion));
-        strcat(result, nversion);
+        //strcat(result, nversion);
     }
-    strcat(result, " 发生时间:");
+    //strcat(result, " 发生时间:");
+    strcat(result, "@@");
     strcat(result, time);
     
+    strcat(result, "@@发生");
+    
     printf("\n%s\n",result);
+    
+    strcat(result, "@@");
+    strcat(result, importantFlag);
+    strcat(result, "@@");
+    if (flag) {
+    }
+    else
+    {
+        strcat(result, "变更前软件版本号:");
+        strcat(result, pversion);
+        strcat(result, "\n变更后软件版本号:");
+        strcat(result, nversion);
+    }
     
     XL_UINT16 eventlen = strlen(result);
     
@@ -486,8 +509,18 @@ void geterc3(){
     XL_CHAR *result = malloc(500);
     memset(result, 0, strlen(result));
     
-    strcat(result, "终端参数变更,");
+    //strcat(result, "终端参数变更,");
+    strcat(result, "终端参数变更 ");
+    //时间
+    strcat(result, "@@");
+    strcat(result, time);
     
+    strcat(result, "@@发生");
+    //重要性标志
+    strcat(result, "@@");
+    strcat(result, importantFlag);
+    
+    strcat(result, "@@");
     //    printf("\n%s\n",result);
     
     strcat(result, "启动站地址:");
@@ -528,8 +561,8 @@ void geterc3(){
         
     };
     
-    strcat(result, " 参数更新时间:");
-    strcat(result, time);
+    //strcat(result, " 参数更新时间:");
+    //strcat(result, time);
     
     //    printf("\n%s\n",result);
     
@@ -565,13 +598,27 @@ void geterc10(){
     XL_CHAR mpoint_[50];sprintf(mpoint_, "%d",mpoint);
     
     //起止标志
-    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "电压回路异常发生,": "电压回路异常恢复,";
+    //XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "电压回路异常发生,": "电压回路异常恢复,";
+    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "发生,": "恢复,";
     offset+=2;
     
     XL_CHAR *result = malloc(500);
     memset(result, 0, strlen(result));
     
+    strcat(result, "电压回路异常");
+    
+    strcat(result, "@@");
+    strcat(result, time);
+    
+    strcat(result, "@@");
     strcat(result, flag);
+    
+    strcat(result, "@@");
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
+    
+    
     strcat(result, " 测量点号:");
     strcat(result, mpoint_);
     
@@ -643,8 +690,8 @@ void geterc10(){
     strcat(result, " 发生时电能表正向有功总电能示值:");
     strcat(result, power_);
     
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     printf("\n%s\n",result);
     
@@ -678,13 +725,29 @@ void geterc11(){
     XL_CHAR mpoint_[50];sprintf(mpoint_, "%d",mpoint);
     
     //起止标志
-    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "相序异常发生,": "相序异常恢复,";
+    //XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "相序异常发生,": "相序异常恢复,";
+    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "发生": "恢复";
     offset+=2;
     
     XL_CHAR *result = malloc(500);
     memset(result, 0, strlen(result));
     
+    strcat(result, "相序异常");
+    
+    //发生时间
+    strcat(result, separator);
+    strcat(result, time);
+    
+    //发生/恢复标志
+    strcat(result, separator);
     strcat(result, flag);
+    
+    //事件重要/一般标志
+    strcat(result, separator);
+    strcat(result, importantFlag);
+
+    strcat(result, separator);
+    
     strcat(result, " 测量点号:");
     strcat(result, mpoint_);
     
@@ -726,8 +789,8 @@ void geterc11(){
     strcat(result, " 发生时电能表正向有功总电能示值:");
     strcat(result, power_);
     
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     printf("\n%s\n",result);
     
@@ -764,8 +827,18 @@ void geterc14(){
     memset(result, 0, strlen(result));
     
     strcat(result, "终端停上电事件 ");
-    strcat(result, " 停电发生时间:");
+    
+    strcat(result, separator);
+    //strcat(result, " 停电发生时间:");
     strcat(result, time1);
+    
+    strcat(result, separator);
+    strcat(result, "发生");
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, " 上电时间:");
     strcat(result, time2);
     
@@ -799,7 +872,8 @@ void geterc15(){
     XL_CHAR mpoint_[50];sprintf(mpoint_, "%d",mpoint);
     
     //起止标志
-    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15&0x0001)?"谐波越限告警发生":"谐波越限告警恢复";
+    //XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15&0x0001)?"谐波越限告警发生":"谐波越限告警恢复";
+    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15&0x0001)?"发生":"恢复";
     offset+=2;
     
     //异常标志
@@ -808,7 +882,18 @@ void geterc15(){
     XL_CHAR* result = malloc(500);
     memset(result, 0, strlen(result));
     
+    strcat(result, "谐波越限告警");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, seflag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, " 测量点号:");
     strcat(result, mpoint_);
     
@@ -854,8 +939,8 @@ void geterc15(){
         offset+=2;
     }
     
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     printf("\n%s\n",result);
     
@@ -889,7 +974,9 @@ void geterc17(){
     XL_CHAR mpoint_[50];sprintf(mpoint_, "%d",mpoint);
     
     //起止标志
-    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15&0x0001)?"不平衡度越限发生":"不平衡度越限恢复";
+    //XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15&0x0001)?"不平衡度越限发生":"不平衡度越限恢复";
+    
+    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15&0x0001)?"发生":"恢复";
     offset+=2;
     
     //异常标志
@@ -898,7 +985,18 @@ void geterc17(){
     XL_CHAR* result = malloc(500);
     memset(result, 0, strlen(result));
     
+    strcat(result, "不平衡度越限");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, seflag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, " 测量点号:");
     strcat(result, mpoint_);
     
@@ -954,8 +1052,8 @@ void geterc17(){
     strcat(result, " 发生时Ib:");strcat(result,ib_);
     strcat(result, " 发生时Ic:");strcat(result,ic_);
     
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     printf("\n%s\n",result);
     
@@ -988,7 +1086,9 @@ void geterc24(){
     XL_CHAR mpoint_[50];sprintf(mpoint_, "%d",mpoint);
     
     //起止标志
-    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "电压越限发生,": "电压越限恢复,";
+    //XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "电压越限发生,": "电压越限恢复,";
+    
+    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "发生": "恢复";
     offset+=2;
     
     //越限标志
@@ -997,7 +1097,18 @@ void geterc24(){
     XL_CHAR *result = malloc(500);
     memset(result, 0, strlen(result));
     
+    strcat(result, "电压越限");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, flag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, "测量点号:");
     strcat(result, mpoint_);
     
@@ -1043,10 +1154,10 @@ void geterc24(){
     
     strcat(result, " 发生时的Ua/Uab:");strcat(result, uauab_);
     strcat(result, " 发生时的Ub:");    strcat(result, ub_);
-    strcat(result, " 发生时的Uc/Ucb");  strcat(result, ucucb_);
+    strcat(result, " 发生时的Uc/Ucb:");  strcat(result, ucucb_);
     
-    strcat(result, "发生时间:");
-    strcat(result, time);
+    //strcat(result, "发生时间:");
+    //strcat(result, time);
     
     printf("\n%s\n",result);
     
@@ -1081,7 +1192,8 @@ void geterc25(){
     XL_CHAR mpoint_[50];sprintf(mpoint_, "%d",mpoint);
     
     //起止标志
-    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "电流越限发生,": "电流越限恢复,";
+    //XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "电流越限发生,": "电流越限恢复,";
+    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "发生": "恢复";
     offset+=2;
     
     //越限标志
@@ -1090,7 +1202,18 @@ void geterc25(){
     XL_CHAR *result = malloc(500);
     memset(result, 0, strlen(result));
     
+    strcat(result, "电流越限");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, flag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, "测量点号:");
     strcat(result, mpoint_);
     
@@ -1141,8 +1264,8 @@ void geterc25(){
     strcat(result, " 发生时的Ic:");
     strcat(result, ic_);
     
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     printf("\n%s\n",result);
     
@@ -1176,7 +1299,8 @@ void geterc26(){
     XL_CHAR mpoint_[50];sprintf(mpoint_,"%d",mpoint);
     
     //起止标志
-    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"视在功率越限发生":"视在功率越限恢复";
+    //XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"视在功率越限发生":"视在功率越限恢复";
+    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"发生":"恢复";
     offset+=2;
     
     //越限标志
@@ -1185,7 +1309,18 @@ void geterc26(){
     XL_CHAR* result = malloc(500);
     memset(result, 0, strlen(result));
     
+    strcat(result, "视在功率越限");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, seflag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, " 测量点号:");
     strcat(result, mpoint_);
     
@@ -1212,8 +1347,8 @@ void geterc26(){
     strcat(result, " 发生时的视在功率:"); strcat(result, apower_);
     strcat(result, " 发生时的视在功率限值"); strcat(result, apowerlm_);
     
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     printf("\n%s\n",result);
     
@@ -1253,9 +1388,20 @@ void geterc32(){
     memset(result, 0, strlen(result));
     
     strcat(result, " 终端与主站通信流量超门限 ");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
+    strcat(result, "发生");
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, " 当月已发生的通信流量:");strcat(result, flow_);
     strcat(result, " 月通信流量门限:");strcat(result,flowlm_);
-    strcat(result, " 发生时间:");strcat(result, time);
+    //strcat(result, " 发生时间:");strcat(result, time);
     
     printf("\n%s\n",result);
     
@@ -1284,8 +1430,22 @@ void geterc45(){
     XL_CHAR* time = gettimestr(5);offset+=5;
     
     XL_CHAR* result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
+    
+    strcat(result, "用户登录事件");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
+    strcat(result, "发生");
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, "登录用户名:");
+    
     
     XL_CHAR c_[50];
     
@@ -1295,7 +1455,7 @@ void geterc45(){
     }
     offset+=16;
     
-    strcat(result, " 发生时间:");strcat(result, time);
+    //strcat(result, " 发生时间:");strcat(result, time);
     
     printf("\n%s\n",result);
     
@@ -1330,16 +1490,28 @@ void geterc46(){
     XL_CHAR mpoint_[50];sprintf(mpoint_, "%d",mpoint);
     
     //起止标志
-    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "过载发生,": "过载恢复,";
+    //XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "过载发生,": "过载恢复,";
+    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "发生": "恢复";
     offset+=2;
     
     //异常标志
     Byte status = *(Byte*)(userdata + offset);offset++;
     
     XL_CHAR *result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
+    strcat(result, "过载事件");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, flag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, "测量点号:");
     strcat(result, mpoint_);
     
@@ -1421,8 +1593,8 @@ void geterc46(){
     //offset+=6;
     
     
-    strcat(result, "发生时间:");
-    strcat(result, time);
+    //strcat(result, "发生时间:");
+    //strcat(result, time);
     
     printf("\n%s\n",result);
     
@@ -1484,7 +1656,7 @@ void geterc2(){
     offset++;
     
     XL_CHAR *result = (XL_CHAR *) malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
     
     if (flag) {
@@ -1493,8 +1665,17 @@ void geterc2(){
         strcat(result, "测量点参数丢失");
     }
     
-    strcat(result, " 发生时间:");
+    strcat(result, separator);
+    //strcat(result, " 发生时间:");
     strcat(result, time);
+    
+    strcat(result, separator);
+    strcat(result, "发生");
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     
     printf("%s",result);
     
@@ -1526,7 +1707,20 @@ void geterc4(){
     Byte status = *(Byte*)(userdata + offset);
     
     XL_CHAR *result = (XL_CHAR *) malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
+    
+    strcat(result, "状态量变位");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
+    strcat(result, "发生");
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     XL_CHAR statusid[sizeof(XL_CHAR)];
     
     for(XL_UINT8 i = 0;i<8;i++){
@@ -1543,8 +1737,8 @@ void geterc4(){
     //***************完善***************//
     offset++;
     
-    strcat(result, "变位时间:");
-    strcat(result, time);
+    //strcat(result, "变位时间:");
+    //strcat(result, time);
     
     XL_UINT8 eventlen = strlen(result);
     
@@ -1576,7 +1770,20 @@ void geterc5(){
     Byte status = *(Byte*)(userdata + offset);offset++;
     
     XL_CHAR *result = (XL_CHAR *) malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
+    
+    strcat(result, "遥控跳闸纪录");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
+    strcat(result, "发生");
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     XL_CHAR statusid[sizeof(XL_CHAR)];
     
     
@@ -1593,8 +1800,8 @@ void geterc5(){
     offset+=4;
     //***************完善***************//
     
-    strcat(result, "发生时间:");
-    strcat(result, time);
+    //strcat(result, "发生时间:");
+    //strcat(result, time);
     
     XL_UINT8 eventlen = strlen(result);
     
@@ -1629,9 +1836,20 @@ void geterc8(){
     Byte status = *(Byte*)(userdata + offset);offset++;
     
     XL_CHAR *result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
     strcat(result, "电能表参数变更 ");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
+    strcat(result, "发生");
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, "测量点号:");strcat(result, mpoint_);
     
     if (status&0x01) {
@@ -1652,8 +1870,8 @@ void geterc8(){
     if (status>>5&0x01) {
         strcat(result, " 电能表最大需量清零 ");
     }
-    strcat(result, "发生时间:");
-    strcat(result, time);
+    //strcat(result, "发生时间:");
+    //strcat(result, time);
     
     XL_UINT8 eventlen = strlen(result);
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT8));outoffset++;
@@ -1685,17 +1903,29 @@ void geterc12(){
     XL_CHAR mpoint_[sizeof(XL_UINT16)];sprintf(mpoint_, "%d",mpoint);
     
     //起止标志
-    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "电能表超差发生,": "电能表超差恢复,";
+    //XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "电能表超差发生,": "电能表超差恢复,";
+    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "发生": "恢复";
     offset+=2;
     
     XL_CHAR *result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
+    strcat(result, "电能表超差");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, flag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, " 测量点号:");
     strcat(result, mpoint_);
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     XL_UINT8 eventlen = strlen(result);
     
@@ -1727,16 +1957,28 @@ void geterc13(){
     XL_CHAR mpoint_[sizeof(XL_UINT16)];sprintf(mpoint_, "%d",mpoint);
     
     //起止标志
-    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "电能表故障发生,": "电能表故障恢复,";
+    //XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "电能表故障发生,": "电能表故障恢复,";
+    XL_CHAR *flag = (*(XL_UINT16*)(userdata + offset)>>15)&0x0001 ? "发生": "恢复";
     offset+=2;
     
     //异常标志
     Byte status = *(Byte*)(userdata + offset);offset++;
     
     XL_CHAR *result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
+    strcat(result, "电能表故障");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, flag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, "测量点号:");strcat(result, mpoint_);
     
     if (status&0x01) {
@@ -1755,8 +1997,8 @@ void geterc13(){
         strcat(result, " 电能表电池欠压 ");
     }
     
-    strcat(result, "发生时间:");
-    strcat(result, time);
+    //strcat(result, "发生时间:");
+    //strcat(result, time);
     
     XL_UINT8 eventlen = strlen(result);
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT8));outoffset++;
@@ -1786,16 +2028,29 @@ void geterc16(){
     XL_CHAR mport_[sizeof(XL_UINT16)];sprintf(mport_, "%d",mport);
     
     //起止标志
-    XL_CHAR* seflag = (*(Byte*)(userdata + offset)>>7 &0x01)?"直流模拟量越限发生":"直流模拟量越限恢复";
+    //XL_CHAR* seflag = (*(Byte*)(userdata + offset)>>7 &0x01)?"直流模拟量越限发生":"直流模拟量越限恢复";
+    XL_CHAR* seflag = (*(Byte*)(userdata + offset)>>7 &0x01)?"发生":"恢复";
     offset++;
     
     //越限标志
     Byte status = *(Byte*)(userdata + offset);offset++;
     
     XL_CHAR* result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
+    strcat(result, "直流模拟量越限");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, seflag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
+    
     strcat(result, " 端口号:");
     strcat(result, mport_);
     
@@ -1809,8 +2064,8 @@ void geterc16(){
         strcat(result, " 类型:越下限");
     }
     
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     XL_UINT8 evetlen = strlen(result);
     memcpy(buff + outoffset, &evetlen, sizeof(XL_UINT8));outoffset++;
@@ -1864,13 +2119,25 @@ void geterc21(){
     }
     
     XL_CHAR* result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
-    strcat(result, "终端故障发生 ");
+    //strcat(result, "终端故障发生 ");
+    strcat(result, "终端故障");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
+    strcat(result, "发生");
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, "故障类型:");
     strcat(result, type);
-    strcat(result, "发生时间:");
-    strcat(result, time);
+    //strcat(result, "发生时间:");
+    //strcat(result, time);
     
     XL_UINT8 eventlen = strlen(result);
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT8));outoffset+=1;
@@ -1902,7 +2169,8 @@ void geterc27(){
     XL_CHAR mpoint_[sizeof(XL_UINT16)];sprintf(mpoint_,"%d",mpoint);
     
     //起止标志
-    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"电能表示度下降发生":"电能表示度下降恢复";
+    //XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"电能表示度下降发生":"电能表示度下降恢复";
+    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"发生":"恢复";
     offset+=2;
     
     //下降前电能表正向有功总电能示值
@@ -1914,15 +2182,26 @@ void geterc27(){
     XL_CHAR power2_[sizeof(XL_FP64)];sprintf(power2_, "%.4f",power2);
     
     XL_CHAR* result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
+    strcat(result, "电能表示度下降");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, seflag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, " 测量点号:");
     strcat(result, mpoint_);
     strcat(result, " 下降前电能表正向有功总电能示值:");strcat(result,power1_);
     strcat(result, " 下降后电能表正向有功总电能示值:");strcat(result,power2_);
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     XL_UINT8 eventlen = strlen(result);
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT8));outoffset++;
@@ -1953,8 +2232,10 @@ void geterc28(){
     XL_CHAR mpoint_[sizeof(XL_UINT16)];sprintf(mpoint_,"%d",mpoint);
     
     //起止标志
-    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"电能表超差记录发生":"电能表超差记录恢复";
+    //XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"电能表超差记录发生":"电能表超差记录恢复";
+    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"发生":"恢复";
     offset+=2;
+    
     
     //电能量超差发生前正向有功总电能示值
     XL_FP64 power1 = bcdtouint(userdata, 5, 4);offset+=5;
@@ -1970,16 +2251,27 @@ void geterc28(){
     
     
     XL_CHAR* result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
+    strcat(result, "电能表超差记录");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, seflag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, " 测量点号:");
     strcat(result, mpoint_);
     strcat(result, " 电能量超差发生前正向有功总电能示值:");strcat(result,power1_);
     strcat(result, " 电能量超差发生后正向有功总电能示值:");strcat(result,power2_);
     strcat(result, " 电能表超差阈值:");strcat(result,value_);
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     XL_UINT8 eventlen = strlen(result);
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT8));outoffset++;
@@ -2010,7 +2302,8 @@ void geterc29(){
     XL_CHAR mpoint_[sizeof(XL_UINT16)];sprintf(mpoint_,"%d",mpoint);
     
     //起止标志
-    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"电能表飞走记录发生":"电能表飞走记录恢复";
+    //XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"电能表飞走记录发生":"电能表飞走记录恢复";
+    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"发生":"恢复";
     offset+=2;
     
     //电能表发生前正向有功总电能示值
@@ -2027,16 +2320,27 @@ void geterc29(){
     
     
     XL_CHAR* result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
+    strcat(result, "电能表飞走记录");
+    
+    strcat(result, separator);
     strcat(result, seflag);
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, " 测量点号:");
     strcat(result, mpoint_);
     strcat(result, " 电能表发生前正向有功总电能示值:");strcat(result,power1_);
     strcat(result, " 电能表发生后正向有功总电能示值:");strcat(result,power2_);
     strcat(result, " 电能表飞走阈值:");strcat(result,value_);
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     XL_UINT8 eventlen = strlen(result);
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT8));outoffset++;
@@ -2067,7 +2371,8 @@ void geterc30(){
     XL_CHAR mpoint_[sizeof(XL_UINT16)];sprintf(mpoint_,"%d",mpoint);
     
     //起止标志
-    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"电能表停走记录发生":"电能表停走记录恢复";
+    //XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"电能表停走记录发生":"电能表停走记录恢复";
+    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"发生":"恢复";
     offset+=2;
     
     //电能表停走发生时正向有功总电能示值
@@ -2080,15 +2385,26 @@ void geterc30(){
     
     
     XL_CHAR* result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
+    strcat(result, "电能表停走记录");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, seflag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, " 测量点号:");
     strcat(result, mpoint_);
     strcat(result, " 电能表停走发生时正向有功总电能示值:");strcat(result,power1_);
     strcat(result, " 电能表停走阈值:");strcat(result,value_);
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     XL_UINT8 eventlen = strlen(result);
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT8));outoffset++;
@@ -2118,7 +2434,8 @@ void geterc31(){
     XL_CHAR mpoint_[sizeof(XL_UINT16)];sprintf(mpoint_,"%d",mpoint);
     
     //起止标志
-    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"电能表停走记录发生":"电能表停走记录恢复";
+    //XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"电能表停走记录发生":"电能表停走记录恢复";
+    XL_CHAR* seflag = (*(XL_UINT16*)(userdata+offset)>>15 & 0x0001)?"发生":"恢复";
     offset+=2;
     
     //最近一次抄表成功时间
@@ -2133,16 +2450,27 @@ void geterc31(){
     XL_CHAR power2_[sizeof(XL_FP64)];sprintf(power2_, "%.2f",power2);
     
     XL_CHAR* result = malloc(500);
-    memset(result, 0, strlen(result));
+    memset(result, 0, 500);
     
+    strcat(result, "电能表停走记录");
+    
+    strcat(result, separator);
+    strcat(result, time);
+    
+    strcat(result, separator);
     strcat(result, seflag);
+    
+    strcat(result, separator);
+    strcat(result, importantFlag);
+    
+    strcat(result, separator);
     strcat(result, " 测量点号:");
     strcat(result, mpoint_);
     strcat(result, " 最近一次抄表成功时间:");strcat(result, time1);
     strcat(result, " 最近一次抄表成功正向有功总电能示值:");strcat(result, power1_);
     strcat(result, " 最近一次抄表成功正向无功总电能示值:");strcat(result, power2_);
-    strcat(result, " 发生时间:");
-    strcat(result, time);
+    //strcat(result, " 发生时间:");
+    //strcat(result, time);
     
     XL_UINT8 eventlen = strlen(result);
     memcpy(buff + outoffset, &eventlen, sizeof(XL_UINT8));outoffset++;

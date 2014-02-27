@@ -155,6 +155,7 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    NSLog(@"收到内存警告.............");
 }
 
 -(void)getframedata:(NSInteger)type

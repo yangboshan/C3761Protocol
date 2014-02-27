@@ -95,11 +95,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(XLSocketManager)
                 [parser initWithNSData:revData];
             }
             
+            
         } else {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"SPEHANDLE"
                                                                 object:Nil
                                                               userInfo:[NSDictionary dictionaryWithObjectsAndKeys:@"-1", @"key",nil]];
         }
+        free(outbuff);
     });
     
 
