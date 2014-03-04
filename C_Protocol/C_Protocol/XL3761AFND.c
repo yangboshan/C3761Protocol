@@ -74,6 +74,9 @@ void AFND_F93();
 void AFND_F94();
 void AFND_F95();
 
+//有功电能量曲线
+void AFND_F97();
+
 
 void AFND_F105();
 void AFND_F106();
@@ -134,6 +137,12 @@ void AFND_F234();
 
 //电流不平衡率曲线
 void AFND_F235();
+
+//F236日冻结最小有功功率及发生时间
+void AFND_F236();
+
+//F237月冻结最小有功功率及发生时间
+void AFND_F237();
 
 
 
@@ -331,6 +340,9 @@ void RecursiveParse(){
         case 95:
             AFND_F95();//测量点零序电流曲线
             break;
+        case 97:
+            AFND_F97();//测量点有功电能曲线
+            break;
         case 105:
             AFND_F105();//测量点功率因素曲线
             break;
@@ -443,6 +455,13 @@ void RecursiveParse(){
             
         case 235:
             AFND_F235();//电流不平衡率曲线
+            break;
+            
+        case 236:
+            AFND_F236();//F236日冻结最小有功功率及发生时间
+            break;
+        case 237:
+            AFND_F237();//F237月冻结最小有功功率及发生时间
             break;
             
             
@@ -4748,12 +4767,78 @@ void AFND_F95()
 //
 //
 //}
+
 //测量点正向有功总电能量曲线
-//void AFND_F97()
-//{
-//
-//
-//}
+void AFND_F97()
+{
+    /**********A13格式  4个字节无符号数据 4位小数点***************/
+    printf("执行F97\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_curve_data; outoffset++;
+    
+    outoffset+=2;   //数据长度起始偏移
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 len=0;
+    XL_SINT64 temp =0;
+    Byte curCount =0;
+    begin = outoffset;
+    int i =0;
+    
+    
+    XL_UINT16 identifier;  //标志  2个字节
+    identifier = cvBeginData;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据  7个字节  5个字节时间＋1字节数据冻结密度＋1个字节数据点数
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //数据冻结密度
+    identifier = cvCurveDensity;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    //数据点数
+    identifier = cvCurveCount;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    curCount=*(userdata+offset);
+    buff[outoffset]=*(userdata+offset);outoffset++;offset++;
+    
+    
+    //具体曲线数据   根据数据点数进行绘制
+    for(i=0;i<curCount;i++)
+    {
+        //数据内容
+        //数据格式  A.25   有符号的数据 精确到千分位   3个字节
+        //置数据标志 2个字节
+        identifier = cvElecEnergy;
+        memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+        //数据内容
+        temp =bcdtouint(userdata+offset, 4, 4);
+        memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    }
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+
+
+}
 ////测量点正向无功总电能量曲线
 //void AFND_F98()
 //{
@@ -7860,8 +7945,251 @@ void AFND_F235()
     memcpy(buff + begin - 2,&len, 2);
 }
 
+//F236日冻结最小有功功率及发生时间
+void AFND_F236()
+{
+    printf("执行F236\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_day_sta; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin;
+    XL_UINT16 end;
+    XL_UINT16 identifier;
+    XL_UINT16 len;
+    XL_SINT64 temp;
+    
+    begin = outoffset;
+    
+    identifier = hdDataTime_mds;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    
+    //内容 3个字节 日月年 bcd码
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    
+    //三相总最小有功功率  3个字节  4个小数点，精确到万分位
+    //置标志
+    identifier = hdAPMinZ;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    
+    //三相总最小有功功率发生时间  3个字节 分时日
+    //置标志
+    identifier = hdAPMinZTm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    
+    //A相有功最小功率  3个字节  4个小数点，精确到万分位
+    //置标志
+    identifier = hdAPMinA;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    
+    //A相有功最小有功功率发生时间  3个字节 分时日
+    //置标志
+    identifier = hdAPMinATm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //B相有功最小有功功率  3个字节  4个小数点，精确到万分位
+    //置标志
+    identifier = hdAPMinB;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    
+    //B相有功最小有功功率发生时间  3个字节 分时日
+    //置标志
+    identifier = hdAPMinBTm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //C相有功最小有功功率  3个字节  4个小数点，精确到万分位
+    //置标志
+    identifier = hdAPMinC;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    
+    //C相有功最小有功功率发生时间  3个字节 分时日
+    //置标志
+    identifier = hdAPMinCTm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
 
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+}
 
+//F237月冻结最小有功功率及其发生时间
+void AFND_F237()
+{
+    printf("执行F237\n");
+    
+    //1个字节长度  数据类型
+    buff[outoffset] = measure_month_sta; outoffset++;
+    
+    outoffset+=2;
+    
+    XL_UINT16 begin=0;
+    XL_UINT16 identifier=0;
+    
+    XL_UINT16 end;
+    XL_UINT16 len;
+    //    int  i =0;
+    //    Byte rateCount =0;  //费率数
+    XL_SINT64 temp  =0;  //将小数转换城成整数保存
+    
+    
+    begin = outoffset;//数据长度起始位置
+    //标志 2个字节
+    identifier = hmDataTime_mms;// 数据时标
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    // 数据内容 2个字节 bcd码
+    //月
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //年
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    
+    //三相总最大有功功率 3个字节  4个小数位数
+    identifier = hmAPMinZ;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    //三相总最大有功功率发生时间 3个字节，分时日
+    identifier = hmAPMinZTm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    
+    
+    //A相总最大有功功率 3个字节  4个小数位数
+    identifier = hmAPMinA;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    //A相总最大有功功率发生时间 3个字节，分时日
+    identifier = hmAPMinATm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    
+    //B相总最大有功功率 3个字节  4个小数位数
+    identifier = hmAPMinB;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    //B相总最大有功功率发生时间 3个字节，分时日
+    identifier = hmAPMinBTm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    //C相总最大有功功率 3个字节  4个小数位数
+    identifier = hmAPMinC;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    temp=bcdtouint(userdata+offset, 3, 4);
+    memcpy(buff + outoffset, &temp, 8);outoffset+=8;offset+=3;
+    //C相总最大有功功率发生时间 3个字节，分时日
+    identifier = hmAPMinCTm;
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //分
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //时
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    //日
+    buff[outoffset]=bcdToTime(userdata+offset);
+    outoffset++;offset++;
+    
+    end = outoffset;
+    len = end - begin;
+    memcpy(buff + begin - 2,&len, 2);
+
+}
 
 //void AFND_F197()
 //{

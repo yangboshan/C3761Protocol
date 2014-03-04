@@ -1822,6 +1822,8 @@ typedef enum measure_curve_data
     cvCurveVoltUnbRate,//电压不平衡旅曲线
     cvCurveCurUnbRate,//电流不平衡旅曲线
     
+    cvElecEnergy//电能量曲线
+    
 }MEASURE_CURVE_DATA;
 
 
@@ -1991,6 +1993,22 @@ typedef enum measure_day_sta
     
     hdAPZeroAccTmC,//C相有功功率为零时间
     
+    /*增补规约,F236*/
+    hdAPMinZ,//三相总最小有功功率
+    
+    hdAPMinZTm,//三相总最小有功功率发生时间
+    
+    hdAPMinA,//A相最小有功功率
+    
+    hdAPMinATm,//A相最小有功功率发生时间
+    
+    hdAPMinB,//B相最小有功功率
+    
+    hdAPMinBTm,//B相最小有功功率发生时间
+    
+    hdAPMinC,//C相最小有功功率
+    
+    hdAPMinCTm,//C相最小有功功率发生时间
     
     /*chenbaiqing 2014.2.13 增补*/
     hdOverloadTmA,//日冻结A相过载日累计时间
@@ -2162,6 +2180,23 @@ typedef enum measure_month_sta
     hmAPZeroAccTmB,//B相有功功率为零时间
     
     hmAPZeroAccTmC,//C相有功功率为零时间
+    
+    /*增补规约F237*/
+    hmAPMinZ,//三相总最小有功功率
+    
+    hmAPMinZTm,//三相总最小有功功率发生时间
+    
+    hmAPMinA,//A相最小有功功率
+    
+    hmAPMinATm,//A相最小有功功率发生时间
+    
+    hmAPMinB,//B相最小有功功率
+    
+    hmAPMinBTm,//B相最小有功功率发生时间
+    
+    hmAPMinC,//C相最小有功功率
+    
+    hmAPMinCTm,//C相最小有功功率发生时间
     
     /*chenbaiqing 2014.2.13 增补*/
     hmOverloadTmA,//月冻结A相过载日累计时间
@@ -2706,25 +2741,61 @@ typedef enum parameter_data_comm
     pmHeartPeriod, //心跳周期
     
     
-    pmMasterPrimeIP,    //主站主用IP
+    pmMasterPrimeIP1,    //主站主用IP1段
+    
+    pmMasterPrimeIP2,    //主站主用IP2段
+    
+    pmMasterPrimeIP3,    //主站主用IP3段
+    
+    pmMasterPrimeIP4,    //主站主用IP4段
     
     pmMasterPrimePort,  //主站主用端口
     
-    pmMasterStandbyIP,  //主站备用IP
+    pmMasterStandbyIP1,  //主站备用IP1段
+    
+    pmMasterStandbyIP2,  //主站备用IP2段
+    
+    pmMasterStandbyIP3,  //主站备用IP3段
+    
+    pmMasterStandbyIP4,  //主站备用IP4段
     
     pmMasterStandbyPort,//主站备用端口
     
     pmMasterAPN,        //主站APN
     
-    pmIP,        //终端IP地址
+    pmIP1,        //终端IP地址1段
     
-    pmSubnetMask,//终端子网掩码
+    pmIP2,        //终端IP地址2段
     
-    pmGateWay,   //终端网关
+    pmIP3,        //终端IP地址3段
+    
+    pmIP4,        //终端IP地址4段
+    
+    pmSubnetMask1,//终端子网掩码1段
+    
+    pmSubnetMask2,//终端子网掩码2段
+    
+    pmSubnetMask3,//终端子网掩码3段
+    
+    pmSubnetMask4,//终端子网掩码4段
+    
+    pmGateWay1,   //终端网关1段
+    
+    pmGateWay2,   //终端网关2段
+    
+    pmGateWay3,   //终端网关3段
+    
+    pmGateWay4,   //终端网关4段
     
     pmProxyType, //终端代理类型
     
-    pmProxyAddr, //终端代理服务器地址
+    pmProxyAddr1, //终端代理服务器地址1段
+    
+    pmProxyAddr2, //终端代理服务器地址2段
+    
+    pmProxyAddr3, //终端代理服务器地址3段
+    
+    pmProxyAddr4, //终端代理服务器地址4段
     
     pmProxyPort, //终端代理服务器端口
     

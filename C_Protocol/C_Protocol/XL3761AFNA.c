@@ -719,37 +719,35 @@ void AFNA_F3()
     begin = outoffset;
     
     //数据标志  2个字节
-    identifier = pmMasterPrimeIP;//主站主用IP
+    identifier = pmMasterPrimeIP1;//主站主用IP1段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //
     memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
-    identifier = pmMasterPrimeIP;//主站主用IP
+    outoffset++;
+    offset++;
+    
+    identifier = pmMasterPrimeIP2;//主站主用IP2段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //
     memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
-    identifier = pmMasterPrimeIP;//主站主用IP
+    outoffset++;
+    offset++;
+    
+    
+    identifier = pmMasterPrimeIP3;//主站主用IP3段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //
     memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
-    identifier = pmMasterPrimeIP;//主站主用IP
+    outoffset++;
+    offset++;
+
+    
+    identifier = pmMasterPrimeIP4;//主站主用IP4段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //
     memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
-    
-    
-    
-    
-    
-    
-    
+    outoffset++;
+    offset++;
     
     //数据标志  2个字节
     identifier = pmMasterPrimePort;//主站主用端口
@@ -759,34 +757,37 @@ void AFNA_F3()
     outoffset+=2;
     offset+=2;
     
+
     //数据标志  2个字节
-    identifier = pmMasterStandbyIP;//主站备用IP
+    identifier = pmMasterStandbyIP1;//主站备用IP1段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //主站备用ip
-    memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
+    memcpy(buff +outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
     
-    identifier = pmMasterStandbyIP;//主站备用IP
+    identifier = pmMasterStandbyIP2;//主站备用IP2段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //主站备用ip
-    memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
+    memcpy(buff +outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
     
-    identifier = pmMasterStandbyIP;//主站备用IP
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //主站备用ip
-    memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
     
-    identifier = pmMasterStandbyIP;//主站备用IP
+    identifier = pmMasterStandbyIP3;//主站备用IP3段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //主站备用ip
-    memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
+    memcpy(buff +outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
+    
+    
+    identifier = pmMasterStandbyIP4;//主站备用IP4段
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //主站备用ip
+    memcpy(buff +outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
 
     
     //数据标志  2个字节
@@ -803,12 +804,13 @@ void AFNA_F3()
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //主站端口  2个字节
     XL_CHAR *result = malloc(100);
-    memset(result, 0, strlen(result));
-    char chTemp[1];
+    memset(result, 0, 100);
+    char chTemp[2];
     XL_UINT8 i = 0;
     for (i = 0; i<16; i++)
     {
         sprintf(chTemp, "%c", userdata[offset]);
+        chTemp[1]='\0';
         strcat(result, chTemp);
         offset++;
     }
@@ -850,96 +852,95 @@ void AFNA_F7()
     begin = outoffset;
     
     //数据标志  2个字节
-    identifier = pmIP;//终端IP标志
+    identifier = pmIP1;//终端IP标志1段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 1);//终端ip地址
-    outoffset+=1;
-    offset+=1;
-    //数据标志  2个字节
-    identifier = pmIP;//终端IP标志
+    //数据内容
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
+    
+    identifier = pmIP2;//终端IP标志2段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 1);//终端ip地址
-    outoffset+=1;
-    offset+=1;
-    //数据标志  2个字节
-    identifier = pmIP;//终端IP标志
+    //数据内容
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
+    
+    identifier = pmIP3;//终端IP标志3段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 1);//终端ip地址
-    outoffset+=1;
-    offset+=1;
-    //数据标志  2个字节
-    identifier = pmIP;//终端IP标志
-    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 1);//终端ip地址
-    outoffset+=1;
-    offset+=1;
+    //数据内容
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
     
     
-    //数据标志  2个字节
-    identifier = pmSubnetMask;//子网掩码
+    identifier = pmIP4;//终端IP标志4段
+    memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
+    //数据内容
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
+    
+    
+    identifier = pmSubnetMask1;//子网掩码1段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
     memcpy(buff + outoffset, userdata+offset, 1);//子网掩码
-    outoffset+=1;
-    offset+=1;
+    outoffset++;
+    offset++;
     
-    //数据标志  2个字节
-    identifier = pmSubnetMask;//子网掩码
+    identifier = pmSubnetMask2;//子网掩码2段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
     memcpy(buff + outoffset, userdata+offset, 1);//子网掩码
-    outoffset+=1;
-    offset+=1;
+    outoffset++;
+    offset++;
     
-    //数据标志  2个字节
-    identifier = pmSubnetMask;//子网掩码
+    
+    identifier = pmSubnetMask3;//子网掩码3段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
     memcpy(buff + outoffset, userdata+offset, 1);//子网掩码
-    outoffset+=1;
-    offset+=1;
+    outoffset++;
+    offset++;
     
-    //数据标志  2个字节
-    identifier = pmSubnetMask;//子网掩码
+    identifier = pmSubnetMask4;//子网掩码4段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
     memcpy(buff + outoffset, userdata+offset, 1);//子网掩码
-    outoffset+=1;
-    offset+=1;
+    outoffset++;
+    offset++;
     
-    
+
     //数据标志  2个字节
-    identifier = pmGateWay;//网关
+    identifier = pmGateWay1;//网关1段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 1);//网关
-    outoffset+=1;
-    offset+=1;
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
     
-    identifier = pmGateWay;//网关
+    identifier = pmGateWay2;//网关2段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 1);//网关
-    outoffset+=1;
-    offset+=1;
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
     
-    identifier = pmGateWay;//网关
+    identifier = pmGateWay3;//网关3段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 1);//网关
-    outoffset+=1;
-    offset+=1;
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
     
-    identifier = pmGateWay;//网关
+    identifier = pmGateWay4;//网关4段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //数据内容  4个字节
-    memcpy(buff + outoffset, userdata+offset, 1);//网关
-    outoffset+=1;
-    offset+=1;
+    memcpy(buff + outoffset, userdata+offset, 1);
+    outoffset++;
+    offset++;
+    
     
     //数据标志  2个字节
     identifier = pmProxyType;//代理类型
@@ -950,34 +951,35 @@ void AFNA_F7()
     offset+=1;
     
     //数据标志  2个字节
-    identifier = pmProxyAddr;//代理服务器地址
+    identifier = pmProxyAddr1;//代理服务器地址1段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //数据内容  4个字节
+    //数据内容
     memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
+    outoffset++;
+    offset++;
     
-    identifier = pmProxyAddr;//代理服务器地址
+    identifier = pmProxyAddr2;//代理服务器地址2段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //数据内容  4个字节
+    //数据内容
     memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
+    outoffset++;
+    offset++;
     
-    identifier = pmProxyAddr;//代理服务器地址
+    
+    identifier = pmProxyAddr3;//代理服务器地址3段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //数据内容  4个字节
+    //数据内容
     memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
+    outoffset++;
+    offset++;
     
-    identifier = pmProxyAddr;//代理服务器地址
+    
+    identifier = pmProxyAddr4;//代理服务器地址4段
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
-    //数据内容  4个字节
+    //数据内容
     memcpy(buff + outoffset, userdata+offset, 1);
-    outoffset+=1;
-    offset+=1;
-    
+    outoffset++;
+    offset++;
     
     
     //数据标志  2个字节
