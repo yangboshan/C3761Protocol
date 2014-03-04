@@ -23,7 +23,7 @@
 
 @property(nonatomic,assign) NSInteger keyCounter;
 @property(nonatomic,strong) NSMutableDictionary *subSet;
-@property(nonatomic,strong) NSMutableDictionary *finalSet;
+
 
 
 @end
@@ -88,10 +88,10 @@
         }
     }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"user"
-                                                        object:nil
-                                                      userInfo:self.finalSet];
-    NSLog(@"发送通知");
+    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"user"
+    //                                                        object:nil
+    //                                                      userInfo:self.finalSet];
+    //    NSLog(@"发送通知");
 }
 
 -(void)setParseValue{
