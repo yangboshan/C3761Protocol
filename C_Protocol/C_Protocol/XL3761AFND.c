@@ -4452,7 +4452,6 @@ void AFND_F54()
 void AFND_F81()
 {
     
-    printf("执行F81\n");
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
     
@@ -4526,7 +4525,6 @@ void AFND_F82()
     
     //解析与f81()类似
     
-    printf("执行F82\n");
     //解析不区分曲线类型，直接解析保存成曲线数据＋值
     AFND_F81();
     
@@ -4534,7 +4532,6 @@ void AFND_F82()
 //测量点B相有功功率曲线
 void AFND_F83()
 {
-    printf("执行F83\n");
     //解析不区分曲线类型，直接解析保存成曲线数据＋值
     AFND_F81();
     
@@ -4542,7 +4539,6 @@ void AFND_F83()
 //测量点C相有功功率曲线
 void AFND_F84()
 {
-    printf("执行F83\n");
     //解析不区分曲线类型，直接解析保存成曲线数据＋值
     AFND_F81();
     
@@ -4550,7 +4546,6 @@ void AFND_F84()
 //测量点无功功率曲线
 void AFND_F85()
 {
-    printf("执行F83\n");
     //解析不区分曲线类型，直接解析保存成曲线数据＋值
     AFND_F81();
     
@@ -4558,7 +4553,6 @@ void AFND_F85()
 //测量点A相无功功率曲线
 void AFND_F86()
 {
-    printf("执行F83\n");
     //解析不区分曲线类型，直接解析保存成曲线数据＋值
     AFND_F81();
     
@@ -4567,7 +4561,6 @@ void AFND_F86()
 //测量点B相无功功率曲线
 void AFND_F87()
 {
-    printf("执行F83\n");
     //解析不区分曲线类型，直接解析保存成曲线数据＋值
     AFND_F81();
     
@@ -4576,7 +4569,7 @@ void AFND_F87()
 //测量点C相无功功率曲线
 void AFND_F88()
 {
-    printf("执行F83\n");
+
     //解析不区分曲线类型，直接解析保存成曲线数据＋值
     AFND_F81();
     
@@ -4586,7 +4579,6 @@ void AFND_F88()
 void AFND_F89()
 {
     //数据内容不同  数据位两个字节无符号1位小数
-    printf("执行F89\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
@@ -4657,14 +4649,12 @@ void AFND_F89()
 void AFND_F90()
 {
     //与f89()解析相同
-    printf("执行F90\n");
     AFND_F89();
 }
 //测量点C相电压曲线
 void AFND_F91()
 {
     //与f89()解析相同
-    printf("执行F91\n");
     AFND_F89();
     
 }
@@ -4672,7 +4662,6 @@ void AFND_F91()
 void AFND_F92()
 {
     /**********A25格式  3个字节有符号数据 3位小数点***************/
-    printf("执行F92\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
@@ -4742,7 +4731,6 @@ void AFND_F92()
 void AFND_F93()
 {
     /**********A25格式  3个字节有符号数据 3位小数点***************/
-    printf("执行F93\n");
     AFND_F92();
     
 }
@@ -4750,7 +4738,6 @@ void AFND_F93()
 void AFND_F94()
 {
     /**********A25格式  3个字节有符号数据 3位小数点***************/
-    printf("执行F94\n");
     AFND_F92();
     
 }
@@ -4758,7 +4745,6 @@ void AFND_F94()
 void AFND_F95()
 {
     /**********A25格式  3个字节有符号数据 3位小数点***************/
-    printf("执行F95\n");
     AFND_F92();
     
 }
@@ -4772,7 +4758,6 @@ void AFND_F95()
 void AFND_F97()
 {
     /**********A13格式  4个字节无符号数据 4位小数点***************/
-    printf("执行F97\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
@@ -4886,7 +4871,6 @@ void AFND_F105()
 {
     
     /**********数据格式 A5 有符号的精确到十分位的数据  2个字节 1个小数点***************/
-    printf("执行F105\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
@@ -4958,7 +4942,6 @@ void AFND_F105()
 void AFND_F106()
 {
     /**********数据格式 A5 有符号的精确到十分位的数据  2个字节 1个小数点***************/
-    printf("执行F106\n");
     AFND_F105();
     
 }
@@ -4966,7 +4949,6 @@ void AFND_F106()
 void AFND_F107()
 {
     /**********数据格式 A5 有符号的精确到十分位的数据  2个字节 1个小数点***************/
-    printf("执行F107\n");
     AFND_F105();
     
 }
@@ -4974,7 +4956,6 @@ void AFND_F107()
 void AFND_F108()
 {
     /**********数据格式 A5 有符号的精确到十分位的数据  2个字节 1个小数点***************/
-    printf("执行F108\n");
     AFND_F105();
     
 }
@@ -5007,7 +4988,6 @@ void AFND_F113()
 {
     
     
-    printf("执行F113\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = daily_data_charmonic; outoffset++;
@@ -5083,7 +5063,6 @@ void AFND_F113()
 //日冻结测量点B相2—19次谐波电流日最大值及发生时间
 void AFND_F114()
 {
-    printf("执行F114\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = daily_data_charmonic; outoffset++;
@@ -5161,7 +5140,6 @@ void AFND_F114()
 //日冻结测量点C相2—19次谐波电流日最大值及发生时间
 void AFND_F115()
 {
-    printf("执行F115\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = daily_data_charmonic; outoffset++;
@@ -5238,7 +5216,6 @@ void AFND_F115()
 void AFND_F116()
 {
     
-    printf("执行F116\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = daily_data_vharmonic; outoffset++;
@@ -5313,7 +5290,6 @@ void AFND_F116()
 void AFND_F117()
 {
     
-    printf("执行F117\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = daily_data_vharmonic; outoffset++;
@@ -5388,7 +5364,6 @@ void AFND_F117()
 void AFND_F118()
 {
     
-    printf("执行F118\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = daily_data_vharmonic; outoffset++;
@@ -5521,7 +5496,6 @@ void AFND_F129()
 {
     
     
-    printf("执行F129\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = dcanalog_day_data; outoffset++;
@@ -5643,7 +5617,6 @@ void AFND_F129()
 void AFND_F130()
 {
     
-    printf("执行F130\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = dcanalog_month_data; outoffset++;
@@ -5798,7 +5771,6 @@ void AFND_F130()
 void AFND_F138()
 {
     
-    printf("执行F138\n");
     
     //解析不区分曲线类型，直接解析保存成曲线数据＋值
     
@@ -6014,7 +5986,6 @@ void AFND_F161()
     
     
     //解析与f1 类似
-    printf("执行F161\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_day_powervalue; outoffset++;
@@ -6108,7 +6079,6 @@ void AFND_F162()
 {
     
     //解析与f1 类似
-    printf("执行F162\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_day_powervalue; outoffset++;
@@ -6199,7 +6169,6 @@ void AFND_F163()
     
     //与f161解析类似
     //只是标志不同
-    printf("执行F163\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_day_powervalue; outoffset++;
@@ -6291,7 +6260,6 @@ void AFND_F164()
 {
     //与f162解析类似
     //只是标志不同
-    printf("执行F162\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_day_powervalue; outoffset++;
@@ -6453,7 +6421,6 @@ void AFND_F177()
 {
     //与f161解析类似
     //标志置不同
-    printf("执行F177\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_month_powervalue; outoffset++;
@@ -6540,7 +6507,6 @@ void AFND_F177()
 void AFND_F178()
 {
     //解析与f1 类似
-    printf("执行F178\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_month_powervalue; outoffset++;
@@ -6630,7 +6596,6 @@ void AFND_F179()
     
     //与f163解析类似
     //只是标志不同
-    printf("执行F179\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_month_powervalue; outoffset++;
@@ -6722,7 +6687,6 @@ void AFND_F180()
     
     //与f164解析类似
     //只是标志不同
-    printf("执行F180\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_month_powervalue; outoffset++;
@@ -6881,7 +6845,6 @@ void AFND_F180()
 void AFND_F193()
 {
     //解析与f3类似
-    printf("执行F193\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = history_month_powerneeds; outoffset++;
@@ -6990,7 +6953,7 @@ void AFND_F194()
 {
     
     //解析与f193类似
-    printf("执行F194\n");
+
     //1个字节长度  数据类型
     buff[outoffset] = history_month_powerneeds; outoffset++;
     
@@ -7098,7 +7061,6 @@ void AFND_F194()
 void AFND_F195()
 {
     //与f193类似
-    printf("执行F195\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = history_month_powerneeds; outoffset++;
@@ -7208,7 +7170,6 @@ void AFND_F196()
 {
     
     //与f193类似
-    printf("执行F196\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = history_month_powerneeds; outoffset++;
@@ -7319,7 +7280,6 @@ void AFND_F196()
 void AFND_F221()
 {
     
-    printf("执行F221\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_day_sta; outoffset++;
@@ -7388,7 +7348,6 @@ void AFND_F221()
 void AFND_F222()
 {
     
-    printf("执行F222\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_month_sta; outoffset++;
@@ -7456,7 +7415,6 @@ void AFND_F223()
 {
     //与功率因素曲线相同
     /**********数据格式 A5 有符号的精确到十分位的数据  2个字节 1个小数点***************/
-    printf("执行F223\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
@@ -7526,7 +7484,6 @@ void AFND_F223()
 //A相绕组温度曲线
 void AFND_F224()
 {
-    printf("执行F224\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
@@ -7597,7 +7554,6 @@ void AFND_F224()
 //B相绕组温度曲线
 void AFND_F225()
 {
-    printf("执行F225\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
@@ -7667,7 +7623,6 @@ void AFND_F225()
 //C相绕组温度曲线
 void AFND_F226()
 {
-    printf("执行F226\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
@@ -7738,7 +7693,6 @@ void AFND_F226()
 //负载率曲线
 void AFND_F233()
 {
-    printf("执行F225\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
@@ -7810,7 +7764,6 @@ void AFND_F233()
 //电压不平衡率曲线
 void AFND_F234()
 {
-    printf("执行F234\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
@@ -7879,7 +7832,6 @@ void AFND_F234()
 //电流不平衡率曲线
 void AFND_F235()
 {
-    printf("执行F235\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_curve_data; outoffset++;
@@ -7948,7 +7900,6 @@ void AFND_F235()
 //F236日冻结最小有功功率及发生时间
 void AFND_F236()
 {
-    printf("执行F236\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_day_sta; outoffset++;
@@ -8080,7 +8031,6 @@ void AFND_F236()
 //F237月冻结最小有功功率及其发生时间
 void AFND_F237()
 {
-    printf("执行F237\n");
     
     //1个字节长度  数据类型
     buff[outoffset] = measure_month_sta; outoffset++;
