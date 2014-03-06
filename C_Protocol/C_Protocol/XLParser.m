@@ -193,6 +193,10 @@
             self.dtype  = parameter_data_terminal[_identifier];
         }
             break;
+        case 23:{//测量点通信参数
+            self.dtype = parameter_data_mtr_comm[_identifier];
+        }
+            break;
         default:
             break;
     }

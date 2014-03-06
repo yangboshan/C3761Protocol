@@ -1002,7 +1002,7 @@ void AFNC_F34()
     
     outoffset +=sizeof(XL_UINT64);
     
-    identifier = rtRate2PosREValueG;
+    identifier = rtRate2NegREValueG;
     memcpy(buff + outoffset, &identifier, 2);outoffset+=2;
     //当前费率2反向无功（组合无功2）总电能示值
     *(XL_UINT64*)(buff+outoffset)=bcdtouint(userdata+offset,4,2);
